@@ -25,15 +25,28 @@
       <h2 class="brand-name">Pagee</h2>
       <p class="welcome-text">Selamat datang kembali ✨</p>
 
-      <form id="loginForm">
+      <!-- Menampilkan error login -->
+      @if ($errors->any())
+          <div class="alert alert-danger">
+              <ul class="mb-0">
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
+
+      <!-- Form Login -->
+      <form id="loginForm" action="{{ route('login') }}" method="POST">
+        @csrf
         <div class="mb-3 text-start">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control neumorphic" id="email" placeholder="Masukkan email kamu" required>
+          <input type="email" class="form-control neumorphic" id="email" name="email" placeholder="Masukkan email kamu" value="{{ old('email') }}" required>
         </div>
 
         <div class="mb-3 text-start">
           <label for="password" class="form-label">Kata Sandi</label>
-          <input type="password" class="form-control neumorphic" id="password" placeholder="Masukkan kata sandi" required>
+          <input type="password" class="form-control neumorphic" id="password" name="password" placeholder="Masukkan kata sandi" required>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -44,7 +57,7 @@
       </form>
 
       <div class="mt-3 text-center">
-        <small>Belum punya akun? <a href="register.html">Daftar di sini</a></small>
+        <small>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></small>
       </div>
     </div>
   </div>

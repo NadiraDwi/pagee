@@ -11,7 +11,6 @@
 
 <body>
 
- 
   <!-- ===== SIDEBAR KIRI ===== -->
   <aside class="sidebar-left">
     <div class="sidebar-top">
@@ -23,29 +22,24 @@
       </ul>
     </div>
     <div class="sidebar-bottom">
-    <hr class="sidebar-divider">
-    <!-- Tombol Login & Daftar sama warna -->
-    <a href="{{ route('login') }}" class="btn btn-purple w-100 mt-2">
-        <i class="fa-solid fa-right-to-bracket me-2"></i>Login
-    </a>
-    <a href="{{ route('register') }}" class="btn btn-purple w-100 mt-2">
-        <i class="fa-solid fa-user-plus me-2"></i>Daftar
-    </a>
-</div>
-
+        <hr class="sidebar-divider">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-purple w-100 mt-2">
+                <i class="fa-solid fa-right-to-bracket me-2"></i>Logout
+            </button>
+        </form>
+    </div>
   </aside>
-
 
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar navbar-light bg-white shadow-sm fixed-top navbar-shift px-4">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-      <!-- Pencarian Eksplor -->
       <form class="d-flex align-items-center search-bar">
         <span class="input-group-text border-0 bg-transparent pe-2"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
         <input class="form-control border-0 shadow-none" type="search" placeholder="Cari di Pagee..." aria-label="Search">
       </form>
 
-      <!-- Tombol Mode -->
       <button id="modeToggle" class="btn btn-link text-dark fs-4 p-0" title="Ubah tema">
         <i class="fa-solid fa-moon"></i>
       </button>
@@ -54,35 +48,32 @@
 
   <!-- ===== MAIN LAYOUT ===== -->
   <div class="main-layout">
-    <!-- ===== KONTEN TENGAH ===== -->
     <main class="content">
+      <!-- Form Post -->
       <div class="card shadow-sm mb-3">
         <div class="card-body">
-          <textarea class="form-control border-0 mb-3" rows="3" placeholder="Apa yang ingin kamu bagikan hari ini?"></textarea>
-          <div class="text-end">
-            <button class="btn btn-purple">Posting</button>
-          </div>
+          <form action="{{ route('posts.store') }}" method="POST">
+            @csrf
+            <textarea class="form-control border-0 mb-3" rows="3" name="content" placeholder="Apa yang ingin kamu bagikan hari ini?" required></textarea>
+            <div class="text-end">
+              <button type="submit" class="btn btn-purple">Posting</button>
+            </div>
+          </form>
         </div>
       </div>
 
-      <!-- Post Biasa -->
+      <!-- Feed Posts -->
+      @foreach($posts as $post)
       <div class="card shadow-sm mb-3">
         <div class="card-body">
           <div class="d-flex align-items-center mb-2">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-2" width="45" height="45" alt="">
+            <img src="https://randomuser.me/api/portraits/men/1.jpg" class="rounded-circle me-2" width="45" height="45" alt="">
             <div>
-              <strong>@dira</strong><br>
-              <small class="text-muted">5 menit lalu</small>
+              <strong>{{ '@'.$post->user->nama }}</strong><br>
+              <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
             </div>
           </div>
-          <p>Hari ini aku menemukan lagu yang cocok banget buat nulis scene mellow 🎧</p>
-          <div class="post-music">
-            <audio id="audio1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-            <button class="music-btn btn btn-light rounded-circle shadow-sm" data-audio="audio1">
-                <i class="fa-solid fa-play"></i>
-            </button>
-           </div>
-
+          <p>{{ $post->content }}</p>
           <div class="d-flex gap-4">
             <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
             <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
@@ -90,26 +81,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Post Berchapter -->
-    <div class="card shadow-sm mb-3 post-chapter">
-    <div class="card-body">
-        <div class="d-flex align-items-center mb-2">
-        <img src="https://randomuser.me/api/portraits/men/10.jpg" class="rounded-circle me-2" width="45" height="45" alt="">
-        <div>
-            <strong>@nadira_story</strong><br>
-            <small class="text-muted">1 hari lalu</small>
-        </div>
-        </div>
-
-        <h5 class="fw-bold text-purple mb-2">Ramayana - Chapter 1</h5>
-        <p class="chapter-preview">
-        Dalam hening senja, Rama berdiri di tepi hutan Dandaka, menatap langit yang mulai memerah. 
-        Hembusan angin membawa bisikan Sinta yang samar, mengingatkannya pada janji yang belum tuntas...
-        </p>
-        <button class="btn btn-outline-purple btn-sm mt-2">Baca selengkapnya</button>
-    </div>
-    </div>
+      @endforeach
 
     </main>
 
@@ -130,8 +102,9 @@
         <div class="card-body">
           <h5 class="fw-bold text-purple"><i class="fa-solid fa-fire me-2"></i>Tren Whisper</h5>
           <ul class="list-unstyled small mt-2">
-            <li>"Kalau aku jujur, kamu masih mau dengar?"</li>
-            <li>"Capek pura-pura baik-baik aja"</li>
+            @foreach($trends as $trend)
+              <li>{{ $trend }}</li>
+            @endforeach
           </ul>
         </div>
       </div>

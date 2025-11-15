@@ -17,27 +17,28 @@
     <!-- Form sisi kiri -->
     <div class="login-form">
       <h2 class="brand-name mb-2">Pagee</h2>
-      <form id="registerForm" class="text-start">
+      <form id="registerForm" class="text-start" action="{{ route('register') }}" method="POST">
+      @csrf
         <div class="mb-3">
           <label for="username" class="form-label fw-semibold">Nama Pengguna</label>
-          <input type="text" class="form-control neumorphic" id="username" placeholder="Masukkan username" required>
+          <input type="text" class="form-control neumorphic" id="username" name="nama" placeholder="Masukkan username" required>
         </div>
 
         <div class="mb-3">
           <label for="email" class="form-label fw-semibold">Email</label>
-          <input type="email" class="form-control neumorphic" id="email" placeholder="Masukkan email" required>
+          <input type="email" class="form-control neumorphic" id="email" name="email" placeholder="Masukkan email" required>
         </div>
 
         <div class="mb-3">
           <label for="password" class="form-label fw-semibold">Kata Sandi</label>
-          <input type="password" class="form-control neumorphic" id="password" placeholder="Buat kata sandi" required>
+          <input type="password" class="form-control neumorphic" id="password" name="password" placeholder="Buat kata sandi" required>
         </div>
 
         <button type="submit" class="btn btn-purple w-100 mt-3 py-2 fw-semibold">Daftar Sekarang</button>
       </form>
 
       <p class="mt-3 text-center">
-        Sudah punya akun? <a href="login.html" class="fw-semibold">Masuk</a>
+        Sudah punya akun? <a href="{{ route('login') }}" class="fw-semibold">Masuk</a>
       </p>
     </div>
 
