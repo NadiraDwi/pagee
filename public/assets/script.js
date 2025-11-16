@@ -2,7 +2,6 @@
 //  PAGEE - GLOBAL SCRIPT
 // =========================================================
 
-// Jalankan semua setelah DOM siap
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const toggleBtn = document.getElementById("modeToggle");
@@ -10,13 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ====== TOGGLE MODE TERANG/GELAP ======
   if (toggleBtn) {
-    // Cek preferensi tema sebelumnya
     if (localStorage.getItem("theme") === "dark") {
       body.classList.add("dark-mode");
       if (toggleIcon) toggleIcon.classList.replace("fa-moon", "fa-sun");
     }
 
-    // Tombol ubah mode
     toggleBtn.addEventListener("click", () => {
       body.classList.toggle("dark-mode");
       const isDark = body.classList.contains("dark-mode");
@@ -37,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!audio || !icon) return;
 
     btn.addEventListener("click", () => {
-      // pause semua audio lain biar gak tumpuk
       document.querySelectorAll("audio").forEach((a) => {
         if (a !== audio) {
           a.pause();
@@ -49,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // toggle play/pause
       if (audio.paused) {
         audio.play();
         icon.classList.replace("fa-play", "fa-pause");
@@ -58,22 +53,39 @@ document.addEventListener("DOMContentLoaded", () => {
         icon.classList.replace("fa-pause", "fa-play");
       }
 
-      // ubah ikon balik saat audio selesai
       audio.addEventListener("ended", () => {
         icon.classList.replace("fa-pause", "fa-play");
       });
     });
   });
 
-  // ====== ANIMASI FADE-IN LOGIN PAGE ======
-  const loginCard = document.querySelector(".login-card");
-  if (loginCard) {
-    loginCard.style.opacity = 0;
-    loginCard.style.transform = "translateY(30px)";
-    setTimeout(() => {
-      loginCard.style.transition = "0.6s ease";
-      loginCard.style.opacity = 1;
-      loginCard.style.transform = "translateY(0)";
-    }, 100);
+  // ====== SHORT/LONG POST MODAL & FORM ======
+  const postTypeModalEl = document.getElementById("postTypeModal");
+  const postTypeModal = new bootstrap.Modal(postTypeModalEl);
+  const placeholder = document.getElementById("shortPostPlaceholder");
+  const shortPostBtn = document.getElementById("shortPostBtn");
+  const longPostBtn = document.getElementById("longPostBtn");
+  const shortPostForm = document.getElementById("shortPostForm");
+
+  if (placeholder && postTypeModalEl && shortPostBtn && longPostBtn && shortPostForm) {
+    // Klik placeholder → buka modal
+    placeholder.addEventListener("click", () => {
+      postTypeModal.show();
+    });
+
+    // Short Post → tutup modal & tampilkan form
+    shortPostBtn.addEventListener("click", () => {
+      postTypeModal.hide();
+      shortPostForm.style.display = "block";
+      shortPostForm.querySelector("textarea").focus();
+    });
+
+    // Long Post → redirect (gunakan attribute data-url dari HTML)
+    longPostBtn.addEventListener("click", () => {
+      const url = longPostBtn.getAttribute("data-url");
+      if (url) {
+        window.location.href = url;
+      }
+    });
   }
 });

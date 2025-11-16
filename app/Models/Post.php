@@ -3,17 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    // Kolom yang boleh diisi mass assignment
+    use HasFactory;
+
+    protected $table = 'posts';
+    protected $primaryKey = 'id_post';
     protected $fillable = [
-        'user_id',
-        'content',
+        'id_user',
+        'judul',
+        'isi',
+        'jenis_post',
+        'tanggal_dibuat'
     ];
 
     // Relasi ke User: setiap post punya 1 user
     public function user() {
-        return $this->belongsTo(User::class, 'user_id', 'id_user');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }

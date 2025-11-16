@@ -29,7 +29,12 @@ Route::post('/login', [AuthController::class, 'login']);
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+
+// Halaman form long post
+Route::get('/long-post/create', [PostController::class, 'createLong'])
+    ->name('long-post.create')
+    ->middleware('auth');
 

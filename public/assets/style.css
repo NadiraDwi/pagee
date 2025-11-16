@@ -673,3 +673,26 @@ body.login-page {
   object-fit: contain;
   transition: transform 0.3s ease;
 }
+
+/* ===== DARK MODE – Modal ===== */
+body.dark-mode .modal-content {
+  background-color: #1e1e1e !important;
+  color: #f5f5f5 !important;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-body {
+  background-color: #1e1e1e !important;
+  color: #f5f5f5 !important;
+}
+
+/* Close button ikut terlihat */
+body.dark-mode .btn-close {
+  filter: invert(1);
+}
+
+/* Tombol purple tetap terlihat */
+body.dark-mode .btn.btn-purple {
+  color: #fff;
+}
+

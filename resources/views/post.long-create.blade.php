@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pagee | Beranda</title>
+  <title>Pagee | Long Post</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
@@ -16,8 +16,8 @@
     <div class="sidebar-top">
       <h3 class="brand fw-bold text-purple fs-4 mb-4">Pagee<span class="dot">.</span></h3>
       <ul class="list-unstyled mb-3">
-        <li><a href="#" class="sidebar-link active"><i class="fa-solid fa-house me-2"></i>Beranda</a></li>
-        <li><a href="#" class="sidebar-link"><i class="fa-regular fa-comment-dots me-2"></i>Whisper</a></li>
+        <li><a href="{{ route('home') }}" class="sidebar-link"><i class="fa-solid fa-house me-2"></i>Beranda</a></li>
+        <li><a href="#" class="sidebar-link active"><i class="fa-regular fa-comment-dots me-2"></i>Whisper</a></li>
         <li><a href="#" class="sidebar-link"><i class="fa-solid fa-book-open me-2"></i>Chapter</a></li>
       </ul>
     </div>
@@ -49,68 +49,25 @@
   <!-- ===== MAIN LAYOUT ===== -->
   <div class="main-layout">
     <main class="content">
-      <!-- Short Post Placeholder -->
-      <div class="card shadow-sm mb-3" id="shortPostPlaceholder">
+      <!-- Form Long Post -->
+      <div class="card shadow-sm mb-3">
         <div class="card-body">
-          <textarea class="form-control border-0 mb-3" rows="1" placeholder="Apa yang ingin kamu bagikan hari ini?" readonly></textarea>
-        </div>
-      </div>
-
-
-      <!-- Modal Pilih Jenis Post -->
-      <div class="modal fade" id="postTypeModal" tabindex="-1" aria-labelledby="postTypeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content border-0">
-            <div class="modal-header">
-            <h5 class="modal-title" id="postTypeModalLabel">Pilih Jenis Post</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body text-center">
-            <p class="mb-3">Mau membuat post pendek atau panjang?</p>
-
-            <button class="btn btn-purple me-2" id="shortPostBtn">Short Post</button>
-            <br></br>
-            <button class="btn btn-purple me-2" id="longPostBtn" data-url="{{ route('long-post.create') }}">Long Post</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Form short post (hidden awalnya) -->
-      <div class="card shadow-sm mb-3" id="shortPostForm" style="display:none;">
-        <div class="card-body">
+          <h5 class="mb-3">Tulis Long Post</h5>
           <form action="{{ route('posts.store') }}" method="POST">
             @csrf
-            <input type="hidden" name="jenis_post" value="short">
-            <textarea name="isi" class="form-control border-0 mb-3" rows="3" placeholder="Apa yang ingin kamu bagikan?" required></textarea>
+            <input type="hidden" name="jenis_post" value="long">
+            <div class="mb-3">
+              <input type="text" name="judul" class="form-control" placeholder="Judul Post" required>
+            </div>
+            <div class="mb-3">
+              <textarea class="form-control" name="isi" rows="10" placeholder="Tulis ceritamu..." required></textarea>
+            </div>
             <div class="text-end">
               <button type="submit" class="btn btn-purple">Posting</button>
             </div>
           </form>
         </div>
       </div>
-
-      <!-- Feed Posts -->
-      @foreach($posts as $post)
-      <div class="card shadow-sm mb-3">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-2">
-            <img src="https://randomuser.me/api/portraits/men/1.jpg" class="rounded-circle me-2" width="45" height="45" alt="">
-            <div>
-              <strong>{{ '@'.$post->user->nama }}</strong><br>
-              <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
-            </div>
-          </div>
-          <p>{{ $post->content }}</p>
-          <div class="d-flex gap-4">
-            <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
-            <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
-            <button class="btn btn-link p-0 text-muted"><i class="fa-solid fa-share-nodes"></i></button>
-          </div>
-        </div>
-      </div>
-      @endforeach
 
     </main>
 
