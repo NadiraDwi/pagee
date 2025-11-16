@@ -88,4 +88,58 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const shortPostForm = document.getElementById("shortPostFormAjax");
+  const feedPosts = document.getElementById("feedPosts");
+
+  shortPostForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const token = document.querySelector('input[name="_token"]').value;
+
+    fetch(this.action, {
+      method: "POST",
+      headers: {
+        "X-CSRF-TOKEN": token,
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data.success){
+        // Buat elemen post baru
+        const postHtml = `
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <img src="https://randomuser.me/api/portraits/men/1.jpg" class="rounded-circle me-2" width="45" height="45" alt="">
+              <div>
+                <strong>@${data.post.user}</strong><br>
+                <small class="text-muted">${data.post.created_at}</small>
+              </div>
+            </div>
+            <p>${data.post.isi}</p>
+            <div class="d-flex gap-4">
+              <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
+              <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
+              <button class="btn btn-link p-0 text-muted"><i class="fa-solid fa-share-nodes"></i></button>
+            </div>
+          </div>
+        </div>
+        `;
+
+        // Masukkan post baru di atas feed
+        feedPosts.insertAdjacentHTML('afterbegin', postHtml);
+
+        // Reset form
+        shortPostForm.reset();
+      }
+    })
+    .catch(err => console.error(err));
+  });
+});
+
 });

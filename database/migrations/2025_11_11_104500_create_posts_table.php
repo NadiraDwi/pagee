@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id('id_post');
             $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
-            $table->string('judul');
+            $table->string('judul')->nullable(); 
             $table->text('isi');
             $table->enum('jenis_post', ['short', 'long', 'whisper']);
             $table->timestamp('tanggal_dibuat')->useCurrent();

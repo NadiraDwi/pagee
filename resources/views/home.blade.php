@@ -80,7 +80,7 @@
       <!-- Form short post (hidden awalnya) -->
       <div class="card shadow-sm mb-3" id="shortPostForm" style="display:none;">
         <div class="card-body">
-          <form action="{{ route('posts.store') }}" method="POST">
+          <form id="shortPostFormAjax" action="{{ route('posts.store') }}" method="POST">
             @csrf
             <input type="hidden" name="jenis_post" value="short">
             <textarea name="isi" class="form-control border-0 mb-3" rows="3" placeholder="Apa yang ingin kamu bagikan?" required></textarea>
@@ -92,6 +92,7 @@
       </div>
 
       <!-- Feed Posts -->
+      <div id="feedPosts">
       @foreach($posts as $post)
       <div class="card shadow-sm mb-3">
         <div class="card-body">
@@ -102,7 +103,7 @@
               <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
             </div>
           </div>
-          <p>{{ $post->content }}</p>
+          <p>{{ $post->isi }}</p>
           <div class="d-flex gap-4">
             <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
             <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
@@ -111,7 +112,7 @@
         </div>
       </div>
       @endforeach
-
+      </div>
     </main>
 
     <!-- ===== SIDEBAR KANAN ===== -->
