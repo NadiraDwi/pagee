@@ -40,9 +40,17 @@
         <input class="form-control border-0 shadow-none" type="search" placeholder="Cari di Pagee..." aria-label="Search">
       </form>
 
-      <button id="modeToggle" class="btn btn-link text-dark fs-4 p-0" title="Ubah tema">
-        <i class="fa-solid fa-moon"></i>
-      </button>
+      <div class="d-flex align-items-center">
+        <button id="modeToggle" class="btn btn-link text-dark fs-4 p-0" title="Ubah tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <a href="{{ route('profile.show') }}" class="btn btn-link text-dark fs-4 p-0 ms-2" title="Profil">
+          <i class="fa-solid fa-user profile-icon"></i>
+        </a>
+      </div>
+
+      </a>
     </div>
   </nav>
 
@@ -71,7 +79,7 @@
 
             <button class="btn btn-purple me-2" id="shortPostBtn">Short Post</button>
             <br></br>
-            <button class="btn btn-purple me-2" id="longPostBtn" data-url="{{ route('long-post.create') }}">Long Post</button>
+            <button class="btn btn-purple me-2" id="longPostBtn" data-url="{{ route('post-long-create') }}">Long Post</button>
             </div>
           </div>
         </div>

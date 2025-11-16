@@ -22,6 +22,11 @@ class User extends Authenticatable
     // Tipe primary key
     protected $keyType = 'int';
 
+    public function getAuthIdentifierName(){
+    return 'id_user';
+    }
+
+
     // Kolom yang boleh diisi mass assignment
     protected $fillable = [
         'nama',      // nama user

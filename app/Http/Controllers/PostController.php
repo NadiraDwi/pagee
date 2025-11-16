@@ -58,6 +58,6 @@ class PostController extends Controller
      */
     public function createLong()
     {
-        return view('post.long-create');
+        return view('post-long-create');
     }
 }
