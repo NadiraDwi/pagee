@@ -28,9 +28,6 @@
     <a href="{{ route('login') }}" class="btn btn-purple w-100 mt-2">
         <i class="fa-solid fa-right-to-bracket me-2"></i>Login
     </a>
-    <a href="{{ route('register') }}" class="btn btn-purple w-100 mt-2">
-        <i class="fa-solid fa-user-plus me-2"></i>Daftar
-    </a>
 </div>
 
   </aside>

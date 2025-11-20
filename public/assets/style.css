@@ -786,4 +786,30 @@ body.light .btn-edit-profile:hover {
     background-color: #eee;
 }
 
+.btn-back-top {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #ffffffcc;
+  padding: 10px 12px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  color: #6f42c1;
+  font-size: 18px;
+  z-index: 1000;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.btn-back-top:hover {
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+body.dark .btn-back-top {
+  background: #1e1e1e;
+  color: #c8a4ff;
+}
+
+
 

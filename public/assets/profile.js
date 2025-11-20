@@ -5,3 +5,4 @@ document.addEventListener("DOMContentLoaded", () => {
         body.classList.add("dark-mode");
     }
 });
+

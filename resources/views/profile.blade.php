@@ -1,3 +1,7 @@
+@php
+    $tab = request('tab') ?? 'posts';
+@endphp
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,6 +19,11 @@
   <link rel="stylesheet" href="{{ asset('assets/profile.css') }}">
 </head>
 <body>
+
+<!-- Tombol Back di pojok kiri atas -->
+<a href="/home" class="btn-back-top">
+  <i class="fa-solid fa-arrow-left"></i>
+</a>
 
 <!-- ===== HEADER ===== -->
 <div class="profile-header"></div>
@@ -47,12 +56,49 @@
       <i class="fa-regular fa-calendar"></i>
       Joined {{ $user->created_at->format('F Y') }}
     </p>
+
+    <!-- ===== PROFILE TABS ===== -->
+    <ul class="nav nav-tabs border-0 justify-content-between">
+
+    <li class="nav-item">
+      <a class="nav-link {{ $tab === 'posts' ? 'active' : '' }}" href="?tab=posts">Posts</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ $tab === 'chapter' ? 'active' : '' }}" href="?tab=chapter">Chapter</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ $tab === 'whisper' ? 'active' : '' }}" href="?tab=whisper">Whisper</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ $tab === 'timecapsule' ? 'active' : '' }}" href="?tab=timecapsule">Time Capsule</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link {{ $tab === 'likes' ? 'active' : '' }}" href="?tab=likes">Likes</a>
+    </li>
+
+  </ul>
+
+  @if($tab === 'posts')
+    @include('profile.tabs.posts')
+
+  @elseif($tab === 'chapter')
+      @include('profile.tabs.chapter')
+
+  @elseif($tab === 'whisper')
+      @include('profile.tabs.whisper')
+
+  @elseif($tab === 'timecapsule')
+      @include('profile.tabs.timecapsule')
+
+  @elseif($tab === 'likes')
+      @include('profile.tabs.likes')
+  @endif
+
   </div>
-
-  <a href="/home" class="btn-purple mt-4">
-    <i class="fa-solid fa-arrow-left me-2"></i> Kembali ke Beranda
-  </a>
-
 </div>
 
 <!-- JS Bootstrap & Global Scripts -->

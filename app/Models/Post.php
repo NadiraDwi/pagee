@@ -19,8 +19,8 @@ class Post extends Model
         'tanggal_dibuat'
     ];
 
-    // Relasi ke User: setiap post punya 1 user
     public function user() {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
-    }
+    return $this->belongsTo(User::class, 'id_user', 'id_user');
+}
+
 }
