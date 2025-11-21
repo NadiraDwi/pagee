@@ -156,3 +156,21 @@ body.dark .post-user-info .post-date,
 body.dark .post-footer {
     color: #bbb;
 }
+
+/* ===== Tabs Default (tidak aktif) jadi ungu ===== */
+.nav-tabs .nav-link {
+    color: #8b6cc9 !important; /* purple */
+    font-weight: 500;
+}
+
+/* ===== Hover warna lebih gelap ===== */
+.nav-tabs .nav-link:hover {
+    color: #8b6cc9 !important;
+}
+
+/* ===== Tab Active (dipilih) ===== */
+.nav-tabs .nav-link.active {
+    color: #fff !important;
+    background-color: #8b6cc9 !important;
+    border: none !important;
+}
