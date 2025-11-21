@@ -20,6 +20,6 @@ class ProfileController extends Controller
                  ->latest()
                  ->get();
 
-    return view('profile', compact('user', 'tab', 'posts'));
+    return view('user.profile', compact('user', 'tab', 'posts'));
     }
 }
