@@ -14,7 +14,8 @@ class AuthController extends Controller
     }
 
     // Handle proses register
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $request->validate([
             'nama' => 'required|max:50',
             'email' => 'required|email|unique:users',
@@ -24,12 +25,23 @@ class AuthController extends Controller
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // hash password
+            'password' => Hash::make($request->password),
+            'role' => 'user', // default user
         ]);
 
-        auth()->login($user); // login otomatis setelah register
-        return redirect('/home'); // redirect ke halaman utama
+        auth()->login($user); // Login otomatis
+
+        // 👉 Redirect berdasarkan role
+        // Redirect berdasarkan role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('home');
+        // default user
+
     }
+
 
     // Tampilkan halaman login
     public function showLogin() {
@@ -37,18 +49,32 @@ class AuthController extends Controller
     }
 
     // Handle proses login
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if(auth()->attempt($credentials)) {
+        if (auth()->attempt($credentials)) {
+
             $request->session()->regenerate();
-            return redirect('/home'); // login sukses
+
+            $user = auth()->user();
+
+            // Redirect by role
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.index');
+            }
+
+            if ($user->role === 'user') {
+                return redirect()->route('home');
+            }
+
+            // fallback
+            return redirect('/home');
         }
 
-        // login gagal
         return back()->withErrors([
             'email' => 'Email atau password salah',
         ]);

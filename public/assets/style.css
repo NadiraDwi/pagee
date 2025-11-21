@@ -811,5 +811,31 @@ body.dark .btn-back-top {
   color: #c8a4ff;
 }
 
+.content {
+    position: relative;
+}
 
+/* Floating Button */
+.floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 265px; /* tambahin jauh dari sidebar kanan */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: #7b2ff7;
+    color: white;
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: 0.2s ease;
+}
 
+.floating-btn:hover {
+    transform: scale(1.1);
+}

@@ -58,6 +58,11 @@ class PostController extends Controller
      */
     public function createLong()
     {
-        return view('post-long-create');
+        $trends = [
+            "Kalau aku jujur, kamu masih mau dengar?",
+            "Capek pura-pura baik-baik aja"
+        ];
+
+        return view('user.post-long-create', compact('trends'));
     }
 }

@@ -29,11 +29,12 @@ class User extends Authenticatable
 
     // Kolom yang boleh diisi mass assignment
     protected $fillable = [
-        'nama',      // nama user
+        'nama',
         'email',
         'password',
         'foto',
         'bio',
+        'role',
     ];
 
     // Kolom yang disembunyikan saat serialisasi

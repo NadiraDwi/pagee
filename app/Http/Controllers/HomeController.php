@@ -14,7 +14,7 @@ class HomeController extends Controller
         "Capek pura-pura baik-baik aja"
     ];
 
-    return view('home', compact('posts','trends'));
+    return view('user.home', compact('posts','trends'));
 }
 
 }
