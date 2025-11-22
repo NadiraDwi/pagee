@@ -142,5 +142,99 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// === Character Counter ===
+const textarea = document.getElementById('inputPost');
+const charCount = document.getElementById('charCount');
+
+textarea.addEventListener('input', () => {
+    charCount.textContent = textarea.value.length;
+});
+
+// === Mention System ===
+const mentionList = document.getElementById("mentionList");
+const mentionItems = document.querySelectorAll(".mention-item");
+const selectedMention = document.getElementById("selectedMention");
+const mentionData = document.getElementById("mentionData");
+
+let mentions = [];
+
+textarea.addEventListener("keyup", (e) => {
+    const val = textarea.value;
+    const lastChar = val.slice(-1);
+
+    if (lastChar === "@") {
+        mentionList.classList.remove("d-none");
+    } else if (!val.includes("@")) {
+        mentionList.classList.add("d-none");
+    }
+});
+
+mentionItems.forEach(item => {
+    item.addEventListener("click", () => {
+        const username = item.dataset.username;
+
+        // tampilin chip
+        if (!mentions.includes(username)) {
+            mentions.push(username);
+
+            let chip = document.createElement("span");
+            chip.classList = "badge bg-purple text-white px-2 py-1";
+            chip.textContent = "@" + username;
+            selectedMention.appendChild(chip);
+
+            mentionData.value = JSON.stringify(mentions);
+        }
+
+        mentionList.classList.add("d-none");
+    });
+});
+
+// ADD PEOPLE FEATURE
+(function() {
+    const btn = document.getElementById("addPeopleBtn");
+    const box = document.getElementById("peopleBox");
+    const mentionsInput = document.getElementById("mentionsInput");
+    const search = document.getElementById("peopleSearch");
+    const listItems = document.querySelectorAll(".user-item");
+
+    // Kalau bukan di halaman short post, hentikan
+    if (!btn || !box || listItems.length === 0) return;
+
+    let selected = [];
+
+    // Toggle box
+    btn.addEventListener("click", () => {
+        box.classList.toggle("d-none");
+    });
+
+    // Pilih user
+    listItems.forEach(item => {
+        item.addEventListener("click", function() {
+            const id = this.dataset.id;
+
+            if (!selected.includes(id)) {
+                selected.push(id);
+                this.classList.add("active");
+            } else {
+                selected = selected.filter(x => x !== id);
+                this.classList.remove("active");
+            }
+
+            mentionsInput.value = JSON.stringify(selected);
+        });
+    });
+
+    // Search user
+    if (search) {
+        search.addEventListener("keyup", function() {
+            const q = this.value.toLowerCase();
+            listItems.forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(q)
+                    ? "block" : "none";
+            });
+        });
+    }
+})();
+
 
 });

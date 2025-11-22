@@ -17,6 +17,7 @@ class PostController extends Controller
             'isi' => 'required',
             'jenis_post' => 'required|in:short,long',
             'judul' => 'nullable|string|max:255',
+            'is_anonymous' => 'nullable|boolean'
         ]);
 
         // Long post wajib punya judul
@@ -31,6 +32,7 @@ class PostController extends Controller
             'isi' => $request->isi,
             'jenis_post' => $request->jenis_post,
             'tanggal_dibuat' => now(),
+            'is_anonymous' => $request->has('is_anonymous') ? true : false,
         ]);
 
         // Response AJAX
@@ -43,7 +45,7 @@ class PostController extends Controller
                     'judul' => $post->judul,
                     'isi' => $post->isi,
                     'jenis_post' => $post->jenis_post,
-                    'user' => auth()->user()->nama,
+                    'user' => $post->is_anonymous ? 'Anonymous' : auth()->user()->nama,
                     'created_at' => $post->tanggal_dibuat->diffForHumans()
                 ]
             ]);
@@ -62,7 +64,19 @@ class PostController extends Controller
             "Kalau aku jujur, kamu masih mau dengar?",
             "Capek pura-pura baik-baik aja"
         ];
-
-        return view('user.post-long-create', compact('trends'));
+        $users = \App\Models\User::all();
+        return view('user.post-long-create', compact('trends', 'users'));
     }
+
+    public function createShort(){
+        $trends = [
+            "Life update",
+            "Mood hari ini",
+            "Curhat random",
+            "Overthinking",
+        ];
+        $users = \App\Models\User::all();
+        return view('user.post-short-create', compact('trends', 'users'));
+    }
+
 }

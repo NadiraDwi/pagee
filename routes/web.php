@@ -28,12 +28,15 @@ Route::middleware('admin')->group(function () {
 // USER AREA
 Route::middleware('user')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-        
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/short-post/create', [PostController::class, 'createShort'])
+    ->name('post-short-create');
+
 
     // Halaman form long post
     Route::get('/long-post/create', [PostController::class, 'createLong'])
         ->name('post-long-create')        ;
+    Route::post('/chapters', [ChapterController::class, 'store'])->name('chapters.store');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

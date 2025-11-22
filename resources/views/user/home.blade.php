@@ -75,36 +75,12 @@
             <div class="modal-body text-center">
               <p class="mb-3">Mau membuat post pendek atau panjang?</p>
 
-              <button class="btn btn-purple w-100 mb-2" id="shortPostBtn">Short Post</button>
+              <button class="btn btn-purple w-100 mb-2" id="shortPostBtn" data-url="{{ route('post-short-create') }}">
+                Short Post
+              </button>
               <button class="btn btn-purple w-100" id="longPostBtn" data-url="{{ route('post-long-create') }}">
                 Long Post
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Short Post -->
-      <div class="modal fade" id="shortPostModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content border-0">
-            <div class="modal-header">
-              <h5 class="modal-title">Buat Short Post</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-              <form id="shortPostModalForm" action="{{ route('posts.store') }}" method="POST">
-                  @csrf
-                  <input type="hidden" name="jenis_post" value="short">
-
-                  <textarea name="isi" class="form-control mb-3" rows="4"
-                    placeholder="Tulis sesuatu..." required></textarea>
-
-                  <div class="text-end">
-                    <button type="submit" class="btn btn-purple">Posting</button>
-                  </div>
-              </form>
             </div>
           </div>
         </div>
@@ -116,14 +92,21 @@
         <div class="card shadow-sm mb-3">
           <div class="card-body">
             <div class="d-flex align-items-center mb-2">
-              <img src="https://randomuser.me/api/portraits/men/1.jpg" class="rounded-circle me-2" width="45">
+              <img src="{{ $post->is_anonymous ? 'https://i.pravatar.cc/45?img=0' : ($post->user->pp ?? 'https://i.pravatar.cc/45') }}" class="rounded-circle me-2" width="45">
               <div>
-                <strong>{{ '@'.$post->user->nama }}</strong><br>
+                 <strong>{{ $post->is_anonymous ? '@Anonymous' : '@'.$post->user->nama }}</strong><br>
                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
               </div>
             </div>
 
+            {{-- JUDUL JIKA LONG POST --}}
+            @if($post->jenis_post === 'long')
+                <h5 class="fw-bold mb-2">{{ $post->judul }}</h5>
+            @endif
+
+            {{-- ISI POST (SHORT & LONG) --}}
             <p>{{ $post->isi }}</p>
+
             <div class="d-flex gap-4">
               <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
               <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
@@ -180,8 +163,7 @@
 
   // Short Post → buka modal short post
   document.getElementById("shortPostBtn").addEventListener("click", function () {
-      bootstrap.Modal.getInstance(document.getElementById("postTypeModal")).hide();
-      new bootstrap.Modal(document.getElementById("shortPostModal")).show();
+      window.location.href = this.dataset.url;
   });
 
   // Long Post → redirect

@@ -16,7 +16,8 @@ class Post extends Model
         'judul',
         'isi',
         'jenis_post',
-        'tanggal_dibuat'
+        'tanggal_dibuat',
+        'is_anonymous'
     ];
 
     public function user() {
