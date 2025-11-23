@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -22,7 +23,19 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ADMIN AREA
 Route::middleware('admin')->group(function () {
-    Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.index');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+        Route::get('/list', [AdminUserController::class, 'list'])->name('list');
+        Route::delete('/delete/{id}', [AdminUserController::class, 'delete'])->name('delete');
+    });
+
+    Route::prefix('post')->name('post.')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+    });
 });
 
 // USER AREA
@@ -36,7 +49,7 @@ Route::middleware('user')->group(function () {
     // Halaman form long post
     Route::get('/long-post/create', [PostController::class, 'createLong'])
         ->name('post-long-create')        ;
-    Route::post('/chapters', [ChapterController::class, 'store'])->name('chapters.store');
+    // Route::post('/chapters', [ChapterController::class, 'store'])->name('chapters.store');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

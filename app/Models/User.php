@@ -45,7 +45,7 @@ class User extends Authenticatable
 
     // Relasi: user punya banyak post
     public function posts() {
-        return $this->hasMany(Post::class, 'user_id', 'id_user');
+        return $this->hasMany(Post::class, 'id_user', 'id_user');
     }
 
     // Cast password otomatis hash

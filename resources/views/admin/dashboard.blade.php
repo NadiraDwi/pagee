@@ -1,10 +1,31 @@
-<h1>Dashboard Admin</h1>
-<div class="sidebar-bottom">
-    <hr class="sidebar-divider">
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn btn-purple w-100 mt-2">
-            <i class="fa-solid fa-right-to-bracket me-2"></i>Logout
-        </button>
-    </form>
+@extends('admin.layouts')
+
+@section('title', 'Dashboard')
+
+@section('content')
+
+<h1 class="hero">Halo Admin Pagee!</h1>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card p-3 card-custom">
+            <small class="text-muted">Total Users</small>
+            <h3>1.024</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 card-custom">
+            <small class="text-muted">Total Pages</small>
+            <h3>245</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3 card-custom">
+            <small class="text-muted">Active Admins</small>
+            <h3>12</h3>
+        </div>
+    </div>
 </div>
+@endsection
