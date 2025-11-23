@@ -86,24 +86,6 @@
             <button type="button" id="addPeopleBtn" class="btn btn-outline-purple">
                 <i class="fa-solid fa-user-plus me-1"></i> Add People
             </button>
-
-            <!-- BOX: daftar user -->
-            <div id="peopleBox" class="card mt-2 d-none">
-                <div class="card-body p-2">
-                    <input type="text" id="peopleSearch" class="form-control form-control-sm mb-2"
-                        placeholder="Cari user...">
-
-                    <ul class="list-group small" id="peopleList" style="max-height:150px; overflow-y:auto;">
-                        @foreach($users as $u)
-                            <li class="list-group-item list-group-item-action user-item"
-                                data-id="{{ $u->id_user }}">
-                                {{ $u->nama }}
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-
             <!-- Input hidden untuk menyimpan ID user yang dipilih -->
             <input type="hidden" name="mentions" id="mentionsInput">
             </div>
@@ -162,7 +144,129 @@
     </aside>
   </div>
 
+  <!-- MODAL PILIH USER -->
+<div class="modal fade" id="userModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pilih User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input type="text" id="searchUser" class="form-control mb-2" placeholder="Cari user...">
+
+        <ul class="list-group" id="userModalList">
+          @foreach($users as $u)
+              @if($u->id_user != auth()->user()->id_user && $u->role != 'admin')
+                  <li class="list-group-item list-group-item-action modal-user"
+                      data-id="{{ $u->id_user }}">
+                    {{ $u->nama }} — <small>{{ $u->email }}</small>
+                  </li>
+              @endif
+          @endforeach
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('assets/script.js') }}"></script>
+
+<script>
+let mentionsInput = document.getElementById('mentionsInput');
+let selectedIds = []; 
+let selectedUsersDiv = null;
+
+// Buat container chip jika belum ada
+function ensureSelectedUserContainer() {
+    selectedUsersDiv = document.getElementById('selectedUsers');
+    if (!selectedUsersDiv) {
+        selectedUsersDiv = document.createElement("div");
+        selectedUsersDiv.id = "selectedUsers";
+        selectedUsersDiv.className = "mt-2 d-flex flex-wrap gap-2";
+        document.getElementById("addPeopleBtn").insertAdjacentElement("afterend", selectedUsersDiv);
+    }
+}
+ensureSelectedUserContainer();
+
+// === OPEN MODAL ===
+document.getElementById('addPeopleBtn').addEventListener('click', function () {
+    let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('userModal'));
+    modal.show();
+});
+
+// === PILIH USER DARI MODAL ===
+document.querySelectorAll('.modal-user').forEach(item => {
+    item.addEventListener('click', function () {
+        let id = this.dataset.id;
+        let name = this.textContent.trim();
+
+        // Cegah duplikasi
+        if (!selectedIds.includes(id)) {
+            selectedIds.push(id);
+            addUserChip(id, name);
+        }
+
+        mentionsInput.value = JSON.stringify(selectedIds);
+
+        // Tutup modal
+        bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+    });
+});
+
+// === CHIP USER ===
+function addUserChip(id, name) {
+    let chip = document.createElement('div');
+
+    chip.classList.add('px-3', 'py-2');
+    chip.style.backgroundColor = "#6f42c1"; // UNGU SAMA SEPERTI TOMBOL SUBMIT
+    chip.style.color = "white";
+    chip.style.borderRadius = "20px";
+    chip.style.display = "flex";
+    chip.style.alignItems = "center";
+    chip.style.gap = "6px";
+
+    chip.innerHTML = `
+        <span>${name}</span>
+        <button class="btn btn-sm btn-light p-0 px-2" 
+                style="border-radius:50%; font-weight:bold;" 
+                data-remove="${id}">
+            X
+        </button>
+    `;
+
+    selectedUsersDiv.appendChild(chip);
+
+    // Tombol hapus
+    chip.querySelector("[data-remove]").addEventListener("click", function () {
+        let removeId = this.dataset.remove;
+
+        // Remove from array
+        selectedIds = selectedIds.filter(uid => uid != removeId);
+
+        // Update input hidden
+        mentionsInput.value = JSON.stringify(selectedIds);
+
+        // Remove chip
+        chip.remove();
+    });
+}
+
+// === SEARCH USER DI MODAL ===
+document.getElementById('searchUser').addEventListener('keyup', function () {
+    let keyword = this.value.toLowerCase();
+    let items = document.querySelectorAll('#userModalList .modal-user');
+
+    items.forEach(item => {
+        let name = item.textContent.toLowerCase();
+        item.classList.toggle('d-none', !name.includes(keyword));
+    });
+});
+</script>
+
 </body>
 </html>

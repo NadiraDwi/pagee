@@ -21,7 +21,20 @@ class Post extends Model
     ];
 
     public function user() {
-    return $this->belongsTo(User::class, 'id_user', 'id_user');
-}
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    public function collaborations()
+    {
+        return $this->hasMany(PostCollab::class, 'id_post', 'id_post');
+    }
+
+    // User yang berkolaborasi
+    public function collaborators()
+    {
+        return $this->collaborations->map(function($c){
+            return [$c->user1, $c->user2];
+        })->flatten();
+    }
 
 }

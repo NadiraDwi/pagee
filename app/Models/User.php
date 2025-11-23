@@ -55,4 +55,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function collaborationsAsUser1()
+    {
+        return $this->hasMany(PostCollab::class, 'id_user1', 'id_user');
+    }
+
+    public function collaborationsAsUser2()
+    {
+        return $this->hasMany(PostCollab::class, 'id_user2', 'id_user');
+    }
+
+    // Semua kolaborasi user
+    public function allCollaborations()
+    {
+        return $this->collaborationsAsUser1->merge($this->collaborationsAsUser2);
+    }
+
 }
