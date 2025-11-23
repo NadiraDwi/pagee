@@ -24,7 +24,7 @@ class Post extends Model
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
-    public function collaborations()
+    public function collabs()
     {
         return $this->hasMany(PostCollab::class, 'id_post', 'id_post');
     }

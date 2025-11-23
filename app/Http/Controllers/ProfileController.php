@@ -5,21 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
-use App\Models\Chapter;
 
 class ProfileController extends Controller
 {
-    public function show(Request $request){
-    $user = Auth::user();
+    public function show(Request $request)
+    {
+        $user = Auth::user();
+        $tab = $request->query('tab', 'posts');
 
-    $tab = $request->query('tab', 'posts');
+        // --- 1. Post milik user sendiri ---
+        $ownPosts = Post::where('id_user', $user->id_user);
 
-    // Ambil post sesuai user login, sekaligus eager load user
-    $posts = Post::where('id_user', $user->id_user)
-                 ->with('user') // supaya data user bisa dipanggil di view
-                 ->latest()
-                 ->get();
+        // --- 2. Post dimana user adalah kolaborator ---
+        $collabPosts = Post::whereHas('collabs', function ($q) use ($user) {
+            $q->where('id_user1', $user->id_user)
+              ->orWhere('id_user2', $user->id_user);
+        });
 
-    return view('user.profile', compact('user', 'tab', 'posts'));
+        // --- 3. Gabungkan via collection (tanpa UNION / tanpa error) ---
+        $posts = $ownPosts->get()
+                    ->merge($collabPosts->get())
+                    ->sortByDesc('created_at')
+                    ->values(); // reset index biar rapi
+
+        // --- 4. Eager load relasi user untuk setiap post ---
+        $posts->load('user');
+
+        return view('user.profile', compact('user', 'tab', 'posts'));
     }
 }
