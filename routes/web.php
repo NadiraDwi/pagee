@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserPublicProfileController;
 use App\Http\Controllers\ChapterController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,6 +22,9 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/user/{id}', [UserPublicProfileController::class, 'show'])
+    ->name('user.profile');
 
 // ADMIN AREA
 Route::middleware('admin')->group(function () {
