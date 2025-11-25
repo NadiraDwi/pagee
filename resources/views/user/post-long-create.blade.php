@@ -53,19 +53,36 @@
       <div class="card shadow-sm mb-3">
         <div class="card-body">
           <h5 class="mb-3">Tulis Long Post</h5>
-          <form action="{{ route('posts.store') }}" method="POST">
+          <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="jenis_post" value="long">
+
             <div class="mb-3">
-              <input type="text" name="judul" class="form-control" placeholder="Judul Post" required>
+                <input type="text" name="judul" class="form-control" placeholder="Judul Post" required>
             </div>
+
             <div class="mb-3">
-              <textarea class="form-control" name="isi" rows="10" placeholder="Tulis ceritamu..." required></textarea>
+                <textarea class="form-control" name="isi" rows="10" placeholder="Tulis ceritamu..." required></textarea>
             </div>
+
+            <!-- ========== UPLOAD COVER ========== -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Cover Post (opsional)</label>
+                <input type="file" name="cover" id="coverInput" class="form-control" accept="image/*">
+
+                <!-- Preview -->
+                <div class="mt-3">
+                    <img id="coverPreview" src="#" alt="Preview Cover" 
+                        style="display:none; max-width: 200px; border-radius: 8px; border: 1px solid #ddd;">
+                </div>
+            </div>
+            <!-- ================================== -->
+
             <div class="text-end">
-              <button type="submit" class="btn btn-purple">Posting</button>
+                <button type="submit" class="btn btn-purple">Posting</button>
             </div>
-          </form>
+        </form>
+
         </div>
       </div>
 
@@ -99,5 +116,27 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('assets/script.js') }}"></script>
+
+  <script>
+  document.getElementById('coverInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('coverPreview');
+
+      if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+              preview.src = e.target.result;
+              preview.style.display = 'block';
+          }
+
+          reader.readAsDataURL(file);
+      } else {
+          preview.style.display = 'none';
+          preview.src = "#";
+      }
+  });
+  </script>
+
 </body>
 </html>
