@@ -52,9 +52,43 @@
     background: #6f42c1;
     color: #fff;
 }
+
+.header-cover {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35); /* overlay biar judul kebaca */
+}
+
+.header-title {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    z-index: 2;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+}
 </style>
 
-<h4 class="fw-bold mb-3">{{ $post->judul }}</h4>
+{{-- HEADER COVER --}}
+<div class="header-cover" style="background-image: url('{{ asset('storage/'.$post->cover->cover_path) }}')">
+    <div class="header-title">
+        {{ $post->judul }}
+    </div>
+</div>
 
 {{-- Button Tambah Chapter (Hanya Jika Login) --}}
 @auth
