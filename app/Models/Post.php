@@ -42,4 +42,10 @@ class Post extends Model
         return $this->hasOne(PostCover::class, 'id_post', 'id_post');
     }
 
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class, 'id_post', 'id_post');
+    }
+
+
 }

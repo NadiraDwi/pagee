@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Chapter extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id_chapter';
 
-    // Kalau kolomnya berbeda, bisa tambahkan fillable
-    protected $fillable = ['title', 'content', 'user_id'];
+    protected $fillable = [
+        'id_post',
+        'judul_chapter',
+        'isi_chapter',
+        'link_musik',
+    ];
+
+    // Relasi ke Post
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'id_post', 'id_post');
+    }
 }

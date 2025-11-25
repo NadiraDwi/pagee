@@ -58,6 +58,11 @@ Route::middleware('user')->group(function () {
     Route::get('/chapter', [ChapterController::class, 'index'])->name('chapter');
     Route::get('/chapter/{id}', [ChapterController::class, 'show'])->name('chapter.show');
 
+    Route::get('/chapter/{id_post}', [ChapterController::class, 'show'])->name('chapter.show');
+    // tambahkan semua route Chapter
+    Route::get('/chapter/{id_post}/create', [ChapterController::class, 'create'])->name('chapter.create');
+    Route::post('/chapter/{id_post}', [ChapterController::class, 'store'])->name('chapter.store');
+    Route::get('/chapter/{id}/show', [ChapterController::class, 'show'])->name('chapter.show');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
