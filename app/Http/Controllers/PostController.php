@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostCollab;
+use App\Models\PostCover;
 
 class PostController extends Controller
 {
@@ -97,6 +98,45 @@ class PostController extends Controller
         ];
         $users = \App\Models\User::all();
         return view('user.post-short-create', compact('trends', 'users'));
+    }
+
+    public function storeLong(Request $request)
+    {
+        // VALIDASI
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi' => 'required|string',
+            'jenis_post' => 'required',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+        ]);
+
+        // SIMPAN POST UTAMA
+        $post = Post::create([
+            'judul' => $request->judul,
+            'isi' => $request->isi,
+            'jenis_post' => $request->jenis_post,
+            'id_user' => auth()->user()->id_user
+        ]);
+
+        // ==========================
+        // SIMPAN COVER BILA ADA
+        // ==========================
+        if ($request->hasFile('cover')) {
+
+            $coverFile = $request->file('cover');
+            $fileName = time() . '_' . $coverFile->getClientOriginalName();
+
+            // simpan ke storage/app/public/covers
+            $coverPath = $coverFile->storeAs('covers', $fileName, 'public');
+
+            // simpan ke tabel post_covers
+            PostCover::create([
+                'id_post' => $post->id_post,
+                'cover_path' => $coverPath
+            ]);
+        }
+
+        return redirect()->route('home')->with('success', 'Postingan berhasil dibuat!');
     }
 
 }

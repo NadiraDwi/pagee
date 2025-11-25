@@ -53,7 +53,7 @@
       <div class="card shadow-sm mb-3">
         <div class="card-body">
           <h5 class="mb-3">Tulis Long Post</h5>
-          <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('posts.store.long') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="jenis_post" value="long">
 
@@ -62,7 +62,7 @@
             </div>
 
             <div class="mb-3">
-                <textarea class="form-control" name="isi" rows="10" placeholder="Tulis ceritamu..." required></textarea>
+                <textarea class="form-control" name="isi" rows="10" placeholder="Deskripsi Post" required></textarea>
             </div>
 
             <!-- ========== UPLOAD COVER ========== -->

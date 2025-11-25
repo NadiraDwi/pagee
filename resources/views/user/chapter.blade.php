@@ -11,11 +11,6 @@
 
 <body>
 
-<!-- Floating Button -->
-<button class="floating-btn" id="postTypeTrigger">
-    <i class="fa-solid fa-plus"></i>
-</button>
-
 <!-- ===== SIDEBAR KIRI ===== -->
 <aside class="sidebar-left">
     <div class="sidebar-top">
@@ -63,61 +58,39 @@
 <div class="main-layout">
     <main class="content">
 
-      <!-- Modal Pilih Jenis Post -->
-      <div class="modal fade" id="postTypeModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content border-0">
-            <div class="modal-header">
-              <h5 class="modal-title">Pilih Jenis Post</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+    <h5 class="fw-bold mb-3">Postingan Terbaru</h5>
 
-            <div class="modal-body text-center">
-              <p class="mb-3">Mau membuat post pendek atau panjang?</p>
+    <div class="row g-3">
 
-              <button class="btn btn-purple w-100 mb-2" id="shortPostBtn" data-url="{{ route('post-short-create') }}">
-                Short Post
-              </button>
-              <button class="btn btn-purple w-100" id="longPostBtn" data-url="{{ route('post-long-create') }}">
-                Long Post
-              </button>
-            </div>
+      @foreach($posts as $post)
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="post-card">
+
+          <!-- COVER -->
+          @if($post->cover)
+            <a href="{{ route('chapter.show', $post->id_post) }}">
+              <img src="{{ asset('storage/' . $post->cover->cover_path) }}" class="post-cover">
+            </a>
+          @else
+            <a href="{{ route('chapter.show', $post->id_post) }}">
+              <img src="{{ asset('assets/image/logo.png') }}" class="post-cover">
+            </a>
+          @endif
+
+          <!-- TITLE -->
+          <div class="post-body">
+            <a href="{{ route('chapter.show', $post->id_post) }}" class="post-title">
+              {{ $post->judul }}
+            </a>
           </div>
+
         </div>
       </div>
+      @endforeach
 
-      <!-- Feed Posts -->
-      <div id="feedPosts">
-        @foreach($posts as $post)
-        <div class="card shadow-sm mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="{{ $post->is_anonymous ? 'https://i.pravatar.cc/45?img=0' : ($post->user->pp ?? 'https://i.pravatar.cc/45') }}" class="rounded-circle me-2" width="45">
-              <div>
-                 <strong>{{ $post->is_anonymous ? '@Anonymous' : '@'.$post->user->nama }}</strong><br>
-                <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
-              </div>
-            </div>
+    </div>
 
-            {{-- JUDUL JIKA LONG POST --}}
-            @if($post->jenis_post === 'long')
-                <h5 class="fw-bold mb-2">{{ $post->judul }}</h5>
-            @endif
-
-            {{-- ISI POST (SHORT & LONG) --}}
-            <p>{{ $post->isi }}</p>
-
-            <div class="d-flex gap-4">
-              <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-comment"></i></button>
-              <button class="btn btn-link p-0 text-muted"><i class="fa-regular fa-heart"></i></button>
-              <button class="btn btn-link p-0 text-muted"><i class="fa-solid fa-share-nodes"></i></button>
-            </div>
-          </div>
-        </div>
-        @endforeach
-      </div>
-
-    </main>
+</main>
 
     <!-- ===== SIDEBAR KANAN ===== -->
     <aside class="sidebar-right">
@@ -148,28 +121,6 @@
 <!-- === LOGIN STATUS === -->
 <script>
   const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
-</script>
-
-<!-- === SCRIPT HANDLER === -->
-<script>
-  // Floating Button → Buka modal utama
-  document.getElementById("postTypeTrigger").addEventListener("click", function () {
-      if (!isLoggedIn) {
-          window.location.href = "{{ route('login') }}";
-          return;
-      }
-      new bootstrap.Modal(document.getElementById("postTypeModal")).show();
-  });
-
-  // Short Post → buka modal short post
-  document.getElementById("shortPostBtn").addEventListener("click", function () {
-      window.location.href = this.dataset.url;
-  });
-
-  // Long Post → redirect
-  document.getElementById("longPostBtn").addEventListener("click", function () {
-      window.location.href = this.dataset.url;
-  });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

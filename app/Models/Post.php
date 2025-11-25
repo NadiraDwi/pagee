@@ -37,4 +37,9 @@ class Post extends Model
         })->flatten();
     }
 
+    public function cover()
+    {
+        return $this->hasOne(PostCover::class, 'id_post', 'id_post');
+    }
+
 }

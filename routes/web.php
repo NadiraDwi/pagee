@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChapterController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -48,8 +49,11 @@ Route::middleware('user')->group(function () {
 
     // Halaman form long post
     Route::get('/long-post/create', [PostController::class, 'createLong'])
-        ->name('post-long-create')        ;
-    // Route::post('/chapters', [ChapterController::class, 'store'])->name('chapters.store');
+        ->name('post-long-create');
+    Route::post('/posts-long', [PostController::class, 'storeLong'])->name('posts.store.long');
+    Route::get('/chapter', [ChapterController::class, 'index'])->name('chapter');
+    Route::get('/chapter/{id}', [ChapterController::class, 'show'])->name('chapter.show');
+
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
