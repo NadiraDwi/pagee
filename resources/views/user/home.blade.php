@@ -26,15 +26,28 @@
         <li><a href="{{ route('chapter') }}" class="sidebar-link"><i class="fa-solid fa-book-open me-2"></i>Chapter</a></li>
       </ul>
     </div>
+
     <div class="sidebar-bottom">
-        <hr class="sidebar-divider">
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-purple w-100 mt-2">
-                <i class="fa-solid fa-right-to-bracket me-2"></i>Logout
-            </button>
-        </form>
-    </div>
+      <hr class="sidebar-divider">
+
+      @auth
+      <!-- Jika SUDAH LOGIN → tampilkan Logout -->
+      <form action="{{ route('logout') }}" method="POST">
+          @csrf
+          <button type="submit" class="btn btn-purple w-100 mt-2">
+              <i class="fa-solid fa-right-to-bracket me-2"></i>Logout
+          </button>
+      </form>
+      @endauth
+
+      @guest
+      <!-- Jika BELUM LOGIN → tampilkan Login -->
+      <a href="{{ route('login') }}" class="btn btn-purple w-100 mt-2">
+          <i class="fa-solid fa-right-to-bracket me-2"></i>Login
+      </a>
+      @endguest
+  </div>
+
 </aside>
 
 <!-- ===== NAVBAR ===== -->
@@ -52,9 +65,18 @@
           <i class="fa-solid fa-moon"></i>
         </button>
 
+        @auth
         <a href="{{ route('profile.show') }}" class="btn btn-link text-dark fs-4 p-0 ms-2" title="Profil">
-          <i class="fa-solid fa-user profile-icon"></i>
+            <i class="fa-solid fa-user profile-icon"></i>
         </a>
+        @endauth
+
+        @guest
+        <a href="{{ route('login') }}" class="btn btn-link text-dark fs-4 p-0 ms-2" title="Login">
+            <i class="fa-solid fa-right-to-bracket"></i>
+        </a>
+        @endguest
+
       </div>
     </div>
 </nav>
