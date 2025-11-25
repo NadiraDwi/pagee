@@ -1,5 +1,5 @@
 <div class="posts-grid mt-3">
-@forelse($posts as $post)
+@forelse($posts->where('jenis_post', '!=', 'long') as $post)
     <div class="post-card">
         <div class="post-header">
             <img 

@@ -879,3 +879,18 @@ body.dark .btn-back-top {
     text-decoration: underline;
     color: #6a57c7;
 }
+
+/* === PUBLIC PROFILE FIX TEXT === */
+.profile-page-text,
+.profile-page-text * {
+    color: #111 !important;
+}
+
+/* Title Tabs */
+.nav-tabs .nav-link {
+    color: #111 !important;
+}
+.nav-tabs .nav-link.active {
+    color: #000 !important;
+    font-weight: bold;
+}
