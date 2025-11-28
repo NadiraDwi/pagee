@@ -31,6 +31,8 @@ class AuthController extends Controller
 
         auth()->login($user); // Login otomatis
 
+        $request->session()->flash('justLoggedIn', true);
+
         // 👉 Redirect berdasarkan role
         // Redirect berdasarkan role
         if ($user->role === 'admin') {
@@ -62,6 +64,9 @@ class AuthController extends Controller
 
             $user = auth()->user();
 
+            if ($user->role === 'user') {
+                $request->session()->flash('justLoggedIn', true);
+            }
             // Redirect by role
             if ($user->role === 'admin') {
                 return redirect()->route('admin.index');

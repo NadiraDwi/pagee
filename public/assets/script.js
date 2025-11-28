@@ -249,5 +249,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById('welcome-popup');
+    if(popup){
+        popup.classList.add('active');
+
+        setTimeout(() => {
+            popup.classList.remove('active');
+        }, 2500); // tampil 2.5 detik
+    }
+});
 
 });
