@@ -26,9 +26,18 @@
 </a>
 
 <!-- ===== HEADER ===== -->
-<div class="profile-header"></div>
+<div class="profile-header" 
+     style="background-image: url('{{ $user->header ? asset('storage/'.$user->header) : asset('assets/default-header.jpg') }}');">
+</div>
+
 
 <div class="container mt-3">
+  @if (session('success'))
+    <div class="alert alert-success mt-2">
+        {{ session('success') }}
+    </div>
+  @endif
+
 
   <div class="d-flex justify-content-between align-items-start">
     <img 
@@ -44,7 +53,7 @@
 
   <div class="mt-3 profile-page-text">
     <h4 class="fw-bold">{{ $user->nama }}</h4>
-    <p class="username">@{{ $user->nama }}</p>
+    <p class="username">{{ sprintf('@%s', $user->username) }}</p>
 
     @if($user->bio)
       <p class="mt-2">{{ $user->bio }}</p>
