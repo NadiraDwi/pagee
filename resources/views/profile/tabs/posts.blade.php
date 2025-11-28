@@ -7,7 +7,7 @@
                 alt="User Foto"
             >
             <div class="post-user-info">
-                <span class="user-name">{{ $post->user->nama }}</span>
+                <span class="user-name">{{ $post->user->nama }}</span> <br>
                 <span class="post-date">{{ $post->tanggal_dibuat ? \Carbon\Carbon::parse($post->tanggal_dibuat)->format('d M Y H:i') : $post->created_at->format('d M Y H:i') }}</span>
             </div>
         </div>

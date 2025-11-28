@@ -236,5 +236,18 @@ mentionItems.forEach(item => {
     }
 })();
 
+// ===== WATERFALL POST-CARD ANIMATION =====
+document.addEventListener("DOMContentLoaded", () => {
+    const posts = document.querySelectorAll(".post-card");
+    posts.forEach((post, index) => {
+        post.style.animationDelay = `${index * 0.15}s`;
+    });
+
+    const covers = document.querySelectorAll(".post-cover");
+    covers.forEach((cover, index) => {
+        cover.style.animationDelay = `${0.3 + index * 0.15}s`;
+    });
+});
+
 
 });
