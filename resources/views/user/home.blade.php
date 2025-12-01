@@ -201,8 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     @if(!$post->is_anonymous)
                         <a href="{{ route('user.profile', $post->user->id_user) }}"
                            class="d-flex align-items-center text-decoration-none text-dark">
-                            <img src="{{ $post->user->pp ?? 'https://i.pravatar.cc/45' }}"
-                                 class="rounded-circle me-2" width="45">
+                            <img src="{{ $post->user->foto 
+                                        ? asset('storage/' . $post->user->foto)
+                                        : 'https://i.pravatar.cc/45' }}"
+                                class="rounded-circle me-2" width="45">
                             <div>
                                 <strong>{{ $post->user->nama }}</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>

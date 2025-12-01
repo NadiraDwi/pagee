@@ -16,6 +16,6 @@ class PostCover extends Model
 
     public function post()
     {
-        return $this->hasOne(Post::class, 'id_post', 'id_post');
+        return $this->belongsTo(Post::class, 'id_post', 'id_post');
     }
 }

@@ -205,3 +205,34 @@ body.dark .btn-outline-light {
     transition: 0.2s ease;
 }
 .floating-btn:hover { transform: scale(1.1); }
+
+.popup-toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background-color: rgba(40, 167, 69, 0.95); /* hijau sukses */
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.4s ease;
+}
+
+/* tampil */
+.popup-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* sembunyi */
+.popup-toast.hide {
+  opacity: 0;
+  transform: translateX(-50%) translateY(30px);
+}
+

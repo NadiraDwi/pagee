@@ -9,30 +9,79 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    public function show(Request $request)
-    {
-        $user = Auth::user();
+    public function show(Request $request){
+   
+        $user = Auth::user();              // user yang sedang login
         $tab = $request->query('tab', 'posts');
 
-        // --- 1. Post milik user sendiri ---
-        $ownPosts = Post::where('id_user', $user->id_user);
+        // --- siapkan variabel default supaya blade gak error ---
+        $posts = collect();
+        $chapters = collect();
+        $whispers = collect();
+        $capsules = collect();
+        $likes = collect();
 
-        // --- 2. Post dimana user adalah kolaborator ---
-        $collabPosts = Post::whereHas('collabs', function ($q) use ($user) {
-            $q->where('id_user1', $user->id_user)
-              ->orWhere('id_user2', $user->id_user);
-        });
+        // === TAB POSTS (gabungan own + collab) ===
+        if ($tab === 'posts') {
+            $ownPosts = Post::where('id_user', $user->id_user);
+            $collabPosts = Post::whereHas('collabs', function ($q) use ($user) {
+                $q->where('id_user1', $user->id_user)
+                ->orWhere('id_user2', $user->id_user);
+            });
 
-        // --- 3. Gabungkan via collection (tanpa UNION / tanpa error) ---
-        $posts = $ownPosts->get()
-                    ->merge($collabPosts->get())
-                    ->sortByDesc('created_at')
-                    ->values(); // reset index biar rapi
+            $posts = $ownPosts->get()
+                        ->merge($collabPosts->get())
+                        ->sortByDesc('created_at')
+                        ->values();
 
-        // --- 4. Eager load relasi user untuk setiap post ---
-        $posts->load('user');
+            // eager load relasi user jika ada
+            if ($posts->isNotEmpty()) {
+                $posts->load('user');
+            }
+        }
 
-        return view('user.profile', compact('user', 'tab', 'posts'));
+        // === TAB WHISPER ===
+        if ($tab === 'whisper') {
+            $whispers = Post::where('id_user', $user->id_user)
+                            ->where('is_anonymous', 1)
+                            ->latest()
+                            ->get();
+        }
+
+        // === TAB CHAPTER ===
+        if ($tab === 'chapter') {
+            // contoh: chapter disimpan di posts dengan jenis_post = 'long'
+            $chapters = Post::with('cover')
+                            ->where('id_user', $user->id_user)
+                            ->where('jenis_post', 'long')
+                            ->latest()
+                            ->get();
+        }
+
+        // === TAB TIMECAPSULE ===
+        if ($tab === 'timecapsule') {
+            $capsules = Post::where('id_user', $user->id_user)
+                            ->whereNotNull('scheduled_at')
+                            ->latest()
+                            ->get();
+        }
+
+        // === TAB LIKES ===
+        if ($tab === 'likes') {
+            // asumsi relasi likes() di model User yang mengembalikan model Like
+            // dan table likes punya kolom id_post
+            if (method_exists($user, 'likes')) {
+                $likedIds = $user->likes()->pluck('id_post')->toArray();
+                if (!empty($likedIds)) {
+                    $likes = Post::whereIn('id_post', $likedIds)->latest()->get();
+                }
+            }
+        }
+
+        // Kembalikan view SEKALI dengan semua variabel (supaya blade aman)
+        return view('user.profile', compact(
+            'user', 'tab', 'posts', 'chapters', 'whispers', 'capsules', 'likes'
+        ));
     }
 
     public function edit()

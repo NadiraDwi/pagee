@@ -171,3 +171,32 @@ body.dark-mode .btn-mode {
 body.dark-mode .btn-mode i {
     color: var(--blue);
 }
+
+.toast-float {
+  position: fixed;
+  bottom: 30px; /* jarak dari bawah */
+  left: 50%;     /* tengah horizontal */
+  transform: translateX(-50%);
+  background-color: #198754; /* hijau sukses */
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none; /* tidak mengganggu klik */
+  z-index: 1050; /* pastikan di atas semua */
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* muncul */
+.toast-float.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* hilang */
+.toast-float.hide {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+}

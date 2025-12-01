@@ -267,7 +267,7 @@ body {
 /* ===== POSTINGAN CHAPTER ===== */
 .post-chapter .chapter-preview {
   font-size: 0.95rem;
-  color: #333;
+  color: #6a4c93;
   line-height: 1.6;
   margin-bottom: 0.5rem;
 }
@@ -286,6 +286,17 @@ body {
 .dark-mode .post-chapter .chapter-preview {
   color: #ddd !important;
 }
+
+/* Light mode */
+.post-card h5 {
+    color: #6a4c93;
+}
+
+/* Dark mode */
+body.dark-mode .post-card h5 {
+    color: #b9a1d2; /* contoh warna lebih terang untuk dark mode */
+}
+
 
 /* =========================================================
    LOGIN PAGE STYLE

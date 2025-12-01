@@ -32,13 +32,6 @@
 
 
 <div class="container mt-3">
-  @if (session('success'))
-    <div class="alert alert-success mt-2">
-        {{ session('success') }}
-    </div>
-  @endif
-
-
   <div class="d-flex justify-content-between align-items-start">
     <img 
       src="{{ $user->foto ? asset('storage/'.$user->foto) : 'https://via.placeholder.com/120' }}"
@@ -109,6 +102,32 @@
 
   </div>
 </div>
+
+@if(session('success'))
+  <div id="popup-success" class="popup-toast">
+    {{ session('success') }}
+  </div>
+@endif
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const popup = document.getElementById('popup-success');
+  if (popup) {
+    // tampilkan popup
+    popup.classList.add('show');
+
+    // hilang otomatis setelah 3 detik
+    setTimeout(() => {
+      popup.classList.remove('show');
+      popup.classList.add('hide');
+
+      // hapus elemen setelah animasi
+      setTimeout(() => popup.remove(), 400);
+    }, 3000);
+  }
+});
+</script>
+
 
 <!-- JS Bootstrap & Global Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

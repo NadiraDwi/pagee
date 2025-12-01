@@ -139,4 +139,18 @@ class PostController extends Controller
         return redirect()->route('home')->with('success', 'Postingan berhasil dibuat!');
     }
 
+    public function whispers($username)
+{
+    // cari user berdasarkan username
+    $user = User::where('username', $username)->firstOrFail();
+
+    // ambil whisper dari tabel posts
+    $whispers = Post::where('id_user', $user->id)
+                    ->where('is_anonymous', 1) // ini yang penting
+                    ->latest()
+                    ->get();
+
+    return view('profile.tabs.whisper', compact('user', 'whispers'));
+}
+
 }

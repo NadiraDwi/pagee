@@ -182,3 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toast = document.getElementById('toast-success');
+  if(toast) {
+    toast.classList.add('show'); // munculkan
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => toast.remove(), 400); // hapus dari DOM setelah animasi
+    }, 3000); // 3 detik
+  }
+});

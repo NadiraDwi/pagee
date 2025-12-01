@@ -63,10 +63,6 @@
         </button>
       </div>
 
-      @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-      @endif
-
       @if($errors->any())
         <div class="alert alert-danger">
           <ul class="mb-0">@foreach($errors->all() as $err)<li>{{ $err }}</li>@endforeach</ul>
@@ -115,5 +111,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/profile-edit.js') }}"></script>
+@if(session('success'))
+  <div id="toast-success" class="toast-float">
+    {{ session('success') }}
+  </div>
+@endif
+
 </body>
 </html>
