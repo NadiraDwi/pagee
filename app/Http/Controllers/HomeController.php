@@ -14,7 +14,11 @@ class HomeController extends Controller
         "Capek pura-pura baik-baik aja"
     ];
 
+    $posts = Post::with('user', 'comments.user')->get();
+
+
     return view('user.home', compact('posts','trends'));
 }
+
 
 }

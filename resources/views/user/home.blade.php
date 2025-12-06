@@ -6,159 +6,167 @@
 @section('content')
 
 @if(session('justLoggedIn'))
-<div id="welcome-screen" class="welcome-screen">
-    <div class="welcome-content">
-        <img src="{{ asset('assets/image/whale2.png') }}" alt="Whale" class="whale">
-        <h1 class="welcome-text" id="welcomeText">
-            {{ "Welcome, " . Auth::user()->nama . ", wanderer of dreams ✨" }}
-        </h1>
-        <p class="welcome-subtext">Every idea you have is a wave waiting to dance 🌊</p>
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <img src="{{ asset('assets/image/whale2.png') }}" alt="Whale" class="whale">
+            <h1 class="welcome-text" id="welcomeText">
+                {{ "Welcome, " . Auth::user()->nama . ", wanderer of dreams ✨" }}
+            </h1>
+            <p class="welcome-subtext">Every idea you have is a wave waiting to dance 🌊</p>
+        </div>
     </div>
-</div>
 @endif
-
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-/* Fullscreen welcome screen polos */
-.welcome-screen {
-    position: fixed;
-    top:0; left:0;
-    width:100vw; height:100vh;
-    background: #000; /* background hitam polos */
-    display:flex; justify-content:center; align-items:center;
-    flex-direction: column;
-    z-index: 9999;
-    overflow: hidden;
-    animation: fadeIn 0.6s ease forwards;
+    /* ==== WELCOME SCREEN ==== */
+    .welcome-screen {
+        position: fixed;
+        top:0; left:0;
+        width:100vw; height:100vh;
+        background: #000;
+        display:flex; justify-content:center; align-items:center;
+        flex-direction: column;
+        z-index: 9999;
+        overflow: hidden;
+        animation: fadeIn 0.6s ease forwards;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px; height: 2px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 10s infinite alternate;
+    }
+
+    @keyframes twinkle {
+        0% { opacity:0.2; }
+        50% { opacity:1; }
+        100% { opacity:0.2; }
+    }
+
+    .welcome-content {
+        text-align: center;
+        color: #fff;
+        animation: floatText 10s ease-in-out infinite;
+        z-index: 10;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .welcome-text {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid white;
+        font-family: 'Pacifico', cursive;
+    }
+
+    .welcome-subtext {
+        font-size: 1.2rem;
+        margin-top: -5px;
+    }
+
+    .whale {
+        width: 200px;
+        animation: swim 15s ease-in-out infinite alternate;
+        margin-bottom: 2rem;
+    }
+
+    @keyframes floatText {
+        0%,100% { transform: translateY(0px);}
+        50% { transform: translateY(-15px);}
+    }
+
+    @keyframes swim {
+        0% { transform: translateY(0) rotate(0deg);}
+        50% { transform: translateY(-30px) rotate(-3deg);}
+        100% { transform: translateY(0) rotate(0deg);}
+    }
+
+    @keyframes fadeIn {
+        0% { opacity:0; }
+        100% { opacity:1; }
+    }
+
+    /* ==== ACTION BUTTONS ==== */
+    .send-comment-btn {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .action-btn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #6c6c6c;
+    }
+
+    .action-btn.active i {
+        color: red;
+    }
+
+    .comment-box {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity:0; transform:scale(0.95); }
+        to   { opacity:1; transform:scale(1); }
+    }
+
+    /* SHARE TOAST */
+    .share-toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.8);
+        background: #333;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 10px;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+
+    .share-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    .toggle-love-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #6c6c6c; /* default abu */
+    font-size: 1rem;
+    transition: color 0.2s;
 }
 
-/* Stars background */
-.star {
-    position: absolute;
-    width: 2px; height: 2px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: twinkle 10s infinite alternate;
+.toggle-love-btn:focus {
+    outline: none; /* hilangkan outline biru saat klik */
+    box-shadow: none;
 }
 
-/* Animasi bintang */
-@keyframes twinkle {
-    0% { opacity:0.2; }
-    50% { opacity:1; }
-    100% { opacity:0.2; }
+.toggle-love-btn .fa-solid.text-danger {
+    color: red; /* hanya merah saat liked */
 }
 
-.welcome-content {
-    text-align: center;
-    color: #fff;
-    animation: floatText 10s ease-in-out infinite;
-    z-index: 10;
-    font-family: 'Montserrat', sans-serif; 
-}
-
-.welcome-text {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid white;
-    font-family: 'Pacifico', cursive;
-}
-
-.highlight {
-    color: #ffdd57;
-}
-
-.welcome-subtext {
-    font-size: 1.2rem;
-    margin-top: -5px;
-}
-
-/* Animasi paus */
-.whale {
-    width: 200px;
-    animation: swim 15s ease-in-out infinite alternate;
-    margin-bottom: 2rem;
-    font-family: 'Montserrat', sans-serif;
-}
-
-/* Floating teks */
-@keyframes floatText {
-    0%,100% { transform: translateY(0px);}
-    50% { transform: translateY(-15px);}
-}
-
-/* Paus naik-turun */
-@keyframes swim {
-    0% { transform: translateY(0) rotate(0deg);}
-    50% { transform: translateY(-30px) rotate(-3deg);}
-    100% { transform: translateY(0) rotate(0deg);}
-}
-
-/* Fade in */
-@keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
-}
 </style>
 @endpush
 
-@push('scripts')
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    if(welcomeScreen){
-        // buat stars
-        for(let i = 0; i < 100; i++){
-            let star = document.createElement('div');
-            star.classList.add('star');
-            star.style.top = Math.random() * window.innerHeight + 'px';
-            star.style.left = Math.random() * window.innerWidth + 'px';
-            star.style.width = star.style.height = Math.random()*2 + 1 + 'px';
-            star.style.animationDuration = (Math.random()*3 + 2) + 's';
-            welcomeScreen.appendChild(star);
-        }
-
-        // typing effect
-        const textEl = welcomeScreen.querySelector('.welcome-text');
-        const fullText = textEl.textContent;
-        textEl.textContent = '';
-        textEl.style.borderRight = '3px solid white';
-        let i = 0;
-        function type() {
-            if(i < fullText.length){
-                textEl.textContent += fullText.charAt(i);
-                i++;
-                setTimeout(type, 50);
-            } else {
-                textEl.style.borderRight = 'none';
-            }
-        }
-        type();
-
-        // otomatis fade out
-        setTimeout(() => {
-            welcomeScreen.style.transition = "opacity 0.5s ease";
-            welcomeScreen.style.opacity = 0;
-            setTimeout(() => {
-                welcomeScreen.remove();
-            }, 500);
-        }, 10000);
-    }
-});
-</script>
-@endpush
-
-<!-- Floating Button (TETAP DI HALAMAN INI, BUKAN LAYOUT) -->
+<!-- Floating Button -->
 <button class="floating-btn" id="postTypeTrigger">
     <i class="fa-solid fa-plus"></i>
 </button>
 
-<!-- ===== Modal Pilih Jenis Post ===== -->
+<!-- Modal Pilih Post -->
 <div class="modal fade" id="postTypeModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0">
@@ -188,23 +196,20 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 </div>
 
-<!-- ===== FEED POST ===== -->
+<!-- POST FEED -->
 <div id="feedPosts">
-
     @foreach($posts as $post)
         <div class="card shadow-sm mb-3">
             <div class="card-body">
 
                 <!-- USER INFO -->
                 <div class="d-flex align-items-center mb-2">
-
                     @if(!$post->is_anonymous)
                         <a href="{{ route('user.profile', $post->user->id_user) }}"
                            class="d-flex align-items-center text-decoration-none text-dark">
-                            <img src="{{ $post->user->foto 
-                                        ? asset('storage/' . $post->user->foto)
-                                        : 'https://i.pravatar.cc/45' }}"
-                                class="rounded-circle me-2" width="45">
+                            <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
+                                 class="rounded-circle me-2" width="45">
+
                             <div>
                                 <strong>{{ $post->user->nama }}</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
@@ -212,95 +217,273 @@ document.addEventListener("DOMContentLoaded", () => {
                         </a>
                     @else
                         <div class="d-flex align-items-center">
-                            <img src="https://i.pravatar.cc/45?img=0"
-                                 class="rounded-circle me-2" width="45">
+                            <img src="https://i.pravatar.cc/45?img=0" class="rounded-circle me-2" width="45">
                             <div>
                                 <strong>@Anonymous</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
                             </div>
                         </div>
                     @endif
-
                 </div>
 
-                <!-- JUDUL KHUSUS LONG POST -->
+                <!-- TITLE (Long Post) -->
                 @if($post->jenis_post === 'long')
                     <h5 class="fw-bold mb-2">{{ $post->judul }}</h5>
                 @endif
 
-                <!-- ISI POST -->
+                <!-- CONTENT -->
                 <p>{{ $post->isi }}</p>
 
-                <!-- ACTIONS -->
-                <div class="d-flex gap-4">
-                    <button class="btn btn-link p-0 text-muted">
+                <!-- ACTION BUTTONS -->
+                <div class="d-flex gap-4 action-wrapper">
+
+                    <button class="action-btn" onclick="toggleComment(this)">
                         <i class="fa-regular fa-comment"></i>
                     </button>
-                    <button class="btn btn-link p-0 text-muted">
-                        <i class="fa-regular fa-heart"></i>
+
+                    <button class="action-btn toggle-love-btn" data-post-id="{{ $post->id_post }}">
+                        <i class="{{ $post->likedBy(auth()->id()) ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
                     </button>
-                    <button class="btn btn-link p-0 text-muted">
+
+                    <span class="like-count">{{ $post->likes->count() }} likes</span>
+
+
+
+                    <button class="action-btn" onclick="sharePost()">
                         <i class="fa-solid fa-share-nodes"></i>
                     </button>
+
                 </div>
+
+                <!-- COMMENT BOX -->
+                <div class="comment-box mt-2 d-none d-flex gap-2">
+                    <input type="text"
+                           class="form-control comment-input"
+                           data-post-id="{{ $post->id_post }}"
+                           placeholder="Tulis komentar...">
+
+                    <button class="btn btn-purple btn-sm send-comment-btn"
+                            data-post-id="{{ $post->id_post }}">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <div class="comments-list mt-2">
+                    @foreach($post->comments as $comment)
+                        <div class="d-flex mb-2">
+                            <strong>{{ $comment->user->nama }}:</strong>
+                            <span class="ms-1">{{ $comment->isi_komentar }}</span>
+                        </div>
+                    @endforeach
+                </div>
+
 
             </div>
         </div>
     @endforeach
-
 </div>
 
 @endsection
 
-
 @section('rightbar')
-    <div class="card shadow-sm mb-3">
-        <div class="card-body">
-            <h5 class="fw-bold text-purple">
-                <i class="fa-solid fa-music me-2"></i>Musik Populer
-            </h5>
-            <ul class="list-unstyled small mt-2">
-                <li>Daylight - David Kushner</li>
-                <li>Blue - Keshi</li>
-                <li>Runaway - AURORA</li>
-            </ul>
-        </div>
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <h5 class="fw-bold text-purple">
+            <i class="fa-solid fa-music me-2"></i>Musik Populer
+        </h5>
+        <ul class="list-unstyled small mt-2">
+            <li>Daylight - David Kushner</li>
+            <li>Blue - Keshi</li>
+            <li>Runaway - AURORA</li>
+        </ul>
     </div>
+</div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h5 class="fw-bold text-purple">
-                <i class="fa-solid fa-fire me-2"></i>Tren Whisper
-            </h5>
-            <ul class="list-unstyled small mt-2">
-                @foreach($trends as $trend)
-                    <li>{{ $trend }}</li>
-                @endforeach
-            </ul>
-        </div>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="fw-bold text-purple">
+            <i class="fa-solid fa-comment-dots me-2"></i>Tren Whisper
+        </h5>
+
+        <ul class="list-unstyled small mt-2">
+            @foreach($trends as $trend)
+                <li>
+                    <a href="{{ route('whisper.index') }}" class="text-decoration-none text-dark">
+                        {{ $trend }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
     </div>
+</div>
+
 @endsection
-
 
 @push('scripts')
 <script>
-    // === Floating Button Handler ===
-    document.getElementById("postTypeTrigger").addEventListener("click", function () {
-        if (!isLoggedIn) {
-            window.location.href = "{{ route('login') }}";
-            return;
+/* ==== WELCOME SCREEN ==== */
+document.addEventListener("DOMContentLoaded", () => {
+    const welcomeScreen = document.getElementById('welcome-screen');
+
+    if (welcomeScreen) {
+        for (let i = 0; i < 100; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.width = star.style.height = Math.random()*2 + 1 + 'px';
+            star.style.animationDuration = (Math.random()*3 + 2) + 's';
+            welcomeScreen.appendChild(star);
         }
-        new bootstrap.Modal(document.getElementById("postTypeModal")).show();
+
+        const textEl = welcomeScreen.querySelector('.welcome-text');
+        const fullText = textEl.textContent;
+        textEl.textContent = '';
+        textEl.style.borderRight = '3px solid white';
+
+        let i = 0;
+        function type() {
+            if (i < fullText.length) {
+                textEl.textContent += fullText.charAt(i);
+                i++;
+                setTimeout(type, 50);
+            } else {
+                textEl.style.borderRight = 'none';
+            }
+        }
+        type();
+
+        setTimeout(() => {
+            welcomeScreen.style.transition = "opacity 0.5s ease";
+            welcomeScreen.style.opacity = 0;
+            setTimeout(() => welcomeScreen.remove(), 500);
+        }, 10000);
+    }
+});
+</script>
+
+<script>
+/* ==== ACTIONS ==== */
+document.querySelectorAll('.toggle-love-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        let icon = this.querySelector('i');
+        let postId = this.dataset.postId;
+
+        fetch("{{ route('post.like') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id_post: postId })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'liked'){
+                icon.classList.remove("fa-regular");
+                icon.classList.add("fa-solid", "text-danger");
+            } else {
+                icon.classList.remove("fa-solid", "text-danger");
+                icon.classList.add("fa-regular");
+            }
+
+            // update like count jika ada
+            let likeCountEl = btn.closest('.card-body').querySelector('.like-count');
+            if(likeCountEl) likeCountEl.textContent = data.count + " likes";
+        })
+        .catch(console.error);
+    });
+});
+
+function toggleComment(btn) {
+    let box = btn.closest('.action-wrapper').nextElementSibling;
+    box.classList.toggle('d-none');
+}
+
+function sharePost() {
+    let toast = document.createElement('div');
+    toast.className = "share-toast";
+    toast.textContent = "Link copied!";
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 1500);
+}
+</script>
+
+<script>
+/* ==== POST TYPE MODAL ==== */
+document.getElementById("postTypeTrigger").addEventListener("click", function () {
+    if (!isLoggedIn) return window.location.href = "{{ route('login') }}";
+    new bootstrap.Modal(document.getElementById("postTypeModal")).show();
+});
+
+document.getElementById("shortPostBtn").addEventListener("click", function () {
+    window.location.href = this.dataset.url;
+});
+
+document.getElementById("longPostBtn").addEventListener("click", function () {
+    window.location.href = this.dataset.url;
+});
+</script>
+
+<script>
+/* ==== COMMENT SUBMIT ==== */
+document.addEventListener("DOMContentLoaded", function () {
+
+    function sendComment(postId, inputEl) {
+        let comment = inputEl.value.trim();
+        if (comment === "") return;
+
+        fetch("{{ route('comment.store') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: new URLSearchParams({
+                id_post: postId,
+                isi_komentar: comment
+            })
+        })
+
+        .then(r => r.json())
+        .then(response => {
+            inputEl.value = "";
+
+            let list = inputEl.closest('.card-body').querySelector('.comments-list');
+
+            let newComment = document.createElement('div');
+            newComment.classList.add('d-flex', 'mb-2');
+            newComment.innerHTML =
+                `<strong>{{ Auth::user()->nama }}:</strong>
+                <span class="ms-1">${response.data.isi_komentar}</span>`;
+
+            list.prepend(newComment);
+        })
+
+        .catch(console.error);
+    }
+
+    document.querySelectorAll('.comment-input').forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendComment(this.dataset.postId, this);
+            }
+        });
     });
 
-    // === Short Post Redirect ===
-    document.getElementById("shortPostBtn").addEventListener("click", function () {
-        window.location.href = this.dataset.url;
+    document.querySelectorAll('.send-comment-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            let postId = this.dataset.postId;
+            let input = this.closest('.comment-box').querySelector('.comment-input');
+            sendComment(postId, input);
+        });
     });
 
-    // === Long Post Redirect ===
-    document.getElementById("longPostBtn").addEventListener("click", function () {
-        window.location.href = this.dataset.url;
-    });
+});
 </script>
 @endpush

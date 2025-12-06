@@ -74,4 +74,11 @@ class User extends Authenticatable
         return $this->collaborationsAsUser1->merge($this->collaborationsAsUser2);
     }
 
+    // User.php
+    public function likes()
+    {
+        return $this->hasMany(PostLike::class, 'id_user', 'id_user');
+    }
+
+
 }

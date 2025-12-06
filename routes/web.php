@@ -9,6 +9,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserPublicProfileController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -49,6 +52,16 @@ Route::middleware('user')->group(function () {
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/short-post/create', [PostController::class, 'createShort'])
     ->name('post-short-create');
+    Route::post('/comment/store', [\App\Http\Controllers\CommentController::class, 'store'])
+    ->name('comment.store');
+
+    Route::get('/whisper', [App\Http\Controllers\WhisperController::class, 'index'])->name('whisper.index');
+
+
+Route::middleware('auth')->post('/post/like', [LikeController::class, 'toggle'])->name('post.like');
+Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->middleware('user');
+
+
 
 
     // Halaman form long post

@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-link @yield('nav-whisper')">
+                    <a href="{{ route('whisper.index') }}" class="sidebar-link @yield('nav-whisper')">
                         <i class="fa-regular fa-comment-dots me-2"></i>Whisper
                     </a>
                 </li>

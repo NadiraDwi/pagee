@@ -153,4 +153,41 @@ class PostController extends Controller
     return view('profile.tabs.whisper', compact('user', 'whispers'));
 }
 
+public function comment(Request $request, $id)
+{
+    $request->validate([
+        'comment' => 'required|string|max:500',
+    ]);
+
+    Reaction::create([
+        'id_post' => $id,
+        'id_user' => auth()->id(),
+        'jenis_reaksi' => $request->comment,
+    ]);
+
+    return back()->with('success', 'Komentar berhasil ditambahkan!');
+}
+
+public function like(Request $request)
+{
+    $post = Post::findOrFail($request->id_post);
+    $userId = auth()->id();
+
+    if ($post->likes()->where('id_user', $userId)->exists()) {
+        // Unlike
+        $post->likes()->where('id_user', $userId)->delete();
+        $status = 'unliked';
+    } else {
+        // Like
+        $post->likes()->create(['id_user' => $userId]);
+        $status = 'liked';
+    }
+
+    return response()->json([
+        'status' => $status,
+        'count' => $post->likes()->count()
+    ]);
+}
+
+
 }

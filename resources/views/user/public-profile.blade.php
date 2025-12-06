@@ -4,6 +4,11 @@
     if (!in_array($tab, $allowedTabs)) $tab = 'posts';
 @endphp
 
+@section('title', 'Beranda')
+@section('nav-home', 'active')
+
+@section('content')
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -22,7 +27,11 @@
 <body>
 
 <!-- ===== HEADER ===== -->
-<div class="profile-header"></div>
+<div 
+  class="profile-header"
+  style="background-image: url('{{ $user->header ? asset('storage/'.$user->header) : asset('assets/default-header.jpg') }}');">
+</div>
+
 
 <div class="container mt-3">
 
@@ -40,7 +49,7 @@
 
   <div class="mt-3 profile-page-text">
     <h4 class="fw-bold">{{ $user->nama }}</h4>
-    <p class="username">@{{ $user->username }}</p>
+    <p class="username">{{ sprintf('@%s', $user->username) }}</p>
 
     @if($user->bio)
       <p class="mt-2">{{ $user->bio }}</p>
@@ -64,9 +73,11 @@
         <a class="nav-link {{ $tab === 'chapter' ? 'active' : '' }}" href="?tab=chapter">Chapter</a>
       </li>
 
+      @if(auth()->id() == $user->id)
       <li class="nav-item">
         <a class="nav-link {{ $tab === 'whisper' ? 'active' : '' }}" href="?tab=whisper">Whisper</a>
       </li>
+      @endif
 
       <li class="nav-item">
         <a class="nav-link {{ $tab === 'timecapsule' ? 'active' : '' }}" href="?tab=timecapsule">Time Capsule</a>
@@ -82,7 +93,7 @@
     </ul>
 
     {{-- === LOAD TAB === --}}
-    @include("profile.tabs.$tab")
+   @include('profile.tabs.' . $tab)
 
   </div>
 </div>

@@ -47,5 +47,16 @@ class Post extends Model
         return $this->hasMany(Chapter::class, 'id_post', 'id_post');
     }
 
+    public function comments(){
+        return $this->hasMany(PostComment::class, 'id_post', 'id_post')->latest();
+    }
+
+    public function likes(){
+        return $this->hasMany(PostLike::class, 'id_post', 'id_post');
+    }
+
+    public function likedBy($userId) {
+        return $this->likes()->where('id_user', $userId)->exists();
+    }
 
 }
