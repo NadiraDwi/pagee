@@ -136,6 +136,25 @@ class PostController extends Controller
             ]);
         }
 
+        // 2️⃣ Proses collab
+        if ($request->filled('mentions')) {
+
+            // Decode JSON → array ID user
+            $mentionIds = json_decode($request->mentions, true);
+
+            if (is_array($mentionIds)) {
+                foreach ($mentionIds as $idUser) {
+
+                    // Simpan ke tabel post_collabs
+                    PostCollab::create([
+                        'id_post' => $post->id_post,
+                        'id_user1' => auth()->user()->id_user, // pembuat post
+                        'id_user2' => $idUser, // collab
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('home')->with('success', 'Postingan berhasil dibuat!');
     }
 

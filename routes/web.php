@@ -11,7 +11,7 @@ use App\Http\Controllers\UserPublicProfileController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
-
+use App\Http\Controllers\PostCollabController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -28,6 +28,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/user/{id}', [UserPublicProfileController::class, 'show'])
     ->name('user.profile');
+
+Route::get('/post/{id_post}/chapter/{id_chapter}', [ChapterController::class, 'read'])
+    ->name('chapter.read');
 
 // ADMIN AREA
 Route::middleware('admin')->group(function () {
@@ -57,6 +60,9 @@ Route::middleware('user')->group(function () {
 
     Route::get('/whisper', [App\Http\Controllers\WhisperController::class, 'index'])->name('whisper.index');
 
+    // routes/web.php
+    Route::post('/collab/add', [PostCollabController::class, 'store'])->name('collab.add');
+    Route::post('/collab/remove', [PostCollabController::class, 'remove'])->name('collab.remove');
 
 Route::middleware('auth')->post('/post/like', [LikeController::class, 'toggle'])->name('post.like');
 Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->middleware('user');

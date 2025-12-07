@@ -158,6 +158,12 @@
     color: red; /* hanya merah saat liked */
 }
 
+.comment-input:disabled {
+    background: #f0f0f0;
+    cursor: not-allowed;
+}
+
+
 </style>
 @endpush
 
@@ -198,7 +204,7 @@
 
 <!-- POST FEED -->
 <div id="feedPosts">
-    @foreach($posts as $post)
+    @forelse($posts as $post)
         <div class="card shadow-sm mb-3">
             <div class="card-body">
 
@@ -247,8 +253,6 @@
 
                     <span class="like-count">{{ $post->likes->count() }} likes</span>
 
-
-
                     <button class="action-btn" onclick="sharePost()">
                         <i class="fa-solid fa-share-nodes"></i>
                     </button>
@@ -269,18 +273,22 @@
                 </div>
 
                 <div class="comments-list mt-2">
-                    @foreach($post->comments as $comment)
+                    @forelse($post->comments as $comment)
                         <div class="d-flex mb-2">
                             <strong>{{ $comment->user->nama }}:</strong>
                             <span class="ms-1">{{ $comment->isi_komentar }}</span>
                         </div>
-                    @endforeach
+                    @empty
+                        <small class="text-muted">Belum ada komentar.</small>
+                    @endforelse
                 </div>
-
-
             </div>
         </div>
-    @endforeach
+    @empty
+        <div class="text-center text-muted my-3">
+            Belum ada postingan.
+        </div>
+    @endforelse
 </div>
 
 @endsection
@@ -306,13 +314,15 @@
         </h5>
 
         <ul class="list-unstyled small mt-2">
-            @foreach($trends as $trend)
+            @forelse($trends as $trend)
                 <li>
                     <a href="{{ route('whisper.index') }}" class="text-decoration-none text-dark">
                         {{ $trend }}
                     </a>
                 </li>
-            @endforeach
+            @empty
+                <li class="text-muted">Belum ada tren.</li>
+            @endforelse
         </ul>
     </div>
 </div>
@@ -435,6 +445,13 @@ document.getElementById("longPostBtn").addEventListener("click", function () {
 document.addEventListener("DOMContentLoaded", function () {
 
     function sendComment(postId, inputEl) {
+
+        // ==== Prevent comment if not logged in ====
+        @guest
+            alert("Silakan login untuk menulis komentar.");
+            return;
+        @endguest
+
         let comment = inputEl.value.trim();
         if (comment === "") return;
 
@@ -458,7 +475,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let newComment = document.createElement('div');
             newComment.classList.add('d-flex', 'mb-2');
             newComment.innerHTML =
-                `<strong>{{ Auth::user()->nama }}:</strong>
+                `<strong>{{ Auth::user()->nama ?? 'Guest' }}:</strong>
                 <span class="ms-1">${response.data.isi_komentar}</span>`;
 
             list.prepend(newComment);
@@ -467,6 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(console.error);
     }
 
+    // ==== ENTER KEY SEND ====
     document.querySelectorAll('.comment-input').forEach(input => {
         input.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -476,6 +494,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // ==== BUTTON SEND ====
     document.querySelectorAll('.send-comment-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             let postId = this.dataset.postId;
@@ -484,6 +503,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // ==== Disable comment input if guest ====
+    @guest
+        document.querySelectorAll('.comment-input').forEach(inp => inp.disabled = true);
+    @endguest
+
 });
 </script>
+
 @endpush

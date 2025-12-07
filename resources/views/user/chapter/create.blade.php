@@ -96,6 +96,13 @@ trix-editor {
                        placeholder="Contoh: https://youtu.be/xxxx">
             </div>
 
+            <!-- SCHEDULE POST -->
+            <div class="mb-3">
+                <label class="fw-bold mb-1">Jadwalkan posting (opsional)</label>
+                <input type="datetime-local" name="scheduled_at" class="form-control">
+                <small class="text-muted">Jika tidak diisi, chapter langsung dipublikasi.</small>
+            </div>
+
             <button type="submit" class="btn-purple mt-2">Simpan Chapter</button>
 
         </form>
@@ -104,3 +111,25 @@ trix-editor {
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.querySelector('input[name="scheduled_at"]');
+
+        // Ambil waktu saat ini dalam format yang cocok untuk datetime-local
+        let now = new Date();
+
+        // Convert ke format yyyy-mm-ddThh:mm
+        let year = now.getFullYear();
+        let month = String(now.getMonth() + 1).padStart(2, '0');
+        let day = String(now.getDate()).padStart(2, '0');
+        let hours = String(now.getHours()).padStart(2, '0');
+        let minutes = String(now.getMinutes()).padStart(2, '0');
+
+        let minDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        input.min = minDate;
+    });
+</script>
+@endpush

@@ -5,6 +5,10 @@
 {{-- === KONTEN UTAMA === --}}
 @section('content')
 
+@php
+  use Illuminate\Support\Str;
+@endphp
+
 <style>
 .post-card {
     background: #fff;
@@ -47,6 +51,16 @@
 .post-title:hover {
     color: #6f42c1;
 }
+
+.post-desc {
+  font-size: 0.9rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 </style>
 
 
@@ -71,10 +85,16 @@
 
       {{-- TITLE --}}
       <div class="post-body">
-        <a href="{{ route('chapter.show', $post->id_post) }}" class="post-title">
-          {{ $post->judul }}
-        </a>
-      </div>
+      {{-- TITLE --}}
+      <a href="{{ route('chapter.show', $post->id_post) }}" class="post-title">
+        {{ $post->judul }}
+      </a>
+
+      {{-- SHORT DESCRIPTION (Limit 120 chars) --}}
+      <p class="post-desc">
+        {{ Str::limit(strip_tags($post->isi), 120, '...') }}
+      </p>
+    </div>
 
     </div>
   </div>
