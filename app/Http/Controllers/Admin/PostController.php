@@ -85,4 +85,37 @@ class PostController extends Controller
         $post->delete();
         return response()->json(['success' => true]);
     }
+
+    public function chapter()
+    {
+        $posts = Post::with(['user', 'cover'])
+            ->where('jenis_post', 'long')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.chapter.index', compact('posts'));
+    }
+
+    public function show($id_post)
+    {
+        $post = Post::with(['chapters', 'collabs'])->findOrFail($id_post);
+        $authId = auth()->id();
+
+        $isOwner = $authId === $post->id_user;
+        $isCollaborator = $post->collabs()->where('id_user2', $authId)->exists();
+
+        // Ambil chapter
+        $chapters = ($isOwner || $isCollaborator)
+            ? $post->chapters()->orderBy('created_at', 'asc')->get()
+            : $post->chapters()->where(function($q) {
+                $q->whereNull('scheduled_at')
+                  ->orWhere('scheduled_at', '<=', now());
+              })->orderBy('created_at', 'asc')->get();
+
+        $users = ($isOwner || $isCollaborator) ? \App\Models\User::all() : collect();
+
+        return view('admin.chapter.show', compact(
+            'post', 'chapters', 'isOwner', 'isCollaborator', 'users'
+        ));
+    }
 }

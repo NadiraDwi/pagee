@@ -46,12 +46,12 @@
                 <i class="bi bi-chevron-down small"></i>
             </a>
             <div class="collapse {{ request()->routeIs('admin.post.*') ? 'show' : '' }}" id="postSubmenu">
-                <ul class="nav flex-column ms-3">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.post.anonim*') ? 'active' : '' }}" href="{{ route('admin.post.anonim') }}">Anonim</a>
-                    </li>
+                <ul class="nav flex-column ms-3">                    
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.post*') && !request()->routeIs('admin.post.anonim*') && !request()->routeIs('admin.post.chapter*') ? 'active' : '' }}" href="{{ route('admin.post.index') }}">Short</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.post.anonim*') ? 'active' : '' }}" href="{{ route('admin.post.anonim') }}">Anonim</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.post.chapter*') ? 'active' : '' }}" href="{{ route('admin.post.chapter') }}">Chapter</a>
