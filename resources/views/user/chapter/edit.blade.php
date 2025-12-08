@@ -135,6 +135,28 @@
 
 </style>
 
+<style>
+.music-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #6f42c1;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .3s ease;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.35);
+}
+.music-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
 <div class="d-flex align-items-center mb-3">
     <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2">
         <i class="fa-solid fa-arrow-left"></i>
@@ -192,9 +214,128 @@
 
 {{-- ========= MODAL MUSIK (SAMA DENGAN CREATE) ========= --}}
 @include('user.chapter._music_modal')
+<div id="musicToast" class="music-toast">
+    <span id="musicToastMessage"></span>
+</div>
 
 @endsection
 
 @push('scripts')
-@include('user.chapter._music_script')
+<script>
+
+let currentPlaying = null;
+
+/* ================================
+   SEARCH AUDIUS
+================================ */
+function searchAudius() {
+    const q = document.getElementById("music_query").value.trim();
+    if (!q) return showMusicToast("Masukkan kata pencarian!", "error");
+
+    fetch(`/audius/search?q=${encodeURIComponent(q)}`)
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+
+            if (!data?.data?.length) {
+                document.getElementById("music_results").innerHTML =
+                    `<p class="text-danger">Tidak ada hasil ditemukan.</p>`;
+                return;
+            }
+
+            data.data.forEach((track, i) => {
+                const url = track.stream?.url || null;
+
+                html += `
+                    <div class="music-box d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${track.title}</strong><br>
+                            <small>${track.user.name}</small>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            ${
+                                url
+                                ? `
+                                    <button id="playBtn${i}" class="play-btn"
+                                        onclick="togglePlay('${url}', '${i}')">▶</button>
+                                    <button class="add-btn"
+                                        onclick="selectMusic('${url}')">+</button>
+                                `
+                                : `<span class="text-danger">Stream not available</span>`
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById("music_results").innerHTML = html;
+        });
+}
+
+
+
+/* ================================
+   PLAY MUSIC SYSTEM
+================================ */
+function togglePlay(url, id) {
+    const player = document.getElementById("music_player");
+    const btn = document.getElementById("playBtn" + id);
+
+    if (currentPlaying === url) {
+        player.pause();
+        currentPlaying = null;
+        btn.innerHTML = "▶";
+        return;
+    }
+
+    player.src = url;
+    player.play();
+    currentPlaying = url;
+
+    document.querySelectorAll(".play-btn").forEach(b => b.innerHTML = "▶");
+    btn.innerHTML = "⏸";
+}
+
+
+
+/* ================================
+   SELECT MUSIC (AUTO PAUSE + CLOSE)
+================================ */
+function selectMusic(url) {
+    document.getElementById("music_link").value = url;
+
+    const player = document.getElementById("music_player");
+    player.pause();
+    currentPlaying = null;
+
+    document.querySelectorAll(".play-btn").forEach(b => b.innerHTML = "▶");
+
+    // Tutup modal
+    const modalEl = document.getElementById('musicModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    modal.hide();
+
+    // Tampilkan toast/notifikasi
+    showMusicToast("Musik berhasil ditambahkan!");
+}
+
+
+
+/* ================================
+   TOAST NOTIFICATION (PURPLE)
+================================ */
+function showMusicToast(text) {
+    const toastBox = document.getElementById("musicToast");
+    const toastMsg = document.getElementById("musicToastMessage");
+
+    toastMsg.innerText = text;
+    toastBox.classList.add("show");
+
+    setTimeout(() => toastBox.classList.remove("show"), 2500);
+}
+
+</script>
+
 @endpush
+

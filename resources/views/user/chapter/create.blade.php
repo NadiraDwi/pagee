@@ -135,6 +135,28 @@
 
 </style>
 
+<style>
+.music-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #6f42c1;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .3s ease;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.35);
+}
+.music-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
 <div class="d-flex align-items-center mb-3">
     <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2">
         <i class="fa-solid fa-arrow-left"></i>
@@ -226,10 +248,11 @@
         </div>
     </div>
 </div>
+<div id="musicToast" class="music-toast">
+    <span id="musicToastMessage"></span>
+</div>
 
 @endsection
-
-
 
 @push('scripts')
 <script>
@@ -241,7 +264,7 @@ let currentPlaying = null;
 ================================ */
 function searchAudius() {
     const q = document.getElementById("music_query").value.trim();
-    if (!q) return alert("Masukkan kata pencarian!");
+    if (!q) return showMusicToast("Masukkan kata pencarian!", "error");
 
     fetch(`/audius/search?q=${encodeURIComponent(q)}`)
         .then(res => res.json())
@@ -259,7 +282,6 @@ function searchAudius() {
 
                 html += `
                     <div class="music-box d-flex justify-content-between align-items-center">
-
                         <div>
                             <strong>${track.title}</strong><br>
                             <small>${track.user.name}</small>
@@ -277,7 +299,6 @@ function searchAudius() {
                                 : `<span class="text-danger">Stream not available</span>`
                             }
                         </div>
-
                     </div>
                 `;
             });
@@ -310,12 +331,42 @@ function togglePlay(url, id) {
     btn.innerHTML = "⏸";
 }
 
+
+
 /* ================================
-   SELECT MUSIC
+   SELECT MUSIC (AUTO PAUSE + CLOSE)
 ================================ */
 function selectMusic(url) {
     document.getElementById("music_link").value = url;
-    alert("Musik berhasil dipilih!");
+
+    const player = document.getElementById("music_player");
+    player.pause();
+    currentPlaying = null;
+
+    document.querySelectorAll(".play-btn").forEach(b => b.innerHTML = "▶");
+
+    // Tutup modal
+    const modalEl = document.getElementById('musicModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    modal.hide();
+
+    // Tampilkan toast/notifikasi
+    showMusicToast("Musik berhasil ditambahkan!");
+}
+
+
+
+/* ================================
+   TOAST NOTIFICATION (PURPLE)
+================================ */
+function showMusicToast(text) {
+    const toastBox = document.getElementById("musicToast");
+    const toastMsg = document.getElementById("musicToastMessage");
+
+    toastMsg.innerText = text;
+    toastBox.classList.add("show");
+
+    setTimeout(() => toastBox.classList.remove("show"), 2500);
 }
 
 </script>
