@@ -15,7 +15,11 @@ class PostController extends Controller
 
     public function list()
     {
-        $data = Post::with('user')->orderBy('created_at', 'desc');
+        // Ambil post yang type = short
+        $data = Post::with('user')
+                    ->where('jenis_post', 'short')
+                    ->where('is_anonymous', false)
+                    ->orderBy('created_at', 'desc');
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -27,11 +31,17 @@ class PostController extends Controller
             })
             ->addColumn('action', function($row){
                 return '
-                <button onclick="deletePost('.$row->id.')" class="btn btn-danger btn-sm">Hapus</button>
+                <button class="btn btn-info btn-sm" onclick="showPostDetail('.$row->id_post.')">Detail</button>
                 ';
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function show($id)
+    {
+        $post = Post::with('user')->findOrFail($id);
+        return view('admin.post.detail', compact('post'));
     }
 
     public function delete($id)

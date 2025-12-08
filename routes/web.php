@@ -59,6 +59,7 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::prefix('post')->name('post.')->group(function () {        
         Route::get('/', [AdminPostController::class, 'index'])->name('index');
         Route::get('/list', [AdminPostController::class, 'list'])->name('list');
+        Route::get('/show/{id}', [AdminPostController::class, 'show'])->name('show');
         Route::delete('/delete/{id}', [AdminPostController::class, 'delete'])->name('delete');
 
         Route::get('/anonim', [PostController::class, 'anonim'])->name('anonim');
