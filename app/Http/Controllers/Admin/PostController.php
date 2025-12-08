@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chapter;
 use App\Models\Post;
 use Yajra\DataTables\DataTables;
 
@@ -96,7 +97,7 @@ class PostController extends Controller
         return view('admin.chapter.index', compact('posts'));
     }
 
-    public function show($id_post)
+    public function showChapter($id_post)
     {
         $post = Post::with(['chapters', 'collabs'])->findOrFail($id_post);
         $authId = auth()->id();
@@ -117,5 +118,51 @@ class PostController extends Controller
         return view('admin.chapter.show', compact(
             'post', 'chapters', 'isOwner', 'isCollaborator', 'users'
         ));
+    }
+
+    public function read($id_post, $id_chapter)
+    {
+        $post = Post::with('collabs')->findOrFail($id_post);
+        $chapter = Chapter::where('id_post', $id_post)
+            ->where('id_chapter', $id_chapter)
+            ->firstOrFail();
+
+        $authId = auth()->id();
+        $isOwner = $authId === $post->id_user;
+        $isCollaborator = $post->collabs()->where('id_user2', $authId)->exists();
+
+        // Proteksi chapter yang belum rilis untuk user biasa
+        if (!($isOwner || $isCollaborator) && $chapter->scheduled_at?->isFuture()) {
+            abort(403, 'Chapter ini belum rilis.');
+        }
+
+        // NEXT & PREV
+        $prev = Chapter::where('id_post', $id_post)
+            ->where('id_chapter', '<', $id_chapter)
+            ->orderBy('id_chapter', 'desc')
+            ->first();
+
+        $next = Chapter::where('id_post', $id_post)
+            ->where('id_chapter', '>', $id_chapter)
+            ->orderBy('id_chapter', 'asc')
+            ->first();
+
+        return view('admin.chapter.read', compact(
+            'post', 'chapter', 'prev', 'next', 'isOwner', 'isCollaborator'
+        ));
+    }
+
+    public function chapterDestroy( $id_post, $id_chapter)
+    {
+        $chapter = Chapter::findOrFail($id_chapter);
+
+        $authId = auth()->id();
+        $isOwner = $authId === $chapter->post->id_user;
+        $isCollaborator = $chapter->post->collabs()->where('id_user2', $authId)->exists();
+
+        $chapter->delete();
+
+        return redirect()->route('admin.post.chapter.show', $id_post)
+                         ->with('success', 'Chapter berhasil dihapus!');
     }
 }

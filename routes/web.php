@@ -66,7 +66,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/anonim/list', [AdminPostController::class, 'anonimList'])->name('anonim.list');
 
         Route::get('/chapter', [AdminPostController::class, 'chapter'])->name('chapter');
-        Route::get('/chapter/{id}/show', [AdminPostController::class, 'show'])->name('chapter.show');
+        Route::get('/chapter/{id}/show', [AdminPostController::class, 'showChapter'])->name('chapter.show');
+        Route::get('/post/{id_post}/chapter/{id_chapter}', [AdminPostController::class, 'read'])->name('chapter.read');
+        Route::delete('/post/{id_post}/chapter/{id_chapter}/delete', [AdminPostController::class, 'chapterDestroy'])->name('chapter.delete');
     });
 
 
