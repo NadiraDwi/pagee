@@ -39,7 +39,7 @@
 
     <!-- FOTO PROFIL -->
     <img 
-      src="{{ $user->foto ? asset('storage/'.$user->foto) : 'https://via.placeholder.com/120' }}"
+      src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/45' }}"
       class="profile-picture"
       alt="Profile Picture"
     >

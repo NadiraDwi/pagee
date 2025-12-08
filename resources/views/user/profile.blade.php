@@ -34,7 +34,7 @@
 <div class="container mt-3">
   <div class="d-flex justify-content-between align-items-start">
     <img 
-      src="{{ $user->foto ? asset('storage/'.$user->foto) : 'https://via.placeholder.com/120' }}"
+      src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/120' }}"
       class="profile-picture"
       alt="Profile Picture"
     >
@@ -130,7 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <!-- JS Bootstrap & Global Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets/script.js') }}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {

@@ -4,7 +4,7 @@
 
         <div class="post-header">
             <img 
-                src="{{ $post->user->foto ? asset('storage/'.$post->user->foto) : 'https://via.placeholder.com/40' }}" 
+                src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/40' }}"
                 alt="User Foto"
             >
             <div class="post-user-info">
