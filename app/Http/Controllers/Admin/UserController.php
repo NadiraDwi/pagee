@@ -15,34 +15,25 @@ class UserController extends Controller
         return view('admin.user.index');
     }
 
-    public function list(Request $request)
+    public function list()
     {
-        if ($request->ajax()) {
+        $data = User::orderBy('nama', 'asc'); // ❗ tanpa get()
 
-            $data = User::orderBy('nama', 'ASC');
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-
-                ->addColumn('action', function ($row) {
-                    return '
-                        <button class="btn btn-sm btn-outline-danger"
-                            onclick="deleteData(\''.$row->id_user.'\')">
-                            Hapus
-                        </button>
-                    ';
-                })
-
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return abort(404);
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                return '
+                <button onclick="deleteData('.$row->id.')" class="btn btn-danger btn-sm">
+                    Hapus
+                </button>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function delete($id)
     {
-        $user = User::where('id_user', $id)->first();
+        $user = User::find($id);
 
         if (!$user) {
             return response()->json(['error' => 'Data tidak ditemukan'], 404);

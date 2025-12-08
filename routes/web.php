@@ -45,10 +45,9 @@ Route::get('/post/{id_post}/chapter/{id_chapter}', [ChapterController::class, 'r
     ->name('chapter.read');
 
 // ADMIN AREA
-Route::middleware('admin')->group(function () {
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('index');
-    });
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/', [AdminController::class, 'index'])->name('index');
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [AdminUserController::class, 'index'])->name('index');
@@ -59,6 +58,7 @@ Route::middleware('admin')->group(function () {
     Route::prefix('post')->name('post.')->group(function () {
         Route::get('/', [AdminUserController::class, 'index'])->name('index');
     });
+
 });
 
 // USER AREA

@@ -23,7 +23,6 @@
 
 <div class="d-flex justify-content-between mb-3">
     <h2 class="mb-0">Manajemen User</h2>
-
 </div>
 
 <div class="card">
@@ -45,16 +44,11 @@
 
 @push('custom-js')
 
-<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
-
 <script>
 $('#user-table').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('user.list') }}",
+    ajax: "{{ route('admin.user.list') }}",  // ✔ sesuai prefix admin/user/list
     columns: [
         { data: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
         { data: 'nama' },
@@ -75,7 +69,7 @@ function deleteData(id) {
     }).then((res)=>{
         if(res.isConfirmed){
             $.ajax({
-                url: "/user/delete/" + id,
+                url: "{{ url('/admin/user/delete') }}/" + id, // ✔ auto /admin/user/delete/{id}
                 type: "DELETE",
                 data: { _token:"{{ csrf_token() }}" },
                 success: function(){
@@ -87,5 +81,4 @@ function deleteData(id) {
     });
 }
 </script>
-
 @endpush

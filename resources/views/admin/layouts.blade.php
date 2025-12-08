@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="{{ asset('assets/image/logo.svg') }}" type="image/svg">
 
     <title>@yield('title') - Pagee Admin</title>
 
@@ -25,15 +26,15 @@
         <img src="{{ asset('assets/image/logo.png') }}" width="150" height="40">
     </div>
 
-    <a class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.index') }}">
+    <a class="nav-link {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="{{ route('admin.index') }}">
         <i class="bi bi-speedometer2"></i> Dashboard
     </a>
 
-    <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">
+    <a class="nav-link {{ request()->routeIs('admin.user.*') ? 'active' : '' }}" href="{{ route('admin.user.index') }}">
         <i class="bi bi-people"></i> Users
     </a>
 
-    <a class="nav-link {{ request()->routeIs('post.*') ? 'active' : '' }}" href="{{ route('post.index') }}">
+    <a class="nav-link {{ request()->routeIs('admin.post.*') ? 'active' : '' }}" href="{{ route('admin.post.index') }}">
         <i class="bi bi-file-earmark-text"></i> Posts
     </a>
 
@@ -63,6 +64,8 @@
 
     @yield('content')
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
 
 <script>
     const sidebar = document.getElementById('sidebar');
