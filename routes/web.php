@@ -50,6 +50,9 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
+    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+    Route::put('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
+
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [AdminUserController::class, 'index'])->name('index');
         Route::get('/list', [AdminUserController::class, 'list'])->name('list');
