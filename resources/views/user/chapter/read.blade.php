@@ -101,16 +101,59 @@
         &laquo; Kembali ke daftar chapter
     </a>
 
-    {{-- Header --}}
-    <div class="chapter-header">
-        <h2 class="chapter-title-text">{{ $chapter->judul_chapter }}</h2>
-        <small class="chapter-subtitle">
-            Bagian dari: <strong>{{ $post->judul }}</strong>
-        </small>
-    </div>
-
     {{-- Content --}}
     <div class="chapter-content">
+
+        {{-- Header --}}
+        <div class="chapter-header d-flex justify-content-between align-items-center">
+
+            <div>
+                <h2 class="chapter-title-text">{{ $chapter->judul_chapter }}</h2>
+                <small class="chapter-subtitle">
+                    Bagian dari: <strong>{{ $post->judul }}</strong>
+                </small>
+            </div>
+
+            {{-- === Hanya Bisa Diakses Pemilik atau Kolaborator === --}}
+            @auth
+            @if($isOwner || $isCollaborator)
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light" type="button" id="chapterMenuButton" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="chapterMenuButton">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('chapter.edit', [$post->id_post, $chapter->id_chapter]) }}">
+                                ✏ Edit Chapter
+                            </a>
+                        </li>
+                        <li>
+                            <form action="{{ route('chapter.delete', $chapter->id_chapter) }}" method="POST" 
+                                onsubmit="return confirm('Yakin ingin menghapus chapter ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="dropdown-item text-danger" type="submit">
+                                    🗑 Hapus Chapter
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+            @endauth
+
+        </div>
+
+        {{-- MUSIC PLAYER --}}
+        @if ($chapter->link_musik)
+            <audio id="chapterMusic" src="{{ $chapter->link_musik }}" loop></audio>
+
+            <button id="playBtn" class="btn btn-outline-purple" 
+                style="margin-bottom: 15px; font-size:14px;">
+                ▶ Play Music
+            </button>
+        @endif
+
         {!! $chapter->isi_chapter !!}
     </div>
 
@@ -136,5 +179,34 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const music = document.getElementById("chapterMusic");
+    const playBtn = document.getElementById("playBtn");
+
+    if (!music || !playBtn) return;
+
+    music.volume = 0.85;
+
+    playBtn.textContent = "▶ Play Music";
+
+    playBtn.addEventListener("click", () => {
+        if (music.paused) {
+            music.play();
+            playBtn.textContent = "⏸ Pause Music";
+        } else {
+            music.pause();
+            playBtn.textContent = "▶ Play Music";
+        }
+    });
+
+    window.addEventListener("beforeunload", () => {
+        music.pause();
+        music.currentTime = 0;
+    });
+});
+</script>
 
 @endsection

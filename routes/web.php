@@ -79,9 +79,6 @@ Route::middleware('user')->group(function () {
 Route::middleware('auth')->post('/post/like', [LikeController::class, 'toggle'])->name('post.like');
 Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->middleware('user');
 
-
-
-
     // Halaman form long post
     Route::get('/long-post/create', [PostController::class, 'createLong'])
         ->name('post-long-create');
@@ -94,6 +91,12 @@ Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->m
     Route::get('/chapter/{id_post}/create', [ChapterController::class, 'create'])->name('chapter.create');
     Route::post('/chapter/{id_post}', [ChapterController::class, 'store'])->name('chapter.store');
     Route::get('/chapter/{id}/show', [ChapterController::class, 'show'])->name('chapter.show');
+    Route::get('/post/{id_post}/chapter/{id_chapter}/edit', [ChapterController::class, 'edit'])
+        ->name('chapter.edit');
+    Route::put('/post/{id_post}/chapter/{id_chapter}/update', [ChapterController::class, 'update'])
+        ->name('chapter.update');
+    Route::delete('/chapter/{id_chapter}/delete', [ChapterController::class, 'destroy'])
+        ->name('chapter.delete');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

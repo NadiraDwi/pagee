@@ -110,6 +110,68 @@ class ChapterController extends Controller
             ->orderBy('id_chapter', 'asc')
             ->first();
 
-        return view('user.chapter.read', compact('post', 'chapter', 'prev', 'next'));
+        return view('user.chapter.read', compact(
+            'post', 'chapter', 'prev', 'next', 'isOwner', 'isCollaborator'
+        ));
     }
+
+    public function edit($id_post, $id_chapter)
+    {
+        $chapter = Chapter::with('post')->findOrFail($id_chapter);
+        $post = $chapter->post;
+
+        $authId = auth()->id();
+        $isOwner = $authId === $post->id_user;
+        $isCollaborator = $post->collabs()->where('id_user2', $authId)->exists();
+
+        if (!($isOwner || $isCollaborator)) {
+            abort(403, 'Tidak memiliki akses mengedit chapter.');
+        }
+
+        return view('user.chapter.edit', compact('chapter', 'post', 'isOwner', 'isCollaborator'));
+    }
+
+    public function update(Request $request, $id_post, $id_chapter)
+    {
+        $chapter = Chapter::findOrFail($id_chapter);
+
+        $authId = auth()->id();
+        $isOwner = $authId === $chapter->post->id_user;
+        $isCollaborator = $chapter->post->collabs()->where('id_user2', $authId)->exists();
+
+        if (!($isOwner || $isCollaborator)) {
+            abort(403, 'Tidak memiliki izin mengupdate chapter.');
+        }
+
+        $request->validate([
+            'judul_chapter' => 'required|string|max:255',
+            'isi_chapter'   => 'required',
+            'link_musik'    => 'nullable|string',
+            'scheduled_at'  => 'nullable|date|after:now',
+        ]);
+
+        $chapter->update($request->only('judul_chapter', 'isi_chapter', 'link_musik', 'scheduled_at'));
+
+        return redirect()->route('chapter.read', [$chapter->id_post, $chapter->id_chapter])
+                        ->with('success', 'Chapter berhasil diperbarui!');
+    }
+
+    public function destroy($id_chapter)
+    {
+        $chapter = Chapter::findOrFail($id_chapter);
+
+        $authId = auth()->id();
+        $isOwner = $authId === $chapter->post->id_user;
+        $isCollaborator = $chapter->post->collabs()->where('id_user2', $authId)->exists();
+
+        if (!($isOwner || $isCollaborator)) {
+            abort(403, 'Tidak memiliki izin menghapus chapter.');
+        }
+
+        $chapter->delete();
+
+        return back()->with('success', 'Chapter berhasil dihapus!');
+    }
+
+
 }
