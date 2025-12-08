@@ -12,6 +12,18 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostCollabController;
+use App\Http\Controllers\AudiusController;
+
+Route::get('/soundcloud', function () {
+    return view('user.soundcloud');
+});
+
+Route::get('/audius', function () {
+    return view('user.audius');
+});
+
+Route::get('/audius/search', [AudiusController::class, 'search']);
+Route::get('/audius/stream', [AudiusController::class, 'stream']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

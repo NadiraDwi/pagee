@@ -1,6 +1,7 @@
 @extends('user.layouts')
 
-@section('title', 'Beranda')
+@section('title', 'Chapter')
+@section('nav-chapter', 'active')
 
 {{-- === KONTEN UTAMA === --}}
 @section('content')

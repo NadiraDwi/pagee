@@ -1,6 +1,7 @@
 @extends('user.layouts')
 
 @section('title', 'Read')
+@section('nav-chapter', 'active')
 
 @section('content')
 <style>

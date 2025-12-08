@@ -9,10 +9,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
+    <link rel="icon" href="{{ asset('assets/image/logo.svg') }}" type="image/svg">
+
     {{-- Custom Style --}}
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 
     @stack('styles')
+
+    <style>
+        .sidebar-link.active {
+            color: #7b2cbf !important;      /* ungu */
+            font-weight: 600;
+        }
+
+        .sidebar-link.active i {
+            color: #7b2cbf !important;
+        }
+
+    </style>
 </head>
 
 <body>
