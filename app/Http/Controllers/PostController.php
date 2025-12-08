@@ -208,5 +208,26 @@ public function like(Request $request)
     ]);
 }
 
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'isi' => 'required|string',
+    ]);
+
+    $post = Post::findOrFail($id);
+
+    $post->isi = $request->isi;
+    $post->save();
+
+    return back()->with('success', 'Post berhasil diperbarui!');
+}
+
+public function destroy($id)
+{
+    $post = Post::findOrFail($id);
+    $post->delete();
+
+    return back()->with('success', 'Post berhasil dihapus!');
+}
 
 }

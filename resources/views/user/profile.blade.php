@@ -75,10 +75,6 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link {{ $tab === 'timecapsule' ? 'active' : '' }}" href="?tab=timecapsule">Time Capsule</a>
-    </li>
-
-    <li class="nav-item">
       <a class="nav-link {{ $tab === 'likes' ? 'active' : '' }}" href="?tab=likes">Likes</a>
     </li>
 
@@ -92,9 +88,6 @@
 
   @elseif($tab === 'whisper')
       @include('profile.tabs.whisper')
-
-  @elseif($tab === 'timecapsule')
-      @include('profile.tabs.timecapsule')
 
   @elseif($tab === 'likes')
       @include('profile.tabs.likes')

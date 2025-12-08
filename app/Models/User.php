@@ -80,5 +80,11 @@ class User extends Authenticatable
         return $this->hasMany(PostLike::class, 'id_user', 'id_user');
     }
 
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class, 'id_user', 'id_user');
+    }
+
+
 
 }

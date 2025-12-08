@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostCollabController;
 use App\Http\Controllers\AudiusController;
+use App\Http\Controllers\WhisperController;
 
 Route::get('/soundcloud', function () {
     return view('user.soundcloud');
@@ -85,8 +86,16 @@ Route::middleware('user')->group(function () {
     ->name('post-short-create');
     Route::post('/comment/store', [\App\Http\Controllers\CommentController::class, 'store'])
     ->name('comment.store');
+    Route::resource('posts', PostController::class);
 
-    Route::get('/whisper', [App\Http\Controllers\WhisperController::class, 'index'])->name('whisper.index');
+
+    Route::get('/whisper', [WhisperController::class, 'index'])->name('whisper.index');
+    Route::put('/whisper/{id}', [WhisperController::class, 'update'])->name('whisper.update');
+    Route::delete('/whisper/{id}', [WhisperController::class, 'destroy'])->name('whisper.destroy');
+
+
+
+
 
     // routes/web.php
     Route::post('/collab/add', [PostCollabController::class, 'store'])->name('collab.add');

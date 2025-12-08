@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Chapter;
 
 class UserPublicProfileController extends Controller
 {
@@ -30,6 +31,10 @@ class UserPublicProfileController extends Controller
         // Eager load relasi user
         $posts->load('user');
 
-        return view('user.public-profile', compact('user', 'posts'));
+        $ownPostIds = Post::where('id_user', $user->id_user)->pluck('id_post');
+        $chapters = Chapter::whereIn('id_post', $ownPostIds)
+                    ->latest()
+                    ->get();
+        return view('user.public-profile', compact('user', 'posts', 'chapters'));
     }
 }
