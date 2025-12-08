@@ -232,13 +232,38 @@
                     @endif
                 </div>
 
-                <!-- TITLE (Long Post) -->
+                <!-- LONG POST (NOVEL, CERITA, DLL) -->
                 @if($post->jenis_post === 'long')
                     <h5 class="fw-bold mb-2">{{ $post->judul }}</h5>
-                @endif
 
-                <!-- CONTENT -->
-                <p>{{ $post->isi }}</p>
+                    @php
+                        $chapter = $post->chapters->first(); 
+                    @endphp
+
+                    @if($chapter)
+                        <a href="{{ route('chapter.read', [$post->id_post, $chapter->id_chapter]) }}"
+                           class="text-purple fw-semibold text-decoration-none d-block"
+                           style="font-size: 14px;">
+                           📖 Baca Terbaru: <em>"{{ $chapter->judul_chapter }}"</em>
+                        </a>
+
+                        {{-- RINGKASAN ISI CHAPTER (1–3 baris) --}}
+                        @php
+                            $plainText = strip_tags($chapter->isi_chapter);
+                            $short = Str::limit($plainText, 180, '...');
+                        @endphp
+
+                        <p class="mt-2 text-muted" style="font-size: 14px; line-height: 1.4; max-height: 63px; overflow: hidden;">
+                            {{ $short }}
+                        </p>
+                    @else
+                        <small class="text-muted d-block mb-2">Belum ada chapter.</small>
+                    @endif
+
+                @else
+                    <!-- SHORT POST (STATUS BIASA) -->
+                    <p>{{ $post->isi }}</p>
+                @endif
 
                 <!-- ACTION BUTTONS -->
                 <div class="d-flex gap-4 action-wrapper">
@@ -282,6 +307,7 @@
                         <small class="text-muted">Belum ada komentar.</small>
                     @endforelse
                 </div>
+
             </div>
         </div>
     @empty
