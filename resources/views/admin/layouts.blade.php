@@ -65,6 +65,31 @@
                 <i class="bi bi-gear"></i> Settings
             </a>
         </li>
+        <hr class="sidebar-divider">
+
+<form action="{{ route('logout') }}" method="POST" class="px-3 mt-2">
+    @csrf
+    <button type="submit" class="btn btn-purple w-100 d-flex align-items-center justify-content-center">
+        <i class="bi bi-box-arrow-right me-2"></i> Logout
+    </button>
+</form>
+
+<style>
+.btn-purple {
+    background-color: #6f42c1;  /* Ungu */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.btn-purple:hover {
+    background-color: #5931a3; /* Ungu lebih gelap */
+    color: #fff;
+}
+</style>
+
     </ul>
 </div>
 

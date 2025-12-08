@@ -70,7 +70,18 @@
                 <label for="password" class="form-label">Password Baru (Opsional)</label>
                 <input type="password" class="form-control" name="password" id="password">
                 <small class="text-muted">Kosongkan jika tidak ingin mengganti password</small>
+                @error('password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
+
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation">
+            </div>
+            @error('password_confirmation')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
 
             <button type="submit" class="btn btn-purple">Simpan Perubahan</button>
         </form>

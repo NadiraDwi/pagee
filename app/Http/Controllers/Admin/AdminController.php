@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     /**
@@ -15,7 +16,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $totalUsers = \App\Models\User::count();
+        $totalPages = \App\Models\Post::count();
+        $activeAdmins = \App\Models\User::where('role', 'admin')->count();
+
+        return view('admin.dashboard', compact('totalUsers', 'totalPages', 'activeAdmins'));
     }
 
     public function settings()
@@ -29,7 +34,7 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'username' => 'string|max:255|unique:users,username,'.$user->id_user.',id_user',
+            'username' => 'nullable|string|max:255|unique:users,username,'.$user->id_user.',id_user',
             'email' => 'required|email|max:255|unique:users,email,'.$user->id_user.',id_user',
             'bio' => 'nullable|string|max:500',
             'foto' => 'nullable|image|max:2048',
@@ -49,11 +54,19 @@ class AdminController extends Controller
         $user->email = $validated['email'];
         $user->bio = $validated['bio'];
 
+        $passwordChanged = false;
         if(!empty($validated['password'])){
             $user->password = Hash::make($validated['password']);
+            $passwordChanged = true;
         }
 
         $user->save();
+
+        if($passwordChanged){
+            // Logout otomatis jika password berubah
+            Auth::logout();
+            return redirect()->route('login')->with('success', 'Password berhasil diubah, silakan login kembali.');
+        }
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui');
     }
