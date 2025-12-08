@@ -23,7 +23,7 @@ class UserController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row){
                 return '
-                <button onclick="deleteData('.$row->id.')" class="btn btn-danger btn-sm">
+                <button onclick="deleteData('.$row->id_user.')" class="btn btn-danger btn-sm">
                     Hapus
                 </button>';
             })
