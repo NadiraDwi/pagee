@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -55,9 +56,16 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::delete('/delete/{id}', [AdminUserController::class, 'delete'])->name('delete');
     });
 
-    Route::prefix('post')->name('post.')->group(function () {
-        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+    Route::prefix('post')->name('post.')->group(function () {        
+        Route::get('/', [AdminPostController::class, 'index'])->name('index');
+        Route::get('/list', [AdminPostController::class, 'list'])->name('list');
+        Route::delete('/delete/{id}', [AdminPostController::class, 'delete'])->name('delete');
+
+        Route::get('/anonim', [PostController::class, 'anonim'])->name('anonim');
+
+        Route::get('/chapter', [PostController::class, 'chapter'])->name('chapter');
     });
+
 
 });
 
