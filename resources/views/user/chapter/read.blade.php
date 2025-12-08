@@ -94,6 +94,50 @@
     }
 </style>
 
+<style>
+    /* === Modal Theme Purple === */
+    .bg-purple {
+        background: #6f42c1 !important;
+    }
+
+    .btn-purple {
+        background: #6f42c1;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 16px;
+        transition: .2s;
+    }
+    .btn-purple:hover {
+        background: #5933a5;
+        color: #fff;
+    }
+
+    .btn-light-purple {
+        background: #eee4ff;
+        color: #6f42c1;
+        border-radius: 8px;
+        padding: 8px 16px;
+        border: 1px solid #d0bafc;
+        transition: .2s;
+    }
+    .btn-light-purple:hover {
+        background: #d6befc;
+        color: #fff;
+    }
+
+    #confirmDeleteModal .modal-content {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    #confirmDeleteModal .modal-header {
+        border-bottom: none;
+    }
+    #confirmDeleteModal .modal-footer {
+        border-top: none;
+    }
+</style>
+
 <div class="container">
 
     {{-- Back Button --}}
@@ -128,14 +172,9 @@
                             </a>
                         </li>
                         <li>
-                            <form action="{{ route('chapter.delete', $chapter->id_chapter) }}" method="POST" 
-                                onsubmit="return confirm('Yakin ingin menghapus chapter ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button class="dropdown-item text-danger" type="submit">
-                                    🗑 Hapus Chapter
-                                </button>
-                            </form>
+                            <button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                🗑 Hapus Chapter
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -178,6 +217,35 @@
         @endif
     </div>
 
+</div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-purple text-white">
+                <h5 class="modal-title fw-bold">Hapus Chapter?</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p class="mb-1">Apakah kamu yakin ingin menghapus chapter ini?</p>
+                <small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>
+            </div>
+
+            <div class="modal-footer border-0 d-flex justify-content-between">
+                <button type="button" class="btn btn-light-purple" data-bs-dismiss="modal">Batal</button>
+                
+                <form action="{{ route('chapter.delete', [$post->id_post, $chapter->id_chapter]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-purple">Ya, Hapus!</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <script>

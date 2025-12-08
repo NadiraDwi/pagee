@@ -95,7 +95,7 @@ Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->m
         ->name('chapter.edit');
     Route::put('/post/{id_post}/chapter/{id_chapter}/update', [ChapterController::class, 'update'])
         ->name('chapter.update');
-    Route::delete('/chapter/{id_chapter}/delete', [ChapterController::class, 'destroy'])
+    Route::delete('/post/{id_post}/chapter/{id_chapter}/delete', [ChapterController::class, 'destroy'])
         ->name('chapter.delete');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');

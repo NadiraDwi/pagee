@@ -156,7 +156,7 @@ class ChapterController extends Controller
                         ->with('success', 'Chapter berhasil diperbarui!');
     }
 
-    public function destroy($id_chapter)
+    public function destroy( $id_post, $id_chapter)
     {
         $chapter = Chapter::findOrFail($id_chapter);
 
@@ -170,7 +170,8 @@ class ChapterController extends Controller
 
         $chapter->delete();
 
-        return back()->with('success', 'Chapter berhasil dihapus!');
+        return redirect()->route('chapter.show', $id_post)
+                         ->with('success', 'Chapter berhasil ditambahkan!');
     }
 
 
