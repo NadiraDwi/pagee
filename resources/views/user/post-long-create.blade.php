@@ -4,6 +4,9 @@
 
 @section('content')
 
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
+
 <div class="card shadow-sm mb-3">
   <div class="card-body">
 
@@ -79,11 +82,6 @@
     </div>
   </div>
 </div>
-
-@endsection
-
-
-@section('rightbar')
 
 <div class="card shadow-sm mb-3">
   <div class="card-body">

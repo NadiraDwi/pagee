@@ -166,7 +166,8 @@
 
 </style>
 @endpush
-
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
 <!-- Floating Button -->
 <button class="floating-btn" id="postTypeTrigger">
     <i class="fa-solid fa-plus"></i>

@@ -138,6 +138,9 @@
     }
 </style>
 
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
+
 <div class="container">
 
     {{-- Back Button --}}

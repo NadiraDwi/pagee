@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 
     @stack('styles')
+    {{-- RIGHT SIDEBAR --}}
+    @include('user.sidebar')
 </head>
 
 <body>

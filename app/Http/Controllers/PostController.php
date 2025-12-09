@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostCollab;
 use App\Models\PostCover;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -81,21 +82,23 @@ class PostController extends Controller
      */
     public function createLong()
     {
-        $trends = [
-            "Kalau aku jujur, kamu masih mau dengar?",
-            "Capek pura-pura baik-baik aja"
-        ];
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
         $users = \App\Models\User::all();
         return view('user.post-long-create', compact('trends', 'users'));
     }
 
     public function createShort(){
-        $trends = [
-            "Life update",
-            "Mood hari ini",
-            "Curhat random",
-            "Overthinking",
-        ];
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+                      
         $users = \App\Models\User::all();
         return view('user.post-short-create', compact('trends', 'users'));
     }

@@ -157,6 +157,9 @@
 }
 </style>
 
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
+
 <div class="d-flex align-items-center mb-3">
     <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2">
         <i class="fa-solid fa-arrow-left"></i>

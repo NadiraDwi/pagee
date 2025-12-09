@@ -63,7 +63,8 @@
 }
 
 </style>
-
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
 
 <h5 class="fw-bold mb-3">Postingan Terbaru</h5>
 

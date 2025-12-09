@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ChapterController extends Controller
 {
@@ -16,10 +17,11 @@ class ChapterController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $trends = [
-            "Kalau aku jujur, kamu masih mau dengar?",
-            "Capek pura-pura baik-baik aja"
-        ];
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
 
         return view('user.chapter.index', compact('posts', 'trends'));
     }
@@ -42,8 +44,14 @@ class ChapterController extends Controller
 
         $users = ($isOwner || $isCollaborator) ? \App\Models\User::all() : collect();
 
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
         return view('user.chapter.show', compact(
-            'post', 'chapters', 'isOwner', 'isCollaborator', 'users'
+            'post', 'chapters', 'isOwner', 'isCollaborator', 'users', 'trends'
         ));
     }
 
@@ -59,7 +67,13 @@ class ChapterController extends Controller
             abort(403, 'Tidak memiliki akses menambahkan chapter.');
         }
 
-        return view('user.chapter.create', compact('post'));
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
+        return view('user.chapter.create', compact('post', 'trends'));
     }
 
     public function store(Request $request, $id_post)
@@ -79,7 +93,13 @@ class ChapterController extends Controller
             'scheduled_at'  => $request->scheduled_at,
         ]);
 
-        return redirect()->route('chapter.show', $id_post)
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
+        return redirect()->route('chapter.show', $id_post, $trends)
                          ->with('success', 'Chapter berhasil ditambahkan!');
     }
 
@@ -110,8 +130,14 @@ class ChapterController extends Controller
             ->orderBy('id_chapter', 'asc')
             ->first();
 
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
         return view('user.chapter.read', compact(
-            'post', 'chapter', 'prev', 'next', 'isOwner', 'isCollaborator'
+            'post', 'chapter', 'prev', 'next', 'isOwner', 'isCollaborator', 'trends'
         ));
     }
 
@@ -128,7 +154,13 @@ class ChapterController extends Controller
             abort(403, 'Tidak memiliki akses mengedit chapter.');
         }
 
-        return view('user.chapter.edit', compact('chapter', 'post', 'isOwner', 'isCollaborator'));
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
+        return view('user.chapter.edit', compact('chapter', 'post', 'isOwner', 'isCollaborator', 'trends'));
     }
 
     public function update(Request $request, $id_post, $id_chapter)
@@ -152,7 +184,13 @@ class ChapterController extends Controller
 
         $chapter->update($request->only('judul_chapter', 'isi_chapter', 'link_musik', 'scheduled_at'));
 
-        return redirect()->route('chapter.read', [$chapter->id_post, $chapter->id_chapter])
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
+        return redirect()->route('chapter.read', [$chapter->id_post, $chapter->id_chapter, $trends])
                         ->with('success', 'Chapter berhasil diperbarui!');
     }
 

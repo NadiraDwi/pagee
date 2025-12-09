@@ -75,6 +75,9 @@
     .chapter-title a { color:#000 !important; text-decoration:none !important; }
 </style>
 
+{{-- RIGHT SIDEBAR --}}
+@include('user.sidebar')
+
   <!-- TAB CONTENT -->
   <div class="tab-content" id="chapterTabContentWrapper">
 
