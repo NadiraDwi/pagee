@@ -58,14 +58,6 @@ class ProfileController extends Controller
                             ->get();
         }
 
-        // === TAB TIMECAPSULE ===
-        if ($tab === 'timecapsule') {
-            $capsules = Post::where('id_user', $user->id_user)
-                            ->whereNotNull('scheduled_at')
-                            ->latest()
-                            ->get();
-        }
-
         // === TAB LIKES ===
         if ($tab === 'likes') {
             // asumsi relasi likes() di model User yang mengembalikan model Like
