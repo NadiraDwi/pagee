@@ -93,10 +93,6 @@ Route::middleware('user')->group(function () {
     Route::put('/whisper/{id}', [WhisperController::class, 'update'])->name('whisper.update');
     Route::delete('/whisper/{id}', [WhisperController::class, 'destroy'])->name('whisper.destroy');
 
-
-
-
-
     // routes/web.php
     Route::post('/collab/add', [PostCollabController::class, 'store'])->name('collab.add');
     Route::post('/collab/remove', [PostCollabController::class, 'remove'])->name('collab.remove');

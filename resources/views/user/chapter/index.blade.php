@@ -65,6 +65,13 @@
 </style>
 {{-- RIGHT SIDEBAR --}}
 @include('user.sidebar')
+<!-- Floating Button -->
+<a href="{{ route('post-long-create') }}">
+<button class="floating-btn" id="postTypeTrigger">
+    <i class="fa-solid fa-plus"></i>
+</button>
+
+</a>
 
 <h5 class="fw-bold mb-3">Postingan Terbaru</h5>
 
@@ -102,40 +109,6 @@
   </div>
   @endforeach
 
-</div>
-
-@endsection
-
-
-{{-- === SIDEBAR KANAN === --}}
-@section('rightbar')
-
-<div class="card shadow-sm mb-3">
-  <div class="card-body">
-    <h5 class="fw-bold text-purple">
-      <i class="fa-solid fa-music me-2"></i>Musik Populer
-    </h5>
-
-    <ul class="list-unstyled small mt-2">
-      <li>Daylight - David Kushner</li>
-      <li>Blue - Keshi</li>
-      <li>Runaway - AURORA</li>
-    </ul>
-  </div>
-</div>
-
-<div class="card shadow-sm">
-  <div class="card-body">
-    <h5 class="fw-bold text-purple">
-      <i class="fa-solid fa-fire me-2"></i>Tren Whisper
-    </h5>
-
-    <ul class="list-unstyled small mt-2">
-      @foreach($trends as $trend)
-        <li>{{ $trend }}</li>
-      @endforeach
-    </ul>
-  </div>
 </div>
 
 @endsection

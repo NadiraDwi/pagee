@@ -195,7 +195,7 @@
                 <button class="btn btn-purple w-100"
                     id="longPostBtn"
                     data-url="{{ route('post-long-create') }}">
-                    Long Post
+                    Add Book
                 </button>
             </div>
 

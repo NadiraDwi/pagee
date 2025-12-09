@@ -50,7 +50,7 @@
                 </li>
                 <li>
                     <a href="{{ route('chapter') }}" class="sidebar-link @yield('nav-chapter')">
-                        <i class="fa-solid fa-book-open me-2"></i>Chapter
+                        <i class="fa-solid fa-book-open me-2"></i>Books
                     </a>
                 </li>
             </ul>

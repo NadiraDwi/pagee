@@ -93,13 +93,7 @@ class ChapterController extends Controller
             'scheduled_at'  => $request->scheduled_at,
         ]);
 
-        $trends = Post::where('is_anonymous', 1)
-                      ->latest()
-                      ->take(5)
-                      ->pluck('isi')
-                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
-
-        return redirect()->route('chapter.show', $id_post, $trends)
+        return redirect()->route('chapter.show', $id_post)
                          ->with('success', 'Chapter berhasil ditambahkan!');
     }
 

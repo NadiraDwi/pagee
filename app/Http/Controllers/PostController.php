@@ -158,7 +158,7 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('home')->with('success', 'Postingan berhasil dibuat!');
+        return redirect()->route('chapter')->with('success', 'Postingan berhasil dibuat!');
     }
 
     public function whispers($username)
