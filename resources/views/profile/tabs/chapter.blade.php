@@ -1,4 +1,5 @@
 @forelse($chapters as $post)
+<a href="{{ route('chapter.show', $post->id_post) }}" class="text-decoration-none text-dark">
     <div class="post-card mb-3 p-3 rounded shadow-sm">
 
         {{-- COVER (jika ada) --}}
@@ -19,6 +20,7 @@
         </p>
 
     </div>
+</a>
 @empty
     <p class="text-muted mt-3">Belum ada chapter.</p>
 @endforelse
