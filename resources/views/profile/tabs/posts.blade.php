@@ -139,7 +139,7 @@
             <div class="post-card" x-data="{ menu:false }">
 
                 <div class="post-header">
-                    <img src="{{ $post->user->foto ? asset('storage/'.$post->user->foto) : 'https://via.placeholder.com/40' }}">
+                    <img src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/120' }}">
 
                     <div>
                         <span class="user-name">{{ $post->user->nama }}</span><br>

@@ -139,10 +139,10 @@
             <div class="post-card" x-data="{ menu:false }">
 
                 <div class="post-header">
-                    <img src="{{ $post->user->foto ? asset('storage/'.$post->user->foto) : 'https://via.placeholder.com/40' }}">
+                    <img src="{{ 'https://i.pravatar.cc/120' }}">
 
                     <div>
-                        <span class="user-name">{{ $post->user->nama }}</span><br>
+                        <span class="user-name">Anonymous</span><br>
                         <span class="post-date">
                             {{ $post->tanggal_dibuat 
                                 ? \Carbon\Carbon::parse($post->tanggal_dibuat)->format('d M Y H:i') 
@@ -188,6 +188,9 @@
                 <div class="post-body mt-2">
                     <h5>{{ $post->judul }}</h5>
                     <p>{{ $post->isi }}</p>
+                    <div class="anonymous-tag" style="text-align: right; font-size: 12px; opacity: .7; margin-top: 6px;">
+                    – anonymous
+                </div>
                 </div>
 
             </div>
