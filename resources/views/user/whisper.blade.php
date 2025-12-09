@@ -59,7 +59,7 @@
 
 {{-- FEED --}}
 <div id="feedPosts">
-    @foreach($posts as $post)
+    @foreach($whispers as $post)
         <div class="card shadow-sm mb-3">
             <div class="card-body">
 
