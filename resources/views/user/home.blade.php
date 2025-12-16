@@ -21,148 +21,226 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-    /* ==== WELCOME SCREEN ==== */
-    .welcome-screen {
+/* =========================================================
+   PAGEE - GLOBAL STYLE
+========================================================= */
+
+/* ===== BODY & TYPOGRAPHY ===== */
+body {
+    background-color: #f9f9f9;
+    color: #1f2937;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* ===== DARK MODE ===== */
+body.dark-mode {
+    background-color: #0f1115;
+    color: #e5e7eb;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    transition: background-color 0.3s, color 0.3s;
+}
+body.dark-mode .navbar {
+    background-color: #181b21 !important;
+    color: #e5e7eb !important;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar-left, .sidebar-right {
+    background-color: #fff;
+    color: #1f2937;
+    transition: background-color 0.3s, color 0.3s;
+}
+body.dark-mode .sidebar-left, body.dark-mode .sidebar-right {
+    background-color: #181b21;
+    color: #e5e7eb;
+}
+
+/* Sidebar links */
+.sidebar-link {
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.sidebar-link i {
+    transition: color 0.3s;
+}
+body.dark-mode .sidebar-link {
+    color: #d1d5db;
+}
+.sidebar-link.active {
+    color: #7c3aed !important;
+}
+body.dark-mode .sidebar-link.active {
+    color: #a78bfa !important;
+}
+.sidebar-link:hover { color: #7c3aed; }
+body.dark-mode .sidebar-link:hover { color: #c4b5fd; }
+
+/* ===== BUTTONS ===== */
+.btn-purple {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.btn-purple:hover {
+    background-color: #9d4edd;
+    border-color: #9d4edd;
+}
+body.dark-mode .btn-purple {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff;
+}
+
+/* ===== POST CARD ===== */
+.card {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    background-color: #fff;
+    color: #1f2937;
+}
+body.dark-mode .card {
+    background-color: #181b21;
+    color: #e5e7eb;
+    border-color: #2a2e37;
+}
+
+/* Card text muted */
+.card .text-muted {
+    color: #6b7280 !important;
+}
+body.dark-mode .card .text-muted {
+    color: #9ca3af !important;
+}
+
+/* Action buttons */
+.action-btn, .toggle-love-btn {
+    color: #6b7280;
+    transition: color 0.3s;
+}
+.action-btn:hover, .toggle-love-btn:hover {
+    color: #7c3aed;
+}
+body.dark-mode .action-btn, body.dark-mode .toggle-love-btn {
+    color: #9ca3af;
+}
+
+/* Heart liked */
+.fa-heart.text-danger {
+    color: #ef4444;
+}
+
+/* Comments */
+.comment-input {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    border: 1px solid #d1d5db;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.comment-input::placeholder {
+    color: #9ca3af;
+}
+body.dark-mode .comment-input {
+    background-color: #111827;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+body.dark-mode .comment-input::placeholder {
+    color: #9ca3af;
+}
+
+/* ===== MODAL ===== */
+.modal-content {
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #fff;
+}
+body.dark-mode .modal-content {
+    background-color: #181b21;
+    color: #e5e7eb;
+}
+/* Close button */
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+/* ===== FLOATING BUTTON ===== */
+.floating-btn {
+    background-color: #7c3aed;
+    color: #fff;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.floating-btn:hover {
+    transform: scale(1.1);
+}
+body.dark-mode .floating-btn {
+    background-color: #9d4edd;
+    color: #fff;
+}
+
+/* ===== WELCOME SCREEN ===== */
+.welcome-screen {
+    background-color: #000;
+    color: #fff;
+}
+body.dark-mode .welcome-screen {
+    background-color: #000;
+    color: #fff;
+}
+
+/* ===== WARNA USER LINK ===== */
+.user-link {
+    color: #1f2937;
+    transition: color 0.3s;
+}
+body.dark-mode .user-link {
+    color: #e5e7eb;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .sidebar-right {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar-left {
         position: fixed;
-        top:0; left:0;
-        width:100vw; height:100vh;
-        background: #000;
-        display:flex; justify-content:center; align-items:center;
+        left: -100%;
+        z-index: 1050;
+        width: 220px;
+        transition: left 0.3s;
+    }
+    .sidebar-left.active {
+        left: 0;
+    }
+    .main-layout {
         flex-direction: column;
-        z-index: 9999;
-        overflow: hidden;
-        animation: fadeIn 0.6s ease forwards;
+        margin-top: 60px;
     }
 
-    .star {
-        position: absolute;
-        width: 2px; height: 2px;
-        background: white;
-        border-radius: 50%;
-        opacity: 0.8;
-        animation: twinkle 10s infinite alternate;
+    /* Floating Button responsive */
+    .floating-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+        bottom: 15px;
+        right: 15px;
     }
-
-    @keyframes twinkle {
-        0% { opacity:0.2; }
-        50% { opacity:1; }
-        100% { opacity:0.2; }
-    }
-
-    .welcome-content {
-        text-align: center;
-        color: #fff;
-        animation: floatText 10s ease-in-out infinite;
-        z-index: 10;
-        font-family: 'Montserrat', sans-serif;
-    }
-
-    .welcome-text {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        overflow: hidden;
-        white-space: nowrap;
-        border-right: 3px solid white;
-        font-family: 'Pacifico', cursive;
-    }
-
-    .welcome-subtext {
-        font-size: 1.2rem;
-        margin-top: -5px;
-    }
-
-    .whale {
-        width: 200px;
-        animation: swim 15s ease-in-out infinite alternate;
-        margin-bottom: 2rem;
-    }
-
-    @keyframes floatText {
-        0%,100% { transform: translateY(0px);}
-        50% { transform: translateY(-15px);}
-    }
-
-    @keyframes swim {
-        0% { transform: translateY(0) rotate(0deg);}
-        50% { transform: translateY(-30px) rotate(-3deg);}
-        100% { transform: translateY(0) rotate(0deg);}
-    }
-
-    @keyframes fadeIn {
-        0% { opacity:0; }
-        100% { opacity:1; }
-    }
-
-    /* ==== ACTION BUTTONS ==== */
-    .send-comment-btn {
-        padding: 6px 10px;
-        font-size: 14px;
-    }
-
-    .action-btn {
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 1.2rem;
-        color: #6c6c6c;
-    }
-
-    .action-btn.active i {
-        color: red;
-    }
-
-    .comment-box {
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from { opacity:0; transform:scale(0.95); }
-        to   { opacity:1; transform:scale(1); }
-    }
-
-    /* SHARE TOAST */
-    .share-toast {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%) scale(0.8);
-        background: #333;
-        color: white;
-        padding: 8px 16px;
-        border-radius: 10px;
-        opacity: 0;
-        transition: 0.3s ease;
-    }
-
-    .share-toast.show {
-        opacity: 1;
-        transform: translateX(-50%) scale(1);
-    }
-
-    .toggle-love-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #6c6c6c; /* default abu */
-    font-size: 1rem;
-    transition: color 0.2s;
 }
-
-.toggle-love-btn:focus {
-    outline: none; /* hilangkan outline biru saat klik */
-    box-shadow: none;
+@media (max-width: 480px) {
+    .floating-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        bottom: 12px;
+        right: 12px;
+    }
 }
-
-.toggle-love-btn .fa-solid.text-danger {
-    color: red; /* hanya merah saat liked */
-}
-
-.comment-input:disabled {
-    background: #f0f0f0;
-    cursor: not-allowed;
-}
-
 
 </style>
 @endpush
@@ -213,7 +291,8 @@
                 <div class="d-flex align-items-center mb-2">
                     @if(!$post->is_anonymous)
                         <a href="{{ route('user.profile', $post->user->id_user) }}"
-                           class="d-flex align-items-center text-decoration-none text-dark">
+                            class="d-flex align-items-center text-decoration-none user-link">
+
                             <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
                                  class="rounded-circle me-2" width="45">
 

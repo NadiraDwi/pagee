@@ -7,6 +7,77 @@
 {{-- RIGHT SIDEBAR --}}
 @include('user.sidebar')
 
+<style>
+    /* ===== LONG POST DARK MODE ===== */
+body.dark-mode .card {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+    border-color: #333;
+}
+
+body.dark-mode .card .form-control {
+    background-color: #3A3B3C;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+body.dark-mode .card .form-control::placeholder {
+    color: #9ca3af;
+}
+
+body.dark-mode .btn-purple,
+body.dark-mode .btn-outline-purple {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff;
+}
+
+body.dark-mode .btn-purple:hover,
+body.dark-mode .btn-outline-purple:hover {
+    background-color: #9d4edd;
+    border-color: #9d4edd;
+}
+
+body.dark-mode #coverPreview {
+    border: 1px solid #444;
+}
+
+body.dark-mode #selectedUsers div {
+    background-color: #7c3aed !important;
+    color: #fff !important;
+}
+
+body.dark-mode .modal-content {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+}
+
+body.dark-mode .modal-content .list-group-item {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+    border-color: #333;
+}
+
+body.dark-mode .modal-content .list-group-item:hover {
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+/* optional: placeholder di search user modal */
+body.dark-mode #searchUser {
+    background-color: #3A3B3C;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+
+body.dark-mode #searchUser::placeholder {
+    color: #9ca3af;
+}
+
+</style>
 <div class="card shadow-sm mb-3">
   <div class="card-body">
 

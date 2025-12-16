@@ -13,148 +13,206 @@
 /* =========================
    GLOBAL STYLE
 ========================= */
-.form-wrapper {
-    max-width: 760px;
-    margin: auto;
+.form-wrapper { 
+    max-width: 760px; 
+    margin: auto; 
+    padding: 0 15px; 
 }
 
-.btn-purple {
-    background: #6f42c1;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
+/* Buttons */
+.btn-purple { 
+    background: #6f42c1; 
+    color: white; 
+    border: none; 
+    padding: 10px 18px; 
+    border-radius: 8px; 
+    transition: .2s; 
+}
+.btn-purple:hover { 
+    background:#5933a5; 
+}
+.btn-outline-purple { 
+    border: 2px solid #6f42c1; 
+    padding: 6px 14px; 
+    border-radius: 8px; 
+    background: none; 
+    color: #6f42c1; 
     transition: .2s;
 }
-.btn-purple:hover { background:#5933a5; }
-
-.btn-outline-purple {
-    border: 2px solid #6f42c1;
-    padding: 6px 14px;
-    border-radius: 8px;
-    background: none;
-    color: #6f42c1;
+.btn-outline-purple:hover { 
+    background:#6f42c1; 
+    color:white; 
 }
-.btn-outline-purple:hover { background:#6f42c1; color:white; }
 
 /* =========================
    MUSIC RESULT STYLE
 ========================= */
-.music-box {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 10px;
-    background: #fafafa;
+.music-box { 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    padding: 12px; 
+    margin-bottom: 10px; 
+    background: #fafafa; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    transition: .2s;
+}
+.music-box:hover { 
+    background: #f0f0f0; 
 }
 
-.play-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    font-size: 16px;
-    background: #eee;
-}
-
-.add-btn {
-    background: transparent;
-    border: 2px solid #6f42c1; /* outline */
-    color: #6f42c1;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%; /* bikin lingkaran */
+/* Play Button */
+.play-btn { 
+    width: 36px; 
+    height: 36px; 
+    border-radius: 50%; 
+    border: none; 
+    font-size: 16px; 
+    background: #eee; 
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: .2s;
+}
+.play-btn:hover { background: #dcdcdc; }
+
+/* Add Button */
+.add-btn { 
+    background: transparent; 
+    border: 2px solid #6f42c1; 
+    color: #6f42c1; 
+    width: 36px; 
+    height: 36px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+}
+.add-btn:hover { 
+    background: #6f42c1; 
+    color: white; 
 }
 
-.add-btn:hover {
-    background: #6f42c1;
-    color: white;
+/* Trix editor */
+trix-editor { 
+    min-height: 250px; 
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    transition: .2s;
 }
-</style>
+trix-editor:focus { border-color: #6f42c1; outline: none; }
 
-<style>
-    trix-editor {
-        min-height: 250px; /* bebas, bisa 300px atau 400px */
-    }
-</style>
-
-<style>
 /* GROUP MUSIK */
-.music-search-group .btn-music-search {
-    background: #6f42c1;
-    color: #fff;
-    padding: 6px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    transition: .2s;
+.music-search-group .btn-music-search,
+.music-search-bar .btn-music-search { 
+    background: #6f42c1; 
+    color: #fff; 
+    padding: 6px 14px; 
+    font-size: 14px; 
+    border: none; 
+    border-radius: 0 8px 8px 0; 
+    transition: .2s; 
+}
+.music-search-group .btn-music-search:hover,
+.music-search-bar .btn-music-search:hover { 
+    background: #5933a5; 
+}
+.music-search-group input, .music-search-bar input { 
+    border-radius: 8px 0 0 8px; 
+    padding: 6px 10px;
+    border: 1px solid #ddd;
 }
 
-.music-search-group .btn-music-search:hover {
-    background: #5933a5;
+/* Scrollable music list */
+.music-scroll { 
+    max-height: 300px; 
+    overflow-y: auto; 
+    padding-right: 5px; 
 }
 
-/* Biar inputnya match */
-.music-search-group input {
-    border-radius: 8px 0 0 8px;
+/* Toast Notifications */
+.music-toast { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    background: #6f42c1; 
+    color: #fff; 
+    padding: 12px 20px; 
+    border-radius: 10px; 
+    font-weight: 500; 
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: .3s ease; 
+    z-index: 2000; 
+    box-shadow: 0 4px 12px rgba(111,66,193,0.35);
 }
-</style>
-
-<style>
-/* Tombol khusus pencarian musik */
-.music-search-bar .btn-music-search {
-    background: #6f42c1;
-    color: #fff;
-    padding: 6px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    transition: .2s;
-}
-
-.music-search-bar .btn-music-search:hover {
-    background: #5933a5;
-}
-
-/* Input biar menyatu bentuknya */
-.music-search-bar input {
-    border-radius: 8px 0 0 8px;
+.music-toast.show { 
+    opacity: 1; 
+    transform: translateY(0); 
 }
 
-.music-scroll {
-    max-height: 300px;       /* bebas atur */
-    overflow-y: auto;        /* biar hanya bagian ini yang scroll */
-    padding-right: 5px;      /* biar ga kepotong scrollbar */
+/* =========================
+   RESPONSIVE ADJUSTMENTS
+========================= */
+@media(max-width: 576px) {
+    .music-box { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        padding: 10px; 
+    }
+    .play-btn, .add-btn { width: 32px; height: 32px; font-size: 14px; }
+    .music-search-group input, .music-search-bar input { width: 100%; margin-bottom: 6px; }
 }
 
-</style>
+/* =========================
+   DARK MODE
+========================= */
+body.dark-mode {
+    background-color: #121212;
+    color: #e5e7eb;
+}
 
-<style>
-.music-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #6f42c1;
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: .3s ease;
-    z-index: 2000;
-    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.35);
+body.dark-mode .music-box {
+    background: #1f1f1f;
+    border: 1px solid #333;
 }
-.music-toast.show {
-    opacity: 1;
-    transform: translateY(0);
+body.dark-mode .music-box:hover { background: #2a2a2a; }
+
+body.dark-mode .play-btn { background: #2a2a2a; color: #e5e7eb; }
+body.dark-mode .play-btn:hover { background: #3a3a3a; }
+
+body.dark-mode .add-btn { border-color: #bb86fc; color: #bb86fc; }
+body.dark-mode .add-btn:hover { background: #bb86fc; color: #121212; }
+
+body.dark-mode trix-editor { background: #1f1f1f; color: #e5e7eb; border-color: #333; }
+body.dark-mode trix-editor:focus { border-color: #bb86fc; }
+
+body.dark-mode .music-search-group input, 
+body.dark-mode .music-search-bar input { 
+    background: #1f1f1f; 
+    color: #e5e7eb; 
+    border: 1px solid #333; 
 }
+
+body.dark-mode .music-search-group .btn-music-search,
+body.dark-mode .music-search-bar .btn-music-search { 
+    background: #bb86fc; 
+    color: #121212; 
+}
+body.dark-mode .music-search-group .btn-music-search:hover,
+body.dark-mode .music-search-bar .btn-music-search:hover { 
+    background: #9b5ed3; 
+    color: #fff; 
+}
+
+body.dark-mode .music-toast { background: #bb86fc; color: #121212; box-shadow: 0 4px 12px rgba(187,134,252,0.35); }
+
 </style>
 
 {{-- RIGHT SIDEBAR --}}

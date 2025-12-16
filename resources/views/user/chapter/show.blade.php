@@ -73,6 +73,125 @@
     }
 
     .chapter-title a { color:#000 !important; text-decoration:none !important; }
+
+    /* ===== DARK MODE ===== */
+body.dark-mode {
+    background-color: #121212;
+    color: #e5e7eb;
+}
+
+/* Header Cover */
+body.dark-mode .header-cover::after {
+    background: rgba(0,0,0,0.55); /* overlay lebih gelap */
+}
+body.dark-mode .header-title {
+    color: #f3f4f6;
+}
+
+/* Tabs */
+body.dark-mode .nav-tabs {
+    border-bottom: 1px solid #6f42c1;
+}
+/* Dark mode tabs */
+body.dark-mode .nav-tabs .nav-link {
+    color: #6f42c1 !important; /* abu-abu terang untuk non-aktif */
+    background-color: transparent;
+    border-color: transparent;
+}
+body.dark-mode .nav-tabs .nav-link.active {
+    color: #bb86fc !important; /* warna highlight untuk aktif */
+    font-weight: 600;
+    border-color: #6f42c1 #6f42c1 #6f42c1;
+}
+body.dark-mode .nav-tabs .nav-link:hover {
+    color: #d1baff; /* hover effect */
+}
+
+body.dark-mode .nav-tabs .nav-link:hover {
+    color: #c4b5fd;
+}
+
+/* Chapter Rows */
+body.dark-mode .chapter-row {
+    background: #1f1f1f;
+    border-color: #333;
+    color: #e5e7eb;
+}
+body.dark-mode .chapter-row:hover {
+    background: #2a2a2a;
+    border-color: #444;
+}
+body.dark-mode .chapter-number {
+    color: #bb86fc;
+}
+body.dark-mode .chapter-title a {
+    color: #e5e7eb !important;
+}
+body.dark-mode .badge.bg-warning {
+    background-color: #bb86fc !important;
+    color: #121212 !important;
+}
+
+/* Buttons */
+body.dark-mode .btn-outline-purple {
+    border-color: #bb86fc;
+    color: #bb86fc;
+    background: transparent;
+}
+body.dark-mode .btn-outline-purple:hover {
+    background: #bb86fc;
+    color: #121212;
+}
+
+/* Modal Pilih User */
+body.dark-mode .modal-content {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+}
+body.dark-mode .modal-content .list-group-item {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+    border-color: #333;
+}
+body.dark-mode .modal-content .list-group-item:hover {
+    background-color: #2a2a2a;
+}
+
+/* Search User */
+body.dark-mode #searchUser {
+    background-color: #111827;
+    color: #e5e7eb;
+    border-color: #374151;
+}
+body.dark-mode #searchUser::placeholder {
+    color: #9ca3af;
+}
+
+/* Chips Selected Users */
+body.dark-mode #selectedUsers div {
+    background-color: #bb86fc;
+    color: #121212;
+}
+
+/* Delete Button */
+body.dark-mode .delete-btn {
+    background-color: #cf6679;
+    color: #fff;
+    border: none;
+}
+body.dark-mode .delete-btn:hover {
+    background-color: #b00020;
+}
+
+/* Scrollbar optional */
+body.dark-mode ::-webkit-scrollbar {
+    width: 8px;
+}
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
 </style>
 
 {{-- RIGHT SIDEBAR --}}
@@ -102,7 +221,7 @@
          @auth
         @if($isOwner || $isCollaborator)
         <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $post->id_post }}">
-            <i class="fa-solid fa-trash"></i> Hapus
+            <i class="fa-solid fa-trash"></i>
         </button>
 
         @endif

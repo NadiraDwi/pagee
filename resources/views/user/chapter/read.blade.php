@@ -136,6 +136,92 @@
     #confirmDeleteModal .modal-footer {
         border-top: none;
     }
+
+    /* === Dark Mode for Chapter Page === */
+body.dark-mode {
+    background-color: #121212;
+    color: #e5e7eb;
+}
+
+/* Chapter Header */
+body.dark-mode .chapter-header {
+    color: #e5e7eb;
+}
+body.dark-mode .chapter-title-text {
+    color: #bb86fc;
+}
+body.dark-mode .chapter-subtitle {
+    color: #c4c4c4;
+}
+
+/* Chapter Content Box */
+body.dark-mode .chapter-content {
+    background: #1f1f1f;
+    border: 1px solid #333;
+    color: #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* Navigation Buttons */
+body.dark-mode .btn-purple {
+    background: #bb86fc;
+    color: #121212;
+}
+body.dark-mode .btn-purple:hover {
+    background: #9b5ed3;
+    color: #fff;
+}
+
+body.dark-mode .btn-outline-purple {
+    border-color: #bb86fc;
+    color: #bb86fc;
+    background: transparent;
+}
+body.dark-mode .btn-outline-purple:hover {
+    background: #bb86fc;
+    color: #121212;
+}
+
+/* Back Button */
+body.dark-mode .btn-back {
+    color: #bb86fc;
+}
+body.dark-mode .btn-back:hover {
+    background: #2a2a2a;
+    color: #bb86fc;
+}
+
+/* Light Purple Buttons */
+body.dark-mode .btn-light-purple {
+    background: #2a2a2a;
+    color: #bb86fc;
+    border: 1px solid #bb86fc;
+}
+body.dark-mode .btn-light-purple:hover {
+    background: #bb86fc;
+    color: #121212;
+}
+
+/* Modal */
+body.dark-mode #confirmDeleteModal .modal-content {
+    background-color: #1f1f1f;
+    color: #e5e7eb;
+    border-radius: 12px;
+}
+body.dark-mode #confirmDeleteModal .modal-header,
+body.dark-mode #confirmDeleteModal .modal-footer {
+    border-color: transparent;
+}
+body.dark-mode #confirmDeleteModal .btn-purple {
+    background: #bb86fc;
+    color: #121212;
+}
+body.dark-mode #confirmDeleteModal .btn-light-purple {
+    background: #2a2a2a;
+    color: #bb86fc;
+    border-color: #bb86fc;
+}
+
 </style>
 
 {{-- RIGHT SIDEBAR --}}
