@@ -16,6 +16,10 @@ use App\Http\Controllers\PostCollabController;
 use App\Http\Controllers\AudiusController;
 use App\Http\Controllers\WhisperController;
 
+Route::get('/landing', function () {
+    return view('landing');
+})->name('landing');
+
 Route::get('/soundcloud', function () {
     return view('user.soundcloud');
 });
