@@ -6,13 +6,19 @@
 @section('content')
 
 @if(session('justLoggedIn'))
-    <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-content">
-            <img src="{{ asset('assets/image/whale2.png') }}" alt="Whale" class="whale">
-            <h1 class="welcome-text" id="welcomeText">
-                {{ "Welcome, " . Auth::user()->nama . ", wanderer of dreams ✨" }}
+    <div id="welcome-screen">
+        <div class="ocean-bg"></div>
+
+        <div class="welcome-center">
+            <img src="{{ asset('assets/image/whale2.png') }}" class="floating-whale" alt="Whale">
+
+            <h1 class="welcome-text">
+                Welcome, {{ Auth::user()->nama }} ✨
             </h1>
-            <p class="welcome-subtext">Every idea you have is a wave waiting to dance 🌊</p>
+
+            <p class="welcome-subtext">
+                Every idea you have is a wave waiting to dance 🌊
+            </p>
         </div>
     </div>
 @endif
@@ -182,15 +188,57 @@ body.dark-mode .floating-btn {
     color: #fff;
 }
 
-/* ===== WELCOME SCREEN ===== */
-.welcome-screen {
-    background-color: #000;
-    color: #fff;
+/* ===== WELCOME SCREEN FULL ===== */
+#welcome-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(circle at top, #0b1220, #000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
-body.dark-mode .welcome-screen {
-    background-color: #000;
-    color: #fff;
+
+.ocean-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at bottom, rgba(124,58,237,0.15), transparent 60%);
 }
+
+.welcome-center {
+    position: relative;
+    text-align: center;
+    color: white;
+    z-index: 2;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.floating-whale {
+    width: 420px;
+    max-width: 80vw;
+    animation: floatWhale 6s ease-in-out infinite;
+    filter: drop-shadow(0 20px 40px rgba(124,58,237,0.4));
+}
+
+.welcome-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.8rem;
+    margin-top: 20px;
+}
+
+.welcome-subtext {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    margin-top: 10px;
+}
+
+@keyframes floatWhale {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-25px); }
+    100% { transform: translateY(0); }
+}
+
 
 /* ===== WARNA USER LINK ===== */
 .user-link {
@@ -443,42 +491,18 @@ body.dark-mode .user-link {
 <script>
 /* ==== WELCOME SCREEN ==== */
 document.addEventListener("DOMContentLoaded", () => {
-    const welcomeScreen = document.getElementById('welcome-screen');
+    const screen = document.getElementById("welcome-screen");
+    if (!screen) return;
 
-    if (welcomeScreen) {
-        for (let i = 0; i < 100; i++) {
-            let star = document.createElement('div');
-            star.classList.add('star');
-            star.style.top = Math.random() * window.innerHeight + 'px';
-            star.style.left = Math.random() * window.innerWidth + 'px';
-            star.style.width = star.style.height = Math.random()*2 + 1 + 'px';
-            star.style.animationDuration = (Math.random()*3 + 2) + 's';
-            welcomeScreen.appendChild(star);
-        }
-
-        const textEl = welcomeScreen.querySelector('.welcome-text');
-        const fullText = textEl.textContent;
-        textEl.textContent = '';
-        textEl.style.borderRight = '3px solid white';
-
-        let i = 0;
-        function type() {
-            if (i < fullText.length) {
-                textEl.textContent += fullText.charAt(i);
-                i++;
-                setTimeout(type, 50);
-            } else {
-                textEl.style.borderRight = 'none';
-            }
-        }
-        type();
+    setTimeout(() => {
+        screen.style.transition = "opacity 0.6s ease";
+        screen.style.opacity = "0";
 
         setTimeout(() => {
-            welcomeScreen.style.transition = "opacity 0.5s ease";
-            welcomeScreen.style.opacity = 0;
-            setTimeout(() => welcomeScreen.remove(), 500);
-        }, 10000);
-    }
+            screen.remove();
+        }, 600);
+
+    }, 3000); // ⏱️ CUMA 3 DETIK
 });
 </script>
 
