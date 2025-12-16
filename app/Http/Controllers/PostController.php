@@ -105,15 +105,23 @@ class PostController extends Controller
 
     public function storeLong(Request $request)
     {
-        // VALIDASI
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'jenis_post' => 'required',
-            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+            'jenis_post' => 'required|in:long',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'mentions' => 'nullable|json'
+        ], [
+            'judul.required' => 'Judul wajib diisi.',
+            'judul.max' => 'Judul maksimal 255 karakter.',
+            'isi.required' => 'Isi post wajib diisi.',
+            'jenis_post.in' => 'Jenis post tidak valid.',
+            'cover.image' => 'File cover harus berupa gambar.',
+            'cover.mimes' => 'Hanya format JPG, JPEG, PNG, atau WEBP yang diperbolehkan.',
+            'cover.max' => 'Ukuran gambar maksimal 2MB.',
+            'mentions.json' => 'Mentions harus berupa array JSON.'
         ]);
 
-        // SIMPAN POST UTAMA
         $post = Post::create([
             'judul' => $request->judul,
             'isi' => $request->isi,
@@ -121,38 +129,27 @@ class PostController extends Controller
             'id_user' => auth()->user()->id_user
         ]);
 
-        // ==========================
-        // SIMPAN COVER BILA ADA
-        // ==========================
+        // Simpan cover jika ada
         if ($request->hasFile('cover')) {
-
             $coverFile = $request->file('cover');
             $fileName = time() . '_' . $coverFile->getClientOriginalName();
-
-            // simpan ke storage/app/public/covers
             $coverPath = $coverFile->storeAs('covers', $fileName, 'public');
 
-            // simpan ke tabel post_covers
             PostCover::create([
                 'id_post' => $post->id_post,
                 'cover_path' => $coverPath
             ]);
         }
 
-        // 2️⃣ Proses collab
+        // Proses collab / mentions
         if ($request->filled('mentions')) {
-
-            // Decode JSON → array ID user
             $mentionIds = json_decode($request->mentions, true);
-
             if (is_array($mentionIds)) {
                 foreach ($mentionIds as $idUser) {
-
-                    // Simpan ke tabel post_collabs
                     PostCollab::create([
                         'id_post' => $post->id_post,
-                        'id_user1' => auth()->user()->id_user, // pembuat post
-                        'id_user2' => $idUser, // collab
+                        'id_user1' => auth()->user()->id_user,
+                        'id_user2' => $idUser,
                     ]);
                 }
             }
@@ -160,6 +157,7 @@ class PostController extends Controller
 
         return redirect()->route('chapter')->with('success', 'Postingan berhasil dibuat!');
     }
+
 
     public function whispers($username)
 {

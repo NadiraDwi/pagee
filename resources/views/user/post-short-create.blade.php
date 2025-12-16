@@ -106,47 +106,47 @@
         <div class="card-body">
             <h5 class="mb-3">Tulis Short Post</h5>
 
-            <form action="{{ route('posts.store') }}" method="POST">
-            @csrf
-            <input type="hidden" name="jenis_post" value="short">
+            <form id="postForm" action="{{ route('posts.store') }}" method="POST" novalidate>
+    @csrf
+    <input type="hidden" name="jenis_post" value="short">
 
-            <!-- TEXTAREA -->
-            <div class="mb-2 position-relative">
-                <textarea id="inputPost" class="form-control" name="isi" rows="4"
-                maxlength="150" placeholder="Tulis sesuatu..." required></textarea>
+    <!-- TEXTAREA -->
+    <div class="mb-2 position-relative">
+        <textarea id="inputPost" class="form-control" name="isi" rows="4"
+        maxlength="150" placeholder="Tulis sesuatu..." required></textarea>
 
-                <!-- Mention dropdown -->
-                <ul id="mentionList" class="list-group position-absolute w-100 d-none" 
-                    style="top: 105%; z-index: 10; max-height:150px; overflow-y:auto;">
-                @foreach($users as $u)
-                    <li class="list-group-item list-group-item-action mention-item"
-                        data-username="{{ $u->username }}">
-                        {{ $u->username }}
-                    </li>
-                @endforeach
-                </ul>
-            </div>
+        <!-- Mention dropdown -->
+        <ul id="mentionList" class="list-group position-absolute w-100 d-none" 
+            style="top: 105%; z-index: 10; max-height:150px; overflow-y:auto;">
+            @foreach($users as $u)
+                <li class="list-group-item list-group-item-action mention-item"
+                    data-username="{{ $u->username }}">
+                    {{ $u->username }}
+                </li>
+            @endforeach
+        </ul>
+        <div class="invalid-feedback" id="isiError"></div>
+    </div>
 
-            <!-- CHARACTER COUNTER -->
-            <p class="text-end small text-muted">
-                <span id="charCount">0</span>/150 karakter
-            </p>
+    <!-- CHARACTER COUNTER -->
+    <p class="text-end small text-muted">
+        <span id="charCount">0</span>/150 karakter
+    </p>
 
-            <!-- ANONYMOUS TOGGLE -->
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" role="switch"
-                    id="anonToggle" name="is_anonymous" value="1">
-                <label class="form-check-label" for="anonToggle">
-                Posting sebagai anonim
-                </label>
-            </div>
+    <!-- ANONYMOUS TOGGLE -->
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch"
+            id="anonToggle" name="is_anonymous" value="1">
+        <label class="form-check-label" for="anonToggle">
+        Posting sebagai anonim
+        </label>
+    </div>
 
-
-            <!-- SUBMIT -->
-            <div class="text-end">
-                <button type="submit" class="btn btn-purple">Posting</button>
-            </div>
-            </form>
+    <!-- SUBMIT -->
+    <div class="text-end">
+        <button type="submit" class="btn btn-purple">Posting</button>
+    </div>
+</form>
         </div>
         </div>
 
@@ -181,6 +181,77 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ asset('assets/script.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
+    const textarea = document.getElementById('inputPost');
+    const charCount = document.getElementById('charCount');
+    const form = document.getElementById('postForm');
+    const isiError = document.getElementById('isiError');
+
+    // ======= Update karakter counter =======
+    textarea.addEventListener('input', () => {
+        charCount.textContent = textarea.value.length;
+
+        // validasi panjang
+        if(textarea.value.length > 150){
+            textarea.classList.add('is-invalid');
+            isiError.textContent = 'Maksimal 150 karakter';
+        } else if(textarea.value.trim() === ''){
+            textarea.classList.add('is-invalid');
+            isiError.textContent = 'Isi postingan wajib diisi';
+        } else {
+            textarea.classList.remove('is-invalid');
+            isiError.textContent = '';
+        }
+    });
+
+    // ======= Validasi sebelum submit =======
+    form.addEventListener('submit', (e) => {
+        const isi = textarea.value.trim();
+
+        if(isi === ''){
+            e.preventDefault();
+            textarea.classList.add('is-invalid');
+            isiError.textContent = 'Isi postingan wajib diisi';
+            textarea.focus();
+            return false;
+        }
+
+        if(isi.length > 150){
+            e.preventDefault();
+            textarea.classList.add('is-invalid');
+            isiError.textContent = 'Maksimal 150 karakter';
+            textarea.focus();
+            return false;
+        }
+    });
+
+    // ======= Mention click =======
+    document.querySelectorAll('.mention-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const username = item.dataset.username;
+            textarea.value += `@${username} `;
+            charCount.textContent = textarea.value.length;
+            document.getElementById('mentionList').classList.add('d-none');
+            textarea.focus();
+        });
+    });
+
+    // ======= Tampilkan dropdown mention saat mengetik "@" =======
+    textarea.addEventListener('input', (e) => {
+        const value = e.target.value;
+        const lastChar = value.slice(-1);
+        const list = document.getElementById('mentionList');
+
+        if(lastChar === '@'){
+            list.classList.remove('d-none');
+        } else if(!value.includes('@')){
+            list.classList.add('d-none');
+        }
+    });
+
+});
+</script>
 </body>
 </html>

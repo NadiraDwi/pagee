@@ -13,197 +13,76 @@
 /* =========================
    GLOBAL STYLE
 ========================= */
-.form-wrapper {
-    max-width: 760px;
-    margin: auto;
-}
+.form-wrapper { max-width: 760px; margin: auto; }
 
-.btn-purple {
-    background: #6f42c1;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    transition: .2s;
-}
+.btn-purple { background: #6f42c1; color: white; border: none; padding: 10px 18px; border-radius: 8px; transition: .2s; }
 .btn-purple:hover { background:#5933a5; }
-
-.btn-outline-purple {
-    border: 2px solid #6f42c1;
-    padding: 6px 14px;
-    border-radius: 8px;
-    background: none;
-    color: #6f42c1;
-}
+.btn-outline-purple { border: 2px solid #6f42c1; padding: 6px 14px; border-radius: 8px; background: none; color: #6f42c1; }
 .btn-outline-purple:hover { background:#6f42c1; color:white; }
 
 /* =========================
    MUSIC RESULT STYLE
 ========================= */
-.music-box {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 10px;
-    background: #fafafa;
-}
+.music-box { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-bottom: 10px; background: #fafafa; }
+.play-btn { width: 36px; height: 36px; border-radius: 50%; border: none; font-size: 16px; background: #eee; }
+.add-btn { background: transparent; border: 2px solid #6f42c1; color: #6f42c1; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: 0.2s; }
+.add-btn:hover { background: #6f42c1; color: white; }
 
-.play-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    font-size: 16px;
-    background: #eee;
-}
+/* Trix editor */
+trix-editor { min-height: 250px; }
 
-.add-btn {
-    background: transparent;
-    border: 2px solid #6f42c1; /* outline */
-    color: #6f42c1;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%; /* bikin lingkaran */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.add-btn:hover {
-    background: #6f42c1;
-    color: white;
-}
-</style>
-
-<style>
-    trix-editor {
-        min-height: 250px; /* bebas, bisa 300px atau 400px */
-    }
-</style>
-
-<style>
 /* GROUP MUSIK */
-.music-search-group .btn-music-search {
-    background: #6f42c1;
-    color: #fff;
-    padding: 6px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    transition: .2s;
-}
+.music-search-group .btn-music-search,
+.music-search-bar .btn-music-search { background: #6f42c1; color: #fff; padding: 6px 14px; font-size: 14px; border: none; border-radius: 0 8px 8px 0; transition: .2s; }
+.music-search-group .btn-music-search:hover,
+.music-search-bar .btn-music-search:hover { background: #5933a5; }
+.music-search-group input, .music-search-bar input { border-radius: 8px 0 0 8px; }
+.music-scroll { max-height: 300px; overflow-y: auto; padding-right: 5px; }
 
-.music-search-group .btn-music-search:hover {
-    background: #5933a5;
-}
+.music-toast { position: fixed; bottom: 20px; right: 20px; background: #6f42c1; color: #fff; padding: 12px 20px; border-radius: 10px; font-weight: 500; opacity: 0; transform: translateY(20px); transition: .3s ease; z-index: 2000; box-shadow: 0 4px 12px rgba(111,66,193,0.35);}
+.music-toast.show { opacity: 1; transform: translateY(0); }
 
-/* Biar inputnya match */
-.music-search-group input {
-    border-radius: 8px 0 0 8px;
-}
-</style>
-
-<style>
-/* Tombol khusus pencarian musik */
-.music-search-bar .btn-music-search {
-    background: #6f42c1;
-    color: #fff;
-    padding: 6px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    transition: .2s;
-}
-
-.music-search-bar .btn-music-search:hover {
-    background: #5933a5;
-}
-
-/* Input biar menyatu bentuknya */
-.music-search-bar input {
-    border-radius: 8px 0 0 8px;
-}
-
-.music-scroll {
-    max-height: 300px;       /* bebas atur */
-    overflow-y: auto;        /* biar hanya bagian ini yang scroll */
-    padding-right: 5px;      /* biar ga kepotong scrollbar */
-}
-
-</style>
-
-<style>
-.music-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #6f42c1;
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: .3s ease;
-    z-index: 2000;
-    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.35);
-}
-.music-toast.show {
-    opacity: 1;
-    transform: translateY(0);
-}
 </style>
 
 {{-- RIGHT SIDEBAR --}}
 @include('user.sidebar')
 
 <div class="d-flex align-items-center mb-3">
-    <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2">
-        <i class="fa-solid fa-arrow-left"></i>
-    </a>
+    <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2"><i class="fa-solid fa-arrow-left"></i></a>
     <h4 class="fw-bold mb-0">Tambah Chapter Baru</h4>
 </div>
 
 <div class="card shadow-sm form-wrapper">
     <div class="card-body">
 
-        <form action="{{ route('chapter.store', $post->id_post) }}" method="POST">
+        <form id="chapterForm" action="{{ route('chapter.store', $post->id_post) }}" method="POST">
             @csrf
 
             {{-- JUDUL --}}
             <div class="mb-3">
                 <label class="fw-semibold">Judul Chapter</label>
-                <input type="text" name="judul_chapter" class="form-control" required>
+                <input type="text" name="judul_chapter" class="form-control">
+                <div class="invalid-feedback"></div>
             </div>
 
-            {{-- MUSIK + SCHEDULE (1 ROW) --}}
+            {{-- MUSIK + SCHEDULE --}}
             <div class="row">
-                
                 {{-- MUSIK --}}
                 <div class="col-md-7 mb-3">
                     <label class="fw-semibold">Musik (opsional)</label>
-
-                    {{-- MUSIK (1 ROW, TOMBOL 'CARI') --}}
                     <div class="input-group music-search-group">
-                        <input type="text" id="music_link" name="link_musik" class="form-control"
-                            placeholder="Klik tombol cari untuk memilih musik" readonly>
-
-                        <button type="button" class="btn-music-search" data-bs-toggle="modal" data-bs-target="#musicModal">
-                            Cari
-                        </button>
+                        <input type="text" id="music_link" name="link_musik" class="form-control" placeholder="Klik tombol cari untuk memilih musik" readonly>
+                        <button type="button" class="btn-music-search" data-bs-toggle="modal" data-bs-target="#musicModal">Cari</button>
                     </div>
-
+                    <div class="invalid-feedback"></div>
                 </div>
 
                 {{-- SCHEDULE --}}
                 <div class="col-md-5 mb-3">
                     <label class="fw-semibold">Jadwalkan Posting</label>
                     <input type="datetime-local" name="scheduled_at" class="form-control">
+                    <div class="invalid-feedback"></div>
                 </div>
-
             </div>
 
             {{-- ISI --}}
@@ -211,6 +90,7 @@
                 <label class="fw-semibold">Isi Chapter</label>
                 <input type="hidden" id="isi_chapter" name="isi_chapter">
                 <trix-editor input="isi_chapter"></trix-editor>
+                <div class="invalid-feedback"></div>
             </div>
 
             <button type="submit" class="btn-purple w-100 mt-3">Simpan Chapter</button>
@@ -219,9 +99,7 @@
     </div>
 </div>
 
-
-
-{{-- ==========================
+{{-- =========================
       MODAL MUSIK
 ========================== --}}
 <div class="modal fade" id="musicModal" tabindex="-1">
@@ -237,9 +115,8 @@
 
                 <div class="input-group mb-3 music-search-bar">
                     <input type="text" id="music_query" class="form-control" placeholder="Cari musik...">
-                    <button class="btn-music-search" onclick="searchAudius()">Cari</button>
+                    <button class="btn-music-search" type="button" onclick="searchAudius()">Cari</button>
                 </div>
-
 
                 <div id="music_results" class="music-scroll"></div>
 
@@ -251,126 +128,168 @@
         </div>
     </div>
 </div>
-<div id="musicToast" class="music-toast">
-    <span id="musicToastMessage"></span>
-</div>
+
+<div id="musicToast" class="music-toast"><span id="musicToastMessage"></span></div>
 
 @endsection
 
 @push('scripts')
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // ====================
+    // FORM VALIDATION
+    // ====================
+    const form = document.getElementById('chapterForm');
+    const judul = form.querySelector('[name="judul_chapter"]');
+    const isi = form.querySelector('[name="isi_chapter"]');
+    const musik = form.querySelector('[name="link_musik"]');
+    const schedule = form.querySelector('[name="scheduled_at"]');
 
-let currentPlaying = null;
+    // Tambah div invalid-feedback jika belum ada
+    function addErrorDiv(input){
+        let div = input.parentNode.querySelector('.invalid-feedback');
+        if(!div){
+            div = document.createElement('div');
+            div.className = 'invalid-feedback';
+            input.parentNode.appendChild(div);
+        }
+        return div;
+    }
+    const judulError = addErrorDiv(judul);
+    const isiError = addErrorDiv(isi);
+    const musikError = addErrorDiv(musik);
+    const scheduleError = addErrorDiv(schedule);
 
-/* ================================
-   SEARCH AUDIUS
-================================ */
-function searchAudius() {
-    const q = document.getElementById("music_query").value.trim();
-    if (!q) return showMusicToast("Masukkan kata pencarian!", "error");
+    form.addEventListener('submit', function(e){
+        let valid = true;
 
-    fetch(`/audius/search?q=${encodeURIComponent(q)}`)
-        .then(res => res.json())
-        .then(data => {
-            let html = "";
+        // Judul
+        if(judul.value.trim() === ''){
+            judul.classList.add('is-invalid');
+            judulError.textContent = 'Judul Chapter wajib diisi';
+            valid = false;
+        } else if(judul.value.length > 255){
+            judul.classList.add('is-invalid');
+            judulError.textContent = 'Judul maksimal 255 karakter';
+            valid = false;
+        } else {
+            judul.classList.remove('is-invalid');
+            judulError.textContent = '';
+        }
 
-            if (!data?.data?.length) {
-                document.getElementById("music_results").innerHTML =
-                    `<p class="text-danger">Tidak ada hasil ditemukan.</p>`;
-                return;
+        // Isi
+        if(isi.value.trim() === ''){
+            isi.classList.add('is-invalid');
+            isiError.textContent = 'Isi Chapter wajib diisi';
+            valid = false;
+        } else {
+            isi.classList.remove('is-invalid');
+            isiError.textContent = '';
+        }
+
+        // Musik
+        if(musik.value && musik.value.length > 10000){
+            musik.classList.add('is-invalid');
+            musikError.textContent = 'Link musik terlalu panjang';
+            valid = false;
+        } else {
+            musik.classList.remove('is-invalid');
+            musikError.textContent = '';
+        }
+
+        // Schedule
+        if(schedule.value){
+            const selectedDate = new Date(schedule.value);
+            const now = new Date();
+            if(selectedDate <= now){
+                schedule.classList.add('is-invalid');
+                scheduleError.textContent = 'Tanggal harus setelah sekarang';
+                valid = false;
+            } else {
+                schedule.classList.remove('is-invalid');
+                scheduleError.textContent = '';
             }
+        } else {
+            schedule.classList.remove('is-invalid');
+            scheduleError.textContent = '';
+        }
 
-            data.data.forEach((track, i) => {
-                const url = track.stream?.url || null;
+        if(!valid){
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
 
-                html += `
-                    <div class="music-box d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>${track.title}</strong><br>
-                            <small>${track.user.name}</small>
-                        </div>
+    // ====================
+    // MUSIC SYSTEM
+    // ====================
+    let currentPlaying = null;
 
+    window.searchAudius = function(){
+        const q = document.getElementById("music_query").value.trim();
+        if(!q) return showMusicToast("Masukkan kata pencarian!");
+
+        fetch(`/audius/search?q=${encodeURIComponent(q)}`)
+            .then(res=>res.json())
+            .then(data=>{
+                let html = '';
+                if(!data?.data?.length){
+                    document.getElementById("music_results").innerHTML = '<p class="text-danger">Tidak ada hasil ditemukan.</p>';
+                    return;
+                }
+                data.data.forEach((track,i)=>{
+                    const url = track.stream?.url || null;
+                    html += `<div class="music-box d-flex justify-content-between align-items-center">
+                        <div><strong>${track.title}</strong><br><small>${track.user.name}</small></div>
                         <div class="d-flex gap-2">
-                            ${
-                                url
-                                ? `
-                                    <button id="playBtn${i}" class="play-btn"
-                                        onclick="togglePlay('${url}', '${i}')">▶</button>
-                                    <button class="add-btn"
-                                        onclick="selectMusic('${url}')">+</button>
-                                `
-                                : `<span class="text-danger">Stream not available</span>`
-                            }
-                        </div>
-                    </div>
-                `;
+                        ${ url 
+                            ? `<button id="playBtn${i}" class="play-btn" onclick="togglePlay('${url}','${i}')">▶</button>
+                               <button class="add-btn" onclick="selectMusic('${url}')">+</button>`
+                            : `<span class="text-danger">Stream not available</span>` }
+                        </div></div>`;
+                });
+                document.getElementById("music_results").innerHTML = html;
             });
-
-            document.getElementById("music_results").innerHTML = html;
-        });
-}
-
-
-
-/* ================================
-   PLAY MUSIC SYSTEM
-================================ */
-function togglePlay(url, id) {
-    const player = document.getElementById("music_player");
-    const btn = document.getElementById("playBtn" + id);
-
-    if (currentPlaying === url) {
-        player.pause();
-        currentPlaying = null;
-        btn.innerHTML = "▶";
-        return;
     }
 
-    player.src = url;
-    player.play();
-    currentPlaying = url;
+    window.togglePlay = function(url,id){
+        const player = document.getElementById("music_player");
+        const btn = document.getElementById("playBtn"+id);
 
-    document.querySelectorAll(".play-btn").forEach(b => b.innerHTML = "▶");
-    btn.innerHTML = "⏸";
-}
+        if(currentPlaying === url){
+            player.pause();
+            currentPlaying = null;
+            btn.innerHTML = "▶";
+            return;
+        }
 
+        player.src = url;
+        player.play();
+        currentPlaying = url;
+        document.querySelectorAll(".play-btn").forEach(b=>b.innerHTML="▶");
+        btn.innerHTML = "⏸";
+    }
 
+    window.selectMusic = function(url){
+        document.getElementById("music_link").value = url;
+        const player = document.getElementById("music_player");
+        player.pause();
+        currentPlaying = null;
+        document.querySelectorAll(".play-btn").forEach(b=>b.innerHTML="▶");
 
-/* ================================
-   SELECT MUSIC (AUTO PAUSE + CLOSE)
-================================ */
-function selectMusic(url) {
-    document.getElementById("music_link").value = url;
+        const modal = bootstrap.Modal.getInstance(document.getElementById('musicModal'));
+        modal.hide();
+        showMusicToast("Musik berhasil ditambahkan!");
+    }
 
-    const player = document.getElementById("music_player");
-    player.pause();
-    currentPlaying = null;
+    function showMusicToast(text){
+        const toastBox = document.getElementById("musicToast");
+        const toastMsg = document.getElementById("musicToastMessage");
+        toastMsg.innerText = text;
+        toastBox.classList.add("show");
+        setTimeout(()=> toastBox.classList.remove("show"),2500);
+    }
 
-    document.querySelectorAll(".play-btn").forEach(b => b.innerHTML = "▶");
-
-    // Tutup modal
-    const modalEl = document.getElementById('musicModal');
-    const modal = bootstrap.Modal.getInstance(modalEl);
-    modal.hide();
-
-    // Tampilkan toast/notifikasi
-    showMusicToast("Musik berhasil ditambahkan!");
-}
-
-
-
-/* ================================
-   TOAST NOTIFICATION (PURPLE)
-================================ */
-function showMusicToast(text) {
-    const toastBox = document.getElementById("musicToast");
-    const toastMsg = document.getElementById("musicToastMessage");
-
-    toastMsg.innerText = text;
-    toastBox.classList.add("show");
-
-    setTimeout(() => toastBox.classList.remove("show"), 2500);
-}
-
+});
 </script>
 @endpush
