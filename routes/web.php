@@ -16,7 +16,7 @@ use App\Http\Controllers\PostCollabController;
 use App\Http\Controllers\AudiusController;
 use App\Http\Controllers\WhisperController;
 
-Route::get('/landing', function () {
+Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
@@ -31,7 +31,7 @@ Route::get('/audius', function () {
 Route::get('/audius/search', [AudiusController::class, 'search']);
 Route::get('/audius/stream', [AudiusController::class, 'stream']);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Register
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
