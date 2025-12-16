@@ -27,35 +27,50 @@
       <h2 class="brand-name">Pagee</h2>
       <p class="welcome-text">Selamat datang kembali ✨</p>
 
-      <!-- Menampilkan error login -->
-      @if ($errors->any())
-          <div class="alert alert-danger">
-              <ul class="mb-0">
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-      @endif
-
       <!-- Form Login -->
       <form id="loginForm" action="{{ route('login') }}" method="POST">
-        @csrf
-        <div class="mb-3 text-start">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control neumorphic" id="email" name="email" placeholder="Masukkan email kamu" value="{{ old('email') }}" required>
-        </div>
+      @csrf
 
-        <div class="mb-3 text-start">
-          <label for="password" class="form-label">Kata Sandi</label>
-          <input type="password" class="form-control neumorphic" id="password" name="password" placeholder="Masukkan kata sandi" required>
-        </div>
+      {{-- EMAIL --}}
+      <div class="mb-3 text-start">
+          <label class="form-label">Email</label>
+          <input
+              type="email"
+              name="email"
+              value="{{ old('email') }}"
+              class="form-control neumorphic @error('email') is-invalid @enderror"
+              placeholder="Masukkan email kamu"
+          >
+          @error('email')
+              <div class="invalid-feedback">
+                  {{ $message }}
+              </div>
+          @enderror
+      </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+      {{-- PASSWORD --}}
+      <div class="mb-3 text-start">
+          <label class="form-label">Kata Sandi</label>
+          <input
+              type="password"
+              name="password"
+              class="form-control neumorphic @error('password') is-invalid @enderror"
+              placeholder="Masukkan kata sandi"
+          >
+          @error('password')
+              <div class="invalid-feedback">
+                  {{ $message }}
+              </div>
+          @enderror
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
           <a href="#" class="forgot">Lupa kata sandi?</a>
-        </div>
+      </div>
 
-        <button type="submit" class="btn btn-purple w-100 mt-2">Masuk</button>
+      <button type="submit" class="btn btn-purple w-100 mt-2">
+          Masuk
+      </button>
       </form>
 
       <div class="mt-3 text-center">

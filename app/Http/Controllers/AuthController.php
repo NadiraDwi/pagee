@@ -20,6 +20,13 @@ class AuthController extends Controller
             'nama' => 'required|max:50',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
         ]);
 
         $user = User::create([
@@ -53,36 +60,42 @@ class AuthController extends Controller
     // Handle proses login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if (auth()->attempt($credentials)) {
+        // 1. Cek apakah email terdaftar
+        $user = User::where('email', $request->email)->first();
 
-            $request->session()->regenerate();
-
-            $user = auth()->user();
-
-            if ($user->role === 'user') {
-                $request->session()->flash('justLoggedIn', true);
-            }
-            // Redirect by role
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.index');
-            }
-
-            if ($user->role === 'user') {
-                return redirect()->route('home');
-            }
-
-            // fallback
-            return redirect('/home');
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Email tidak terdaftar.',
+            ])->withInput();
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah',
-        ]);
+        // 2. Cek password
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Password tidak sesuai.',
+            ])->withInput();
+        }
+
+        // 3. Login manual
+        auth()->login($user);
+        $request->session()->regenerate();
+
+        // 4. Redirect sesuai role
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.index');
+        }
+
+        if ($user->role === 'user') {
+            $request->session()->flash('justLoggedIn', true);
+            return redirect()->route('home');
+        }
+
+        return redirect('/home');
     }
 
     // Logout user
