@@ -82,25 +82,40 @@
   <div class="tab-content" id="chapterTabContentWrapper">
 
     <!-- TAB 1: AUTHOR INFO -->
-    <div class="tab-pane fade show active p-3" id="authorTab" role="tabpanel">
-        <div class="mb-3">
+<div class="tab-pane fade show active p-3" id="authorTab" role="tabpanel">
+    <div class="mb-3 d-flex justify-content-between align-items-start">
+        <div>
             <strong>Penulis:</strong> {{ $post->user->nama }}<br>
             <small>Email: {{ $post->user->email }}</small><br>
 
-        @if($post->collabs->count() > 0)
-            <strong>Collaborators:</strong><br>
+            @if($post->collabs->count() > 0)
+                <strong>Collaborators:</strong><br>
                 @foreach($post->collabs as $c)
                     {{ $c->user2->nama }} — <small>{{ $c->user2->email }}</small><br>
                 @endforeach
-        @endif
+            @endif
 
-        <strong>Tanggal Terbit: </strong><small>{{ $post->created_at->format('d M Y H:i') }}</small>
+            <strong>Tanggal Terbit: </strong><small>{{ $post->created_at->format('d M Y H:i') }}</small>
         </div>
 
-        <hr>
-        <strong>Sinopsis</strong>
-        <div class="mt-2" style="text-align: justify;">{!! nl2br(e($post->isi)) !!}</div>
+        <!-- TOMBOL HAPUS -->
+         @auth
+        @if($isOwner || $isCollaborator)
+        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $post->id_post }}">
+            <i class="fa-solid fa-trash"></i> Hapus
+        </button>
+
+        @endif
+    @endauth
     </div>
+
+    <hr>
+    <strong>Sinopsis</strong>
+    <div class="mt-2" style="text-align: justify;">
+        {!! nl2br(e($post->isi)) !!}
+    </div>
+</div>
+
 
     <!-- TAB 2: CHAPTER LIST -->
     <div class="tab-pane fade p-3" id="chapterTabContent" role="tabpanel">
@@ -197,6 +212,8 @@
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 const existingCollabs = @json($post->collabs->map(fn($c)=>['id'=>$c->id_user2,'name'=>$c->user2->nama]));
 
@@ -266,5 +283,26 @@ document.getElementById('searchUser')?.addEventListener('keyup',function(){
         item.classList.toggle('d-none',!item.textContent.toLowerCase().includes(keyword));
     });
 });
+
+document.querySelectorAll('.delete-btn').forEach(btn=>{
+    btn.addEventListener('click', function(){
+        let postId = this.dataset.id;
+        Swal.fire({
+            title: 'Yakin ingin menghapus chapter ini?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#6f42c1',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/chapter/delete/${postId}`;
+            }
+        });
+    });
+});
+
 </script>
 @endpush

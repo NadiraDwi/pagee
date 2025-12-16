@@ -206,5 +206,25 @@ class ChapterController extends Controller
                          ->with('success', 'Chapter berhasil ditambahkan!');
     }
 
+    public function delete($id_post)
+    {
+        $post = Post::findOrFail($id_post);
+
+        // Hapus semua yang terkait lewat event deleting di model
+        $post->delete();
+
+        $posts = Post::with(['user', 'cover'])
+            ->where('jenis_post', 'long')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $trends = Post::where('is_anonymous', 1)
+                      ->latest()
+                      ->take(5)
+                      ->pluck('isi')
+                      ->map(fn($isi) => Str::limit($isi, 30, '...'));
+
+        return redirect()->route('chapter');
+    }
 
 }

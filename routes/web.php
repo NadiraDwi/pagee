@@ -112,6 +112,7 @@ Route::post('/post/like', [PostController::class, 'like'])->name('post.like')->m
     Route::post('/posts-long', [PostController::class, 'storeLong'])->name('posts.store.long');
     Route::get('/chapter', [ChapterController::class, 'index'])->name('chapter');
     Route::get('/chapter/{id}', [ChapterController::class, 'show'])->name('chapter.show');
+    Route::get('/chapter/delete/{id_post}', [ChapterController::class, 'delete'])->name('chapter.delete');
 
     Route::get('/chapter/{id_post}', [ChapterController::class, 'show'])->name('chapter.show');
     // tambahkan semua route Chapter

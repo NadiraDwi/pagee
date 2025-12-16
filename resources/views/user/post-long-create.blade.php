@@ -10,7 +10,7 @@
 <div class="card shadow-sm mb-3">
   <div class="card-body">
 
-    <h5 class="mb-3">Tulis Long Post</h5>
+    <h5 class="mb-3">Tambah Buku</h5>
 
     <form id="postForm" action="{{ route('posts.store.long') }}" method="POST" enctype="multipart/form-data" novalidate>
       @csrf
@@ -18,19 +18,19 @@
 
       {{-- JUDUL --}}
       <div class="mb-3">
-          <input type="text" name="judul" id="judul" class="form-control" placeholder="Judul Post" required>
+          <input type="text" name="judul" id="judul" class="form-control" placeholder="Judul Buku" required>
           <div class="invalid-feedback" id="judulError"></div>
       </div>
 
       {{-- ISI --}}
       <div class="mb-3">
-          <textarea name="isi" id="isi" class="form-control" rows="10" placeholder="Deskripsi Post" required></textarea>
+          <textarea name="isi" id="isi" class="form-control" rows="10" placeholder="Sinopsis Buku" required></textarea>
           <div class="invalid-feedback" id="isiError"></div>
       </div>
 
       {{-- COVER --}}
       <div class="mb-3">
-          <label class="form-label fw-semibold">Cover Post (opsional)</label>
+          <label class="form-label fw-semibold">Cover Buku (opsional)</label>
           <input type="file" name="cover" id="coverInput" class="form-control" accept="image/*">
           <div class="invalid-feedback" id="coverError"></div>
 
