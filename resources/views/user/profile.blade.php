@@ -104,6 +104,9 @@
   </div>
 @endif
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const popup = document.getElementById('popup-success');
@@ -154,6 +157,46 @@ document.addEventListener("DOMContentLoaded", () => {
       if (toggleIcon) toggleIcon.classList.toggle("fa-sun");
     });
   }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    document.querySelectorAll('.toggle-love-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            let card = btn.closest('.liked-post-card'); // ambil parent card
+            let icon = btn.querySelector('i');
+            let postId = this.dataset.postId;
+
+            fetch("{{ route('post.like') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id_post: postId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'liked'){
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid', 'text-danger');
+                } else if(data.status === 'unliked'){
+                    // Hapus card dari DOM karena di tab Likes hanya menampilkan liked
+                    card.remove();
+                }
+
+                // update like count jika card masih ada
+                let likeCountEl = card.querySelector('.like-count');
+                if(likeCountEl && data.status === 'liked') {
+                    likeCountEl.textContent = data.count + " likes";
+                }
+            })
+            .catch(console.error);
+        });
+    });
+
 });
 </script>
 </body>

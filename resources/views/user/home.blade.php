@@ -269,22 +269,24 @@
 
                 <!-- ACTION BUTTONS -->
                 <div class="d-flex gap-4 action-wrapper">
-
+                    @if(!$post->is_anonymous)
                     <button class="action-btn" onclick="toggleComment(this)">
                         <i class="fa-regular fa-comment"></i>
                     </button>
+                    @endif
 
                     <button class="action-btn toggle-love-btn" data-post-id="{{ $post->id_post }}">
                         <i class="{{ $post->likedBy(auth()->id()) ? 'fa-solid text-danger' : 'fa-regular' }} fa-heart"></i>
                     </button>
 
                     <span class="like-count">{{ $post->likes->count() }} likes</span>
-
+                    @if(!$post->is_anonymous)
                     <button class="action-btn share-btn"
                             data-url="{{ route('posts.show', $post->id_post) }}"
                             data-title="Post by {{ $post->user->nama ?? 'Anonymous' }}">
                         <i class="fa-solid fa-share-nodes"></i>
                     </button>
+                    @endif
                 </div>
 
                 <!-- COMMENT BOX -->
