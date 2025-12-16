@@ -12,8 +12,9 @@ class HomeController extends Controller
         $posts = Post::with([
             'user',
             'comments.user',
-            'chapters' => function($q){
-                $q->orderBy('created_at', 'desc'); // ambil latest
+            'chapters' => function ($q) {
+                $q->published()
+                ->orderBy('created_at', 'desc');
             }
         ])
         ->orderBy('created_at', 'desc')

@@ -50,6 +50,8 @@ Route::get('/user/{id}', [UserPublicProfileController::class, 'show'])
 Route::get('/post/{id_post}/chapter/{id_chapter}', [ChapterController::class, 'read'])
     ->name('chapter.read');
 
+Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
 // ADMIN AREA
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 

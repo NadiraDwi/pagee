@@ -168,44 +168,9 @@
 @endpush
 {{-- RIGHT SIDEBAR --}}
 @include('user.sidebar')
-<!-- Floating Button -->
-<button class="floating-btn" id="postTypeTrigger">
-    <i class="fa-solid fa-plus"></i>
-</button>
-
-<!-- Modal Pilih Post -->
-<div class="modal fade" id="postTypeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Pilih Jenis Post</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body text-center">
-                <p class="mb-3">Mau membuat post pendek atau panjang?</p>
-
-                <button class="btn btn-purple w-100 mb-2"
-                    id="shortPostBtn"
-                    data-url="{{ route('post-short-create') }}">
-                    Short Post
-                </button>
-
-                <button class="btn btn-purple w-100"
-                    id="longPostBtn"
-                    data-url="{{ route('post-long-create') }}">
-                    Add Book
-                </button>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 <!-- POST FEED -->
 <div id="feedPosts">
-    @forelse($posts as $post)
         <div class="card shadow-sm mb-3">
             <div class="card-body">
 
@@ -313,11 +278,6 @@
 
             </div>
         </div>
-    @empty
-        <div class="text-center text-muted my-3">
-            Belum ada postingan.
-        </div>
-    @endforelse
 </div>
 
 @endsection

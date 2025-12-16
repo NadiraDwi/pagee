@@ -81,11 +81,11 @@
     <nav class="navbar navbar-light bg-white shadow-sm fixed-top navbar-shift px-4">
         <div class="container-fluid d-flex justify-content-between align-items-center">
 
-            <form class="d-flex align-items-center search-bar">
+            <form class="d-flex align-items-center search-bar" action="{{ route('search') }}" method="GET">
                 <span class="input-group-text border-0 bg-transparent pe-2">
                     <i class="fa-solid fa-magnifying-glass text-muted"></i>
                 </span>
-                <input class="form-control border-0 shadow-none" type="search" placeholder="Cari di Pagee...">
+                <input class="form-control border-0 shadow-none" type="search" name="q" placeholder="Cari di Pagee...">
             </form>
 
             <div class="d-flex align-items-center">

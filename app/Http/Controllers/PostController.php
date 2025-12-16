@@ -233,4 +233,24 @@ public function destroy($id)
     return back()->with('success', 'Post berhasil dihapus!');
 }
 
+public function show($id_post)
+{
+    $post = Post::with([
+        'user',
+        'comments.user',
+        'chapters' => function ($q) {
+            $q->published()
+              ->orderBy('created_at', 'desc');
+        }
+    ])->findOrFail($id_post); // ✅ PENTING
+
+    $trends = Post::where('is_anonymous', 1)
+        ->latest()
+        ->take(5)
+        ->pluck('isi')
+        ->map(fn ($isi) => Str::limit($isi, 30, '...'));
+
+    return view('user.post-show', compact('post', 'trends'));
+}
+
 }
