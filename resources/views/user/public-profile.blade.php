@@ -53,10 +53,8 @@
 <div class="container mt-3">
 
   <div class="d-flex justify-content-between align-items-start">
-    <div class="avatar-wrapper me-2">
       <img src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/45' }}"
            class="profile-picture" alt="Profile Picture">
-    </div>
   </div>
 
   <div class="mt-3 profile-page-text">

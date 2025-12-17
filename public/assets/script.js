@@ -146,9 +146,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const textarea = document.getElementById('inputPost');
 const charCount = document.getElementById('charCount');
 
-textarea.addEventListener('input', () => {
-    charCount.textContent = textarea.value.length;
-});
+if (textarea && charCount) {
+    textarea.addEventListener('input', () => {
+        charCount.textContent = textarea.value.length;
+    });
+}
 
 // === Mention System ===
 const mentionList = document.getElementById("mentionList");

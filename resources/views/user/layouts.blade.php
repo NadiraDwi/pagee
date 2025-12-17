@@ -293,14 +293,6 @@
             overlay.classList.remove('show');
             document.body.classList.remove('darken');
         });
-
-        // Mode toggle mobile & desktop
-        const modeToggleBtns = document.querySelectorAll('#modeToggle, #modeToggleMobile');
-        modeToggleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-            });
-        });
     </script>
 
     @stack('scripts')
