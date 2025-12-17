@@ -34,41 +34,41 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'username' => 'nullable|string|max:255|unique:users,username,'.$user->id_user.',id_user',
-            'email' => 'required|email|max:255|unique:users,email,'.$user->id_user.',id_user',
+            'username' => 'nullable|string|max:255|unique:users,username,' . $user->id_user . ',id_user',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id_user . ',id_user',
             'bio' => 'nullable|string|max:500',
             'foto' => 'nullable|image|max:2048',
-            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        if($request->hasFile('foto')){
-            if($user->foto){
+        // Upload foto
+        if ($request->hasFile('foto')) {
+            if ($user->foto) {
                 Storage::delete($user->foto);
             }
-            $path = $request->file('foto')->store('users');
-            $user->foto = $path;
+            $validated['foto'] = $request->file('foto')->store('users');
         }
 
-        $user->nama = $validated['nama'];
-        $user->username = $validated['username'];
-        $user->email = $validated['email'];
-        $user->bio = $validated['bio'];
+        $user->update($validated);
 
-        $passwordChanged = false;
-        if(!empty($validated['password'])){
-            $user->password = Hash::make($validated['password']);
-            $passwordChanged = true;
-        }
+        return back()->with('success', 'Profil berhasil diperbarui');
+    }
 
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = auth()->user();
+        $user->password = Hash::make($request->password);
         $user->save();
 
-        if($passwordChanged){
-            // Logout otomatis jika password berubah
-            Auth::logout();
-            return redirect()->route('login')->with('success', 'Password berhasil diubah, silakan login kembali.');
-        }
+        Auth::logout();
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui');
+        return redirect()
+            ->route('login')
+            ->with('success', 'Password berhasil diubah, silakan login kembali.');
     }
+
 
 }

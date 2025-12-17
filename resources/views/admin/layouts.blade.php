@@ -88,6 +88,21 @@
     background-color: #5931a3; /* Ungu lebih gelap */
     color: #fff;
 }
+/* TOPBAR FIX / STICKY */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030; /* di atas konten */
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 12px 20px;
+}
+
+/* Biar konten nggak ketiban */
+.main {
+    padding-top: 0; /* sticky tidak butuh offset */
+}
+
 </style>
 
     </ul>
@@ -101,7 +116,6 @@
         </button>
 
         <div class="d-flex align-items-center ms-auto gap-3">
-            <i class="bi bi-bell fs-5"></i>
             <img src="https://i.pravatar.cc/45" width="36" class="rounded-circle">
         </div>
     </div>

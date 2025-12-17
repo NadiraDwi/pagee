@@ -183,15 +183,13 @@ function deletePostModal(id) {
                 type: 'DELETE',
                 data: { _token: "{{ csrf_token() }}" },
                 success: function(){
-                    Swal.fire("Berhasil", "Postingan dihapus", "success");
-
-                    // tutup modal
-                    var modalEl = document.getElementById('postDetailModal');
-                    var modal = bootstrap.Modal.getInstance(modalEl);
-                    modal.hide();
-
-                    // reload DataTables
-                    $('#post-table').DataTable().ajax.reload();
+                    Swal.fire({
+                        title: "Berhasil",
+                        text: "Postingan dihapus",
+                        icon: "success"
+                    }).then(() => {
+                        window.location.href = "{{ route('admin.post.chapter') }}";
+                    });
                 },
                 error: function(){
                     Swal.fire("Gagal", "Terjadi kesalahan", "error");
