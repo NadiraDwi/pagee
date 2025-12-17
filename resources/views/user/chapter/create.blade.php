@@ -213,13 +213,31 @@ body.dark-mode .music-search-bar .btn-music-search:hover {
 
 body.dark-mode .music-toast { background: #bb86fc; color: #121212; box-shadow: 0 4px 12px rgba(187,134,252,0.35); }
 
+.btn-back {
+        font-size: 14px;
+        color: #6f42c1;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        display: inline-block;
+        transition: .2s;
+    }
+
+    .btn-back:hover {
+        background: #f1e9ff;
+        color: #6f42c1;
+    }
 </style>
 
 {{-- RIGHT SIDEBAR --}}
 @include('user.sidebar')
 
+{{-- Back Button --}}
+    <a href="{{ route('chapter.show', $post->id_post) }}" class="btn-back">
+        &laquo; Kembali ke daftar chapter
+    </a>
 <div class="d-flex align-items-center mb-3">
-    <a href="{{ route('chapter.show', $post->id_post) }}" class="btn btn-outline-purple me-2"><i class="fa-solid fa-arrow-left"></i></a>
     <h4 class="fw-bold mb-0">Tambah Chapter Baru</h4>
 </div>
 
@@ -251,7 +269,12 @@ body.dark-mode .music-toast { background: #bb86fc; color: #121212; box-shadow: 0
                 {{-- SCHEDULE --}}
                 <div class="col-md-5 mb-3">
                     <label class="fw-semibold">Jadwalkan Posting</label>
-                    <input type="datetime-local" name="scheduled_at" class="form-control">
+                    <input
+                        type="datetime-local"
+                        name="scheduled_at"
+                        class="form-control"
+                        id="scheduled_at"
+                    >
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
@@ -463,4 +486,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('scheduled_at');
+
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
+    input.min = now.toISOString().slice(0, 16);
+});
+</script>
+
 @endpush

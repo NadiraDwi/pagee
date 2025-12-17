@@ -163,6 +163,20 @@
     cursor: not-allowed;
 }
 
+.avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; /* penting kalau di flex */
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 </style>
 @endpush
@@ -179,9 +193,10 @@
                     @if(!$post->is_anonymous)
                         <a href="{{ route('user.profile', $post->user->id_user) }}"
                            class="d-flex align-items-center text-decoration-none text-dark">
+                           <div class="avatar-wrapper me-2">
                             <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
                                  class="rounded-circle me-2" width="45">
-
+                            </div>
                             <div>
                                 <strong>{{ $post->user->nama }}</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>

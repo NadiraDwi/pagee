@@ -4,7 +4,23 @@
 @section('nav-home', 'active')
 
 @section('content')
+<style>
+    .avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; /* penting kalau di flex */
+}
 
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+  </style>
 @if(session('justLoggedIn'))
     <div id="welcome-screen" class="welcome-screen">
         <div class="welcome-content">
@@ -33,8 +49,10 @@
         @foreach($profiles as $profile)
             <div class="card shadow-sm mb-3">
                 <div class="card-body d-flex align-items-center">
+                    <div class="avatar-wrapper me-2">
                     <img src="{{ $profile->foto ? asset('storage/' . $profile->foto) : 'https://i.pravatar.cc/45' }}" 
                          class="rounded-circle me-3" width="45">
+                    </div>
                     <div>
                         <a href="{{ route('user.profile', $profile->id_user) }}" class="text-decoration-none text-dark fw-bold">
                             {{ $profile->nama }}

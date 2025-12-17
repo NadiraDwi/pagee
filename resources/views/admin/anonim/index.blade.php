@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">Postingan</li>
-                    <li class="breadcrumb-item">Manajemen Postingan</li>
+                    <li class="breadcrumb-item">Manajemen Postingan Anonim</li>
                 </ul>
             </div>
         </div>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="d-flex justify-content-between mb-3">
-    <h2 class="mb-0">Manajemen Postingan</h2>
+    <h2 class="mb-0">Manajemen Postingan Anonim</h2>
 </div>
 
 <div class="card">
@@ -79,6 +79,17 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: "{{ route('admin.post.anonim.list') }}",
+        dom: `
+            <"row mb-3 align-items-center"
+                <"col-md-6"l>
+                <"col-md-6 d-flex justify-content-end"f>
+            >
+            rt
+            <"row mt-3 align-items-center"
+                <"col-md-6"i>
+                <"col-md-6 d-flex justify-content-end"p>
+            >
+        `,
         columns: [
             { data: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
             { data: 'isi' },

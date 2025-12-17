@@ -50,6 +50,18 @@ $('#user-table').DataTable({
     processing: true,
     serverSide: true,
     ajax: "{{ route('admin.user.list') }}",  // ✔ sesuai prefix admin/user/list
+    dom: `
+    <"row mb-3 align-items-center"
+        <"col-md-6"l>
+        <"col-md-6 d-flex justify-content-end"f>
+    >
+    rt
+    <"row mt-3 align-items-center"
+        <"col-md-6"i>
+        <"col-md-6 d-flex justify-content-end"p>
+    >
+`,
+
     columns: [
         { data: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
         { data: 'nama' },

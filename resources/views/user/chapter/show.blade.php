@@ -41,8 +41,27 @@
     content:""; position:absolute; inset:0; background:rgba(0,0,0,0.35);
 }
 .header-title { position:absolute; bottom:15px; left:20px; z-index:2; color:white; font-size:22px; font-weight:700; }
+.btn-back {
+        font-size: 14px;
+        color: #6f42c1;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        display: inline-block;
+        transition: .2s;
+    }
+
+    .btn-back:hover {
+        background: #f1e9ff;
+        color: #6f42c1;
+    }
+
 </style>
 
+<a href="{{ route('chapter') }}" class="btn-back">
+        &laquo; Kembali ke daftar buku
+    </a>
 {{-- HEADER COVER --}}
 <div class="header-cover" style="background-image: url('{{ asset('storage/'.$post->cover->cover_path) }}')">
     <div class="header-title">{{ $post->judul }}</div>

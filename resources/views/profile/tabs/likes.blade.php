@@ -47,8 +47,10 @@
                 <div class="card-body">
                     {{-- USER INFO --}}
                     <div class="d-flex align-items-center mb-2">
+                        <div class="avatar-wrapper me-2">
                         <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
                              class="rounded-circle me-2" width="45">
+                        </div>
                         <div>
                             <strong>{{ $post->user->nama }}</strong><br>
                             <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>

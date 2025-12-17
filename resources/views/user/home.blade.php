@@ -178,6 +178,7 @@ body.dark-mode .btn-close {
 .floating-btn {
     background-color: #7c3aed;
     color: #fff;
+    z-index: 9990;
     transition: background-color 0.3s, transform 0.2s;
 }
 .floating-btn:hover {
