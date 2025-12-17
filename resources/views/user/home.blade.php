@@ -289,6 +289,20 @@ body.dark-mode .user-link {
         right: 12px;
     }
 }
+.avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; /* penting kalau di flex */
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 </style>
 @endpush
@@ -340,10 +354,10 @@ body.dark-mode .user-link {
                     @if(!$post->is_anonymous)
                         <a href="{{ route('user.profile', $post->user->id_user) }}"
                             class="d-flex align-items-center text-decoration-none user-link">
-
-                            <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
-                                 class="rounded-circle me-2" width="45">
-
+                            <div class="avatar-wrapper me-2">
+                                <img src="{{ $post->user->foto ? asset('storage/' . $post->user->foto) : 'https://i.pravatar.cc/45' }}"
+                                    class="rounded-circle me-2" width="45" style="object-fit: cover;">
+                            </div>
                             <div>
                                 <strong>{{ $post->user->nama }}</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
@@ -351,7 +365,9 @@ body.dark-mode .user-link {
                         </a>
                     @else
                         <div class="d-flex align-items-center">
-                            <img src="https://i.pravatar.cc/45?img=0" class="rounded-circle me-2" width="45">
+                            <div class="avatar-wrapper me-2">
+                                <img src="https://i.pravatar.cc/45?img=0" class="rounded-circle me-2" width="45" style="object-fit: cover;">
+                            </div>
                             <div>
                                 <strong>@Anonymous</strong><br>
                                 <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>

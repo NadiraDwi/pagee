@@ -19,6 +19,24 @@
   <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
   <!-- CSS Profile -->
   <link rel="stylesheet" href="{{ asset('assets/profile.css') }}">
+
+  <style>
+    .avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; /* penting kalau di flex */
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+  </style>
 </head>
 <body>
 

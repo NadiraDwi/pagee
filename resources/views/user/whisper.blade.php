@@ -26,6 +26,22 @@
     .text-purple {
         color: #7a39f8;
     }
+
+    .avatar-wrapper {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0; /* penting kalau di flex */
+    }
+
+    .avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
 </style>
 
 {{-- RIGHT SIDEBAR --}}
@@ -39,7 +55,9 @@
 
                 {{-- USER INFO --}}
                 <div class="d-flex align-items-center mb-2">
-                    <img src="https://i.pravatar.cc/45?img=0" class="rounded-circle me-2" width="45">
+                    <div class="avatar-wrapper me-2">
+                        <img src="https://i.pravatar.cc/45?img=0" class="rounded-circle me-2" width="45">
+                    </div>
                     <div>
                         <strong>@Anonymous</strong><br>
                         <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>

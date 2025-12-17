@@ -25,6 +25,24 @@
   <!-- CSS Global -->
   <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/profile.css') }}">
+
+  <style>
+    .avatar-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0; /* penting kalau di flex */
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+  </style>
 </head>
 <body>
 
@@ -35,8 +53,10 @@
 <div class="container mt-3">
 
   <div class="d-flex justify-content-between align-items-start">
+    <div class="avatar-wrapper me-2">
       <img src="{{ $user->foto ? asset('storage/' . $user->foto) : 'https://i.pravatar.cc/45' }}"
            class="profile-picture" alt="Profile Picture">
+    </div>
   </div>
 
   <div class="mt-3 profile-page-text">
